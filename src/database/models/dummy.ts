@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes, Optional } from "sequelize";
+import { Sequelize, Model, DataTypes, Optional } from 'sequelize';
 // Define User model interface
 interface UserAttributes {
   id: string;
@@ -8,16 +8,21 @@ interface UserAttributes {
   updatedAt: Date;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
 export class Dummy extends Model<UserAttributes, UserCreationAttributes> {
   declare id: string;
+
   declare name: string;
+
   declare email: string;
+
   declare createdAt: Date;
+
   declare updatedAt: Date;
 
   public static associate(model: any) {}
+
   toJSON() {
     return {
       id: this.id,
@@ -44,7 +49,7 @@ const DummyModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: "Dummy",
+      modelName: 'Dummy',
       timestamps: true,
     }
   );
