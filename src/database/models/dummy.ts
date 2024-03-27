@@ -9,7 +9,7 @@ interface UserAttributes {
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
-
+// eslint-disable-next-line require-jsdoc
 export class Dummy extends Model<UserAttributes, UserCreationAttributes> {
   declare id: string;
 
@@ -21,8 +21,10 @@ export class Dummy extends Model<UserAttributes, UserCreationAttributes> {
 
   declare updatedAt: Date;
 
+  // eslint-disable-next-line require-jsdoc, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   public static associate(model: any) {}
 
+  // eslint-disable-next-line require-jsdoc
   toJSON() {
     return {
       id: this.id,

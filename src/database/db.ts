@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dialect, Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
@@ -10,17 +11,17 @@ const sequelize = new Sequelize(database, username, password, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Connection has been established successfully.'); // eslint-disable-line no-console
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    console.error('Unable to connect to the database:', err); // eslint-disable-line no-console
   });
 const models = Models(sequelize);
 
 Object.keys(models).forEach(key => {
-  // @ts-ignore
+  // @ts-expect-error ignore expected errors
   if (models[key].associate) {
-    // @ts-ignore
+    // @ts-expect-error ignore expected errors
     models[key].associate(models);
   }
 });
