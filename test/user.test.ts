@@ -23,7 +23,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -42,7 +42,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -61,7 +61,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -84,7 +84,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -104,7 +104,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -124,7 +124,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -144,7 +144,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -167,7 +167,7 @@ describe('USER API TEST', () => {
 
    chai
        .request(app)
-       .post('/api/users/register')
+       .post('/api/users')
        .send(user)
        .end((err, res) => {
            validateStub.restore();
@@ -193,7 +193,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users/register')
+      .post('/api/users')
       .send(user)
       .end((err, res) => {
         saveStub.restore();

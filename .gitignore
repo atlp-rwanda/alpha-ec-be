@@ -1,3 +1,4 @@
+logs
 dist
 
 .env
@@ -7,5 +8,6 @@ node_modules
 coverage
 
 .nyc_output
-
-logs
+error.log
+loginTest.test.js
+comb
