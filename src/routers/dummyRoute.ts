@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { dummyRequest } from '../controllers/dummyController';
+import { addition } from 'controllers/dummyController';
 
 const router = Router();
 
-router.get('/dummy', dummyRequest);
+router.get('/dummy', addition);
 export default router;
