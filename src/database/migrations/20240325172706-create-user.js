@@ -29,6 +29,6 @@ module.exports = {
   },
   /* eslint-disable @typescript-eslint/no-unused-vars */
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("users");
+    await queryInterface.dropTable("dummy");
   },
 };

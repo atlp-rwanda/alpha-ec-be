@@ -51,3 +51,12 @@
 {"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:30"}
 {"level":"info","message":"Server Started on port 4000...","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:47"}
 {"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:48"}
+{"level":"info","message":"Server Started on port 3000...","service":"logger","timestamp":"2024-03-28 08:47:08"}
+{"level":"info","message":"Server Started on port 3000...","service":"logger","timestamp":"2024-03-28 08:47:43"}
+{"level":"info","message":"Connection has been established successfully.","service":"logger","timestamp":"2024-03-28 08:47:43"}
+{"level":"info","message":"Server Started on port 3000...","service":"logger","timestamp":"2024-03-28 08:48:09"}
+{"level":"info","message":"Connection has been established successfully.","service":"logger","timestamp":"2024-03-28 08:48:09"}
+{"level":"info","message":"Server Started on port 3000...","service":"logger","timestamp":"2024-03-28 11:08:53"}
+{"level":"info","message":"Connection has been established successfully.","service":"logger","timestamp":"2024-03-28 11:08:53"}
+{"level":"info","message":"Server Started on port 3000...","service":"alpha-ec-be","timestamp":"2024-03-28 11:09:28"}
+{"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-28 11:09:28"}
