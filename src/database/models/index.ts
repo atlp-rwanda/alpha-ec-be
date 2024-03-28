@@ -1,6 +1,7 @@
-import DummyModel, { Dummy } from "./dummy";
-import { Sequelize } from "sequelize";
-export { Dummy };
+import { Sequelize } from 'sequelize';
+import DummyModel, { Dummy as DummyModelType } from './dummy';
+
+export { DummyModelType };
 
 const Models = (sequelize: Sequelize) => {
   const Dummy = DummyModel(sequelize);
