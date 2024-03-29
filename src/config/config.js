@@ -14,8 +14,7 @@ const getDatabaseConfig = () => {
         password: process.env.TEST_DATABASE_PASSWORD ?? '',
         host: process.env.TEST_DATABASE_HOST ?? '',
         port: process.env.TEST_DATABASE_PORT ?? '',
-        dialect: "postgres"
-        dialect: process.env.DIALECT,
+        dialect: 'postgres',
       };
     case 'production':
       return {

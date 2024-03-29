@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
-import logger from "../utils/logger";
+import logger from '../utils/logger';
 
 const { username, database, password, host } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
@@ -12,7 +12,7 @@ const sequelize = new Sequelize(database, username, password, {
 sequelize
   .authenticate()
   .then(() => {
-    logger.info("Connection has been established successfully.");
+    logger.info('Connection has been established successfully.');
   })
   .catch((err) => {
     console.error('Unable to connect to the database:', err);

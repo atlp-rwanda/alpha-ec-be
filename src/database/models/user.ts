@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes, Optional } from "sequelize";
+import { Sequelize, Model, DataTypes } from 'sequelize';
 
 export interface UserAttributes {
   id: string;
@@ -11,22 +11,37 @@ export interface UserAttributes {
   updatedAt: Date;
 }
 
-interface UserCreationAttributes extends Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {
-    createdAt?: Date;
-    updatedAt?: Date;
+interface UserCreationAttributes
+  extends Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
+/**
+ * Represents a user in the system.
+ */
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   declare id: string;
+
   declare name: string;
+
   declare email: string;
+
   declare phone: string;
+
   declare address: string;
+
   declare password: string;
+
   declare readonly createdAt: Date;
+
   declare readonly updatedAt: Date;
 
-  public static associate(model: any) {}
+  // public static associate(model: any) {}
+  /**
+   * Overrides the default toJSON method to exclude the password field.
+   * @returns {Object} An object representing the user, excluding the password.
+   */
   toJSON() {
     return {
       id: this.id,
@@ -59,8 +74,8 @@ const UserModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      modelName: "User",
-      tableName: "users",
+      modelName: 'User',
+      tableName: 'users',
       timestamps: true,
     }
   );

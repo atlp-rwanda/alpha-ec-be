@@ -1,9 +1,9 @@
-import { createUser } from "../controllers/userController";
-import { Router } from "express";
-import { isNewUserValid } from "../middleware/validateUser";
+import { Router } from 'express';
+import { createUser } from '../controllers/userController';
+import { isNewUserValid } from '../middleware/validateUser';
 
 const router = Router();
 
-router.post("/users", isNewUserValid, createUser);
+router.post('/users', isNewUserValid, createUser);
 
 export default router;
