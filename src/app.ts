@@ -1,5 +1,5 @@
 import express from "express";
-import { Sequelize } from "sequelize";
+
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routers";

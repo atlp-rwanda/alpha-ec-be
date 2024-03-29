@@ -15,6 +15,7 @@ const getDatabaseConfig = () => {
         password: process.env.TEST_DATABASE_PASSWORD ?? '',
         host: process.env.TEST_DATABASE_HOST ?? '',
         port: process.env.TEST_DATABASE_PORT ?? '',
+        dialect: process.env.DIALECT,
       };
     case 'production':
       return {
@@ -23,6 +24,7 @@ const getDatabaseConfig = () => {
         password: process.env.PROD_DATABASE_PASSWORD ?? '',
         host: process.env.PROD_DATABASE_HOST ?? '',
         port: process.env.PROD_DATABASE_PORT ?? '',
+        dialect: process.env.DIALECT,
       };
     default:
       return {
@@ -31,6 +33,7 @@ const getDatabaseConfig = () => {
         password: process.env.DATABASE_PASSWORD ?? '',
         host: process.env.DATABASE_HOST ?? '',
         port: process.env.DATABASE_PORT ?? '',
+        dialect: process.env.DIALECT,
       };
   }
 };
