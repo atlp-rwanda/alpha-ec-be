@@ -51,6 +51,6 @@ jobs:
            
             ./cc-test-reporter after-build -t lcov
           when: always
-      - store_artifacts: # upload test coverage
+      - store_artifacts: # upload test 
           path: ./coverage/lcov.info
           prefix: tests
