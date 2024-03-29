@@ -104,3 +104,5 @@
 {"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:30"}
 {"level":"info","message":"Server Started on port 4000...","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:47"}
 {"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-28 21:26:48"}
+{"level":"info","message":"Server Started on port 4000...","service":"alpha-ec-be","timestamp":"2024-03-29 15:19:03"}
+{"level":"info","message":"Connection has been established successfully.","service":"alpha-ec-be","timestamp":"2024-03-29 15:19:04"}
