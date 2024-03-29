@@ -1,26 +1,27 @@
-import { Dialect, Sequelize } from "sequelize";
-import getDatabaseConfig from "../config/config";
-import Models from "./models";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Dialect, Sequelize } from 'sequelize';
+import getDatabaseConfig from '../config/config';
+import Models from './models';
 
 const { username, database, password } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
-  dialect: "postgres",
+  dialect: 'postgres',
 });
 
 sequelize
   .authenticate()
   .then(() => {
-    console.log("Connection has been established successfully.");
+    console.log('Connection has been established successfully.'); // eslint-disable-line no-console
   })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
+  .catch((err: any) => {
+    console.error('Unable to connect to the database:', err); // eslint-disable-line no-console
   });
 const models = Models(sequelize);
 
-Object.keys(models).forEach((key) => {
-  // @ts-ignore
+Object.keys(models).forEach(key => {
+  // @ts-expect-error ignore expected errors
   if (models[key].associate) {
-    // @ts-ignore
+    // @ts-expect-error ignore expected errors
     models[key].associate(models);
   }
 });

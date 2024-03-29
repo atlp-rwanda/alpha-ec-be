@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ATLP Project API",
+    "version": "1.0.0",
+    "description": "APIs retrieving"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/api/dummy": {
+      "get": {
+        "summary": "Get dummy data",
+        "tags": [
+          "Default API"
+        ],
+        "description": "Retrieves dummy data from the database",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DummyData"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DummyData": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}
