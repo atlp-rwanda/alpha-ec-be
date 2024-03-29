@@ -14,7 +14,8 @@ const getDatabaseConfig = () => {
         password: process.env.TEST_DATABASE_PASSWORD ?? '',
         host: process.env.TEST_DATABASE_HOST ?? '',
         port: process.env.TEST_DATABASE_PORT ?? '',
-        dialect: 'postgres',
+        dialect: process.env.DIALECT,
+        secret: process.env.JWT_SECRET || 'secret',
       };
     case 'production':
       return {
@@ -24,6 +25,7 @@ const getDatabaseConfig = () => {
         host: process.env.PROD_DATABASE_HOST ?? '',
         port: process.env.PROD_DATABASE_PORT ?? '',
         dialect: process.env.DIALECT,
+        secret: process.env.JWT_SECRET || 'secret',
       };
     default:
       return {
@@ -33,6 +35,7 @@ const getDatabaseConfig = () => {
         host: process.env.DATABASE_HOST ?? '',
         port: process.env.DATABASE_PORT ?? '',
         dialect: process.env.DIALECT,
+        secret: process.env.JWT_SECRET || 'secret',
       };
   }
 };

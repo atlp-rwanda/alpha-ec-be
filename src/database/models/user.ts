@@ -37,7 +37,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   declare readonly updatedAt: Date;
 
-  // public static associate(model: any) {}
   /**
    * Overrides the default toJSON method to exclude the password field.
    * @returns {Object} An object representing the user, excluding the password.

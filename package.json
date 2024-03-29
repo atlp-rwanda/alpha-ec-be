@@ -4,14 +4,14 @@
   "description": "alpha team project",
   "main": "index.js",
   "scripts": {
-    "test": "npm run demigrate && npm run migrate && npm run test:coverage",
-    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --require ts-node/register test/server-run.ts --coverage",
+    "test": "tsc && npm run demigrate && npm run migrate && npm run seed && npm run test:coverage",
+    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --require ts-node/register test/*.ts --coverage",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build:test": "tsc --project test",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
     "migrate": "sequelize db:migrate ",
     "demigrate": "sequelize db:migrate:undo:all",
-    "seed": "cross-env NODE_ENV=development sequelize db:seed:all",
+    "seed": "sequelize db:seed:all",
     "coverage": "nyc --reporter=text npm run test --coverage",
     "lint": "eslint .",
     "prettier": "prettier --check .",
@@ -68,7 +68,6 @@
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   },
   "dependencies": {
@@ -85,14 +84,14 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "axios": "^1.6.8",
-    "chai-http": "^4.4.0",
     "bcrypt": "^5.1.1",
+    "chai-http": "^4.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.0",
-    "express": "^4.19.2",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.1",
@@ -127,7 +126,8 @@
     ],
     "exclude": [
       "src/database/*",
-      "src/config/*"
+      "src/config/*",
+      "src/utils/logger.ts"
     ]
   }
 }

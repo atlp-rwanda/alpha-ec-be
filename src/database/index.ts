@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
-import logger from '../utils/logger';
+import { logger } from '../utils';
 
 const { username, database, password, host } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
-  host: host,
   dialect: 'postgres',
+  host
 });
 
 sequelize
@@ -14,16 +15,16 @@ sequelize
   .then(() => {
     logger.info('Connection has been established successfully.');
   })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-    process.exit(1); // Exit the process on connection error
+  .catch((err: Error) => {
+    logger.error('Unable to connect to the database:', err);
   });
-
 const models = Models(sequelize);
 
-Object.values(models).forEach((model) => {
-  if (model.associate) {
-    model.associate(models);
+Object.keys(models).forEach(key => {
+  // @ts-expect-error ignore expected errors
+  if (models[key].associate) {
+    // @ts-expect-error ignore expected errors
+    models[key].associate(models);
   }
 });
 

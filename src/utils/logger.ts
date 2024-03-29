@@ -1,6 +1,14 @@
 import { createLogger, format, transports } from 'winston';
+import path from 'path';
+import fs from 'fs';
 
-const logger = createLogger({
+const logDirectory = 'logs'; 
+
+if (!fs.existsSync(logDirectory)) {
+    fs.mkdirSync(logDirectory);
+}
+
+export const logger = createLogger({
   level: 'info',
   format: format.combine(
     format.timestamp({
@@ -12,8 +20,8 @@ const logger = createLogger({
   ),
   defaultMeta: { service: 'alpha-ec-be' },
   transports: [
-    new transports.File({ filename: 'error.log', level: 'error' }),
-    new transports.File({ filename: 'combined.log' }),
+    new transports.File({ filename: path.join(logDirectory, 'error.log'), level: 'error' }),
+    new transports.File({ filename: path.join(logDirectory, 'combined.log') }),
   ],
 });
 
@@ -24,5 +32,3 @@ if (process.env.NODE_ENV !== 'production') {
     })
   );
 }
-
-export default logger;

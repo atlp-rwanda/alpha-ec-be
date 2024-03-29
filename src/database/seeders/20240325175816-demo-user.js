@@ -1,9 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 /**
+ * Represents a Sequelize migration.
  * @typedef {import('sequelize-cli').Migration} Migration
- *
- * @type {Migration}
+ */
+
+/**
+ * Runs the migration.
  * @param {import('sequelize').QueryInterface} queryInterface - The Sequelize QueryInterface instance.
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */
@@ -16,8 +19,8 @@ export const up = async queryInterface => {
         name: 'eric tuyishimire',
         password:
           '$2b$10$fi3qIU16lNCRJ5TIJHiOlubfecaxpCw3xixfwgEcRkS7iitoQ/qVC',
-        email: 't@gmail.com',
-        phone: '0780313448',
+        email: 'test@gmail.com',
+        phone: '1234567890',
         address: 'kigali, Rwanda',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -28,7 +31,7 @@ export const up = async queryInterface => {
 };
 
 /**
- * @type {Migration}
+ * Reverts the migration.
  * @param {import('sequelize').QueryInterface} queryInterface - The Sequelize QueryInterface instance.
  * @returns {Promise<void>} A promise that resolves when the operation is complete.
  */

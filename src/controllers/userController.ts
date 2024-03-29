@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import Database from '../database';
 import { sendResponse } from '../utils';
+import getDatabaseConfig from '../config/config.js';
 
 dotenv.config();
 
@@ -36,21 +37,11 @@ export const createUser = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    if (process.env.NODE_ENV == 'test')
-      return sendResponse<string>(
-        res,
-        201,
-        'token',
-        'User created successfully!'
-      );
-
     await user.save();
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: '2h' }
-    );
+    const { secret } = getDatabaseConfig();
+
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
 
     return sendResponse<string>(res, 201, token, 'User created successfully!');
   } catch (err: any) {
