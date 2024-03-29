@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Dialect, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
 
@@ -13,7 +13,7 @@ sequelize
   .then(() => {
     console.log('Connection has been established successfully.'); // eslint-disable-line no-console
   })
-  .catch((err: any) => {
+  .catch((err: Error) => {
     console.error('Unable to connect to the database:', err); // eslint-disable-line no-console
   });
 const models = Models(sequelize);

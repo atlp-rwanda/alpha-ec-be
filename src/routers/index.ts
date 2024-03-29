@@ -1,8 +1,6 @@
 import { Router, Request, Response } from 'express';
 import DummyRouter from './dummyRoute';
 
-
-
 const router = Router();
 const routers: Router[] = [DummyRouter];
 router.use('/api', routers);

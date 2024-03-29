@@ -69,7 +69,8 @@
         "extends": ["plugin:@typescript-eslint/disable-type-checked"],
         "files": ["*.js", "*.ts"]
       }
-    ]
+    ],
+    "ignorePatterns": ["node_modules","dist"]
   }
   
   

@@ -1,19 +1,19 @@
-import chai from "chai";
-import axios from "axios"
-import chaiHttp from "chai-http";
-import app from "../src/app";
+import chai from 'chai';
+
+import chaiHttp from 'chai-http';
+import { describe, it } from 'mocha';
+import app from '../src/app';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
-describe("API Tests", () => {
-
-   it("should return Welcome to the API!👋🏽👋🏽", (done) => {
+describe('API Tests', () => {
+  it('should return Welcome to the API!👋🏽👋🏽', done => {
     chai
       .request(app)
-      .get("/")
+      .get('/')
       .end((err, res) => {
-        expect(res.body.message).to.equal("Welcome to the API!👋🏽👋🏽");
+        expect(res.body.message).to.equal('Welcome to the API!👋🏽👋🏽');
         done();
       });
   });
