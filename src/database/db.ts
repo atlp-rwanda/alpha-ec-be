@@ -1,10 +1,11 @@
 import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
-import initializeModels from './models';
+import Models from './models';
 
-const { username, database, password } = getDatabaseConfig();
+const { username, database, password ,host } = getDatabaseConfig();
 
 const sequelize = new Sequelize(database, username, password, {
+  host:host,
   dialect: 'postgres',
 });
 
@@ -16,7 +17,7 @@ sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-const models = initializeModels(sequelize);
+const models = Models(sequelize);
 
 Object.values(models).forEach((model) => {
   if (model.associate) {

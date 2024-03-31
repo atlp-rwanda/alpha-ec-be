@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const dotenv = require('dotenv');
 
@@ -5,7 +6,6 @@ dotenv.config();
 
 const getDatabaseConfig = () => {
   const env = process.env.NODE_ENV || 'development';
-
   switch (env) {
     case 'test':
       return {
