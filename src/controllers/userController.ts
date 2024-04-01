@@ -1,19 +1,14 @@
-import Database from "../database/db";
-import { Request, Response } from "express";
-import { UserAttributes } from "../database/models/user";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import sendResponse from "../utils/response";
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import Database from '../database';
+import { sendResponse } from '../utils';
+import getDatabaseConfig from '../config/config.js';
 
 dotenv.config();
 
-interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
-
-export const createUser = async (
-  req: Request<{}, {}, UserCreationAttributes>,
-  res: Response
-) => {
+export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email, phone, address, password } = req.body;
 
@@ -28,7 +23,7 @@ export const createUser = async (
         res,
         400,
         null,
-        "A user with this email already exists."
+        'A user with this email already exists.'
       );
     }
 
@@ -44,14 +39,12 @@ export const createUser = async (
 
     await user.save();
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET || "secret",
-      { expiresIn: "2h" }
-    );
+    const { secret } = getDatabaseConfig();
 
-    return sendResponse<string>(res, 201, token, "User created successfully!");
+    const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
+
+    return sendResponse<string>(res, 201, token, 'User created successfully!');
   } catch (err: any) {
-    return sendResponse<null>(res, 500, null, err.message );
+    return sendResponse<null>(res, 500, null, err.message);
   }
 };

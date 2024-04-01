@@ -2,26 +2,28 @@
 import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
-import logger from "../utils/logger";
+import { logger } from '../utils';
 
-const { username, database, password } = getDatabaseConfig();
+const { username, database, password, host } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
   dialect: 'postgres',
-  logging: false,
+  host
 });
 
 sequelize
   .authenticate()
   .then(() => {
-    logger.info('Connection has been established successfully.'); // eslint-disable-line no-console
+    logger.info('Connection has been established successfully.');
   })
   .catch((err: Error) => {
-    logger.error('Unable to connect to the database:', err); // eslint-disable-line no-console
+    logger.error('Unable to connect to the database:', err);
   });
 const models = Models(sequelize);
 
 Object.keys(models).forEach(key => {
+  // @ts-expect-error ignore expected errors
   if (models[key].associate) {
+    // @ts-expect-error ignore expected errors
     models[key].associate(models);
   }
 });

@@ -1,6 +1,5 @@
-import UserModel, { User } from "./user";
-import { Sequelize } from "sequelize";
-export { User };
+import { Sequelize } from 'sequelize';
+import UserModel from './user';
 
 const Models = (sequelize: Sequelize) => {
   const User = UserModel(sequelize);

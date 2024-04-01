@@ -1,0 +1,117 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ATLP Project API",
+    "version": "1.0.0",
+    "description": "APIs retrieving"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/api/users/register": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWU1ZGVhZjcxZjhjMDBlNjZlNWUyMDYiLCJpYXQiOjE3MDk2NjU3MjIsImV4cCI6MTcwOTY3MjkyMn0.JTjNO1wa0UjBmSDlcbQYM8R_4DG8BCQ9JpR9E-bATxM",
+                  "message": "User created successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+ "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the user."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the user."
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the user."
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the user."
+          },
+          "password": {
+            "type": "string",
+            "description": "The password of the user."
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "phone",
+          "address",
+          "password"
+        ]
+      }
+    }
+ }
+}
