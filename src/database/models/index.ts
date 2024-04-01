@@ -1,13 +1,11 @@
 import { Sequelize } from 'sequelize';
-import DummyModel, { Dummy as DummyModelType } from './dummy';
-
-export { DummyModelType };
+import UserModel from './user';
 
 const Models = (sequelize: Sequelize) => {
-  const Dummy = DummyModel(sequelize);
+  const User = UserModel(sequelize);
 
   return {
-    Dummy,
+    User,
   };
 };
 export default Models;
