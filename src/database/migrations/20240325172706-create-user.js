@@ -1,17 +1,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('Dummies', {
       id: {
         allowNull: false,
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
-      firstName: {
-        type: Sequelize.STRING,
-      },
-      lastName: {
+      name: {
         type: Sequelize.STRING,
       },
       email: {
@@ -29,6 +26,6 @@ module.exports = {
   },
   /* eslint-disable @typescript-eslint/no-unused-vars */
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('Dummies');
   },
 };

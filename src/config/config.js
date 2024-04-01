@@ -6,7 +6,6 @@ dotenv.config();
 
 const getDatabaseConfig = () => {
   const env = process.env.NODE_ENV || 'development';
-
   switch (env) {
     case 'test':
       return {

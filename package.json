@@ -4,14 +4,14 @@
   "description": "alpha team project",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha  --require ts-node/register   test/server-run.ts --coverage",
+    "test": "npm run demigrate && npm run migrate && npm run test:coverage",
+    "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --require ts-node/register test/server-run.ts --coverage",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build:test": "tsc --project test",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
-    "migrate": "cross-env NODE_ENV=development sequelize db:migrate",
-    "demigrate": "cross-env NODE_ENV=development sequelize db:migrate:undo:all",
+    "migrate": "sequelize db:migrate ",
+    "demigrate": "sequelize db:migrate:undo:all",
     "seed": "cross-env NODE_ENV=development sequelize db:seed:all",
-    "test:coverage": "istanbul cover --verbose node_modules/.bin/_mocha -- test/server-run.ts --recursive --report lcov",
     "coverage": "nyc --reporter=text npm run test --coverage",
     "lint": "eslint .",
     "prettier": "prettier --check .",
@@ -105,11 +105,17 @@
     ]
   },
   "nyc": {
+    "check-coverage": true,
+    "per-file-ignores": [
+      "src/config/*",
+      "src/database/*"
+    ],
     "include": [
       "src"
     ],
     "exclude": [
-      "src/controllers/dummyController.ts"
+      "src/database/*",
+      "src/config/*"
     ]
   }
 }

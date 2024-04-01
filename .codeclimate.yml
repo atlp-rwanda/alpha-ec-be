@@ -1,0 +1,25 @@
+version: "2"
+checks:
+  complex-logic:
+    enabled: false
+  method-lines:
+    config:
+      threshold: 50
+    eslint:
+      enabled: true
+exclude_patterns:
+  - 'config/'
+  - 'src/'
+  - 'db/'
+  - 'dist/'
+  - 'features/'
+  - '**/node_modules/'
+  - 'script/'
+  - '**/spec/'
+  - '**/test/'
+  - '**/tests/'
+  - 'Tests/'
+  - '**/vendor/'
+  - '**/*_test.go'
+  - '**/*.d.ts'
+  - '**/seeders/'
