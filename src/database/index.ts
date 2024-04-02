@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Sequelize } from 'sequelize';
 import getDatabaseConfig from '../config/config';
 import Models from './models';
 import { logger } from '../utils';
 
+
+
 const { username, database, password, host } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
+  host: host,
   dialect: 'postgres',
-  host
+  logging: false,
 });
 
 sequelize
@@ -18,6 +20,7 @@ sequelize
   .catch((err: Error) => {
     logger.error('Unable to connect to the database:', err);
   });
+
 const models = Models(sequelize);
 
 Object.keys(models).forEach(key => {

@@ -2,13 +2,19 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import Database from '../database';
-import { sendResponse } from '../utils';
+import { UserAttributes } from '../database/models/user';
+import Database from '../database/index';
+import {sendResponse} from '../utils/response';
 import getDatabaseConfig from '../config/config.js';
 
 dotenv.config();
 
-export const createUser = async (req: Request, res: Response) => {
+interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
+
+export const createUser = async (
+  req: Request<{}, {}, UserCreationAttributes>,
+  res: Response
+) => {
   try {
     const { name, email, phone, address, password } = req.body;
 

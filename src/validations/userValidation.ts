@@ -35,3 +35,15 @@ export const testPassword = (password: string) => {
   return null;
 };
 
+
+export const loginUserSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required().custom((value, helpers) => {
+    const passwordError = testPassword(value);
+    if (passwordError) {
+      return helpers.error('any.invalid', { message: passwordError });
+    }
+    return value; 
+ }, 'Password validation'),
+ });
+

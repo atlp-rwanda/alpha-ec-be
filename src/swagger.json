@@ -12,7 +12,62 @@
     }
   ],
   "paths": {
-    "/api/users/register": {
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "Sign in to the application",
+        "description": "Only registered user can login to the account.User must login by using email and password",
+        "requestBody": {
+          "description": "user body details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "ruthuwamahoro250@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "Password2@"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
       "post": {
         "tags": ["users"],
         "summary": "Create a user",
@@ -78,7 +133,7 @@
       }
     }
   },
- "components": {
+  "components": {
     "schemas": {
       "User": {
         "type": "object",
@@ -113,5 +168,5 @@
         ]
       }
     }
- }
+  }
 }

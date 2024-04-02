@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -7,7 +5,7 @@ dotenv.config();
 const getDatabaseConfig = () => {
   const env = process.env.NODE_ENV || 'development';
   switch (env) {
-    case 'test':
+    case "test":
       return {
         database: process.env.TEST_DATABASE_NAME ?? '',
         username: process.env.TEST_DATABASE_USER ?? '',
@@ -17,7 +15,7 @@ const getDatabaseConfig = () => {
         dialect: process.env.DIALECT,
         secret: process.env.JWT_SECRET || 'secret',
       };
-    case 'production':
+    case "production":
       return {
         database: process.env.PROD_DATABASE_URL ?? '',
         username: process.env.PROD_DATABASE_USER ?? '',

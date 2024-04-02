@@ -13,5 +13,4 @@ app.use(express.json());
 app.use(router);
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 export default app;
