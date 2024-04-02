@@ -10,3 +10,6 @@ checks:
 exclude_patterns:
   - "**/package-lock.json/"
   - "**/.env/*"
+  - "**/test/*"
+  - "**/tests/*"
+ 

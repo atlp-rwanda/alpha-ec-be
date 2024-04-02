@@ -9,13 +9,28 @@
     {
       "url": "http://localhost:3000",
       "description": "Development server"
+    },
+    {
+      "url": "https://alpha-ec-be.onrender.com/swagger",
+      "description": "production server server"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "token": {
+        "type": "apiKey",
+        "scheme":"bearer",
+        "bearerFormat": "JWT",
+        "name":"Authorization",
+        "in":"header"
+      }
+    }
+  },
   "paths": {
     "/api/users/login": {
       "post": {
         "tags": [
-          "login"
+          "users"
         ],
         "summary": "Sign in to the application",
         "description": "Only registered user can login to the account.User must login by using email and password",
@@ -67,7 +82,7 @@
         }
       }
     },
-    "/api/users": {
+    "/api/users/register": {
       "post": {
         "tags": ["users"],
         "summary": "Create a user",
@@ -132,41 +147,6 @@
         }
       }
     }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "The name of the user."
-          },
-          "email": {
-            "type": "string",
-            "description": "The email address of the user."
-          },
-          "phone": {
-            "type": "string",
-            "description": "The phone number of the user."
-          },
-          "address": {
-            "type": "string",
-            "description": "The address of the user."
-          },
-          "password": {
-            "type": "string",
-            "description": "The password of the user."
-          }
-        },
-        "required": [
-          "name",
-          "email",
-          "phone",
-          "address",
-          "password"
-        ]
-      }
-    }
   }
 }
+  

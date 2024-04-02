@@ -107,6 +107,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   // "include": ["src/**/*.ts", "src/config/config.js"],
-  "include": ["src/**/*.ts", "src/config/config.js", "test/*/.ts", "swagger.json"],
+  "include": ["src/**/*.ts", "src/config/config.js", "test/*/.ts", "swagger.json", "src/database/models/role.ts"],
   "exclude": ["node_modules", "dist"]
 }
