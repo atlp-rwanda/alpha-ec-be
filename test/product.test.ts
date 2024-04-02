@@ -5,6 +5,7 @@ import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
 import path from 'path';
+import { pagination } from '../src/utils';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -27,7 +28,35 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
+  it('User should be authenticated', done => {
+    const product = {
+      name: 'MAZDA',
+      category: 'CAR',
+    };
 
+    chai
+      .request(app)
+      .post('/api/products')
+      .send(product)
+      .end((err, res) => {
+        expect(res).to.have.status(403);
+        done();
+      });
+  });
+  it('get all roles with status code of 401 ', done => {
+    chai
+      .request(app)
+      .get('/api/roles')
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(401);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal(
+          'Not authorized! User should be admin'
+        );
+        done();
+      });
+  });
   let productId: string = '';
 
   it('User should be authenticated', done => {
@@ -45,7 +74,6 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-
   it('Product fields should be valid', done => {
     const product = {
       name: 'MAZDA',
@@ -369,10 +397,11 @@ describe('PRODUCT API TEST', () => {
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
+        expect(res.body.message).to.equal('Product deleted successfully!');
         done();
       });
   });
-
+ 
   it('Should not delete a product if not found', function (done) {
     chai
       .request(app)
@@ -395,5 +424,91 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(404);
         done();
       });
+  });
+  const products = {
+    rows: [
+      {
+        id: 1,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 2,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 3,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 4,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 5,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 6,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 7,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 8,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 9,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+      {
+        id: 10,
+        name: 'MAZDA',
+        category: 'CAR',
+        price: 5000,
+      },
+    ],
+    count: 10,
+  };
+  it('Should get all products with pagination', function (done) {
+    const result = pagination(products, 10, 1);
+    const result2 = pagination(products, 4, 2);
+    expect(result)
+      .to.have.property('products')
+      .to.be.an('array')
+      .to.have.lengthOf(10);
+    expect(result).to.have.property('totalPages').to.equal(10);
+    expect(result).to.have.property('from').to.equal(9);
+    expect(result).to.have.property('to').to.equal(10);
+    expect(result).to.have.property('totalItems').to.equal(10);
+    expect(result2)
+      .to.have.property('products')
+      .to.be.an('array')
+      .to.have.lengthOf(10);
+    expect(result2).to.have.property('totalPages').to.equal(5);
+    expect(result2).to.have.property('from').to.equal(6);
+    expect(result2).to.have.property('to').to.equal(8);
+    expect(result2).to.have.property('totalItems').to.equal(10);
+    done();
   });
 });

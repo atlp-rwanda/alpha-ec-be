@@ -19,6 +19,12 @@ passport.use(
       }
       const user = await Database.User.findOne({
         where: { id: jwtPayload.id },
+        include: [
+          {
+            model: Database.Role,
+            as: 'role',
+          },
+        ],
       });
 
       if (!user) {
