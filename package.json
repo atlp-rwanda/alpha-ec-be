@@ -7,7 +7,7 @@
     "test": "tsc && npm run demigrate && npm run migrate && npm run seed && npm run test:coverage",
     "test:coverage": "cross-env NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --require ts-node/register test/*.ts --coverage",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "build:test": "tsc --project test",
+    "build": "cross-env NODE_ENV=production tsc && npm run migrate && npm run seed",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
     "migrate": "sequelize db:migrate ",
     "demigrate": "sequelize db:migrate:undo:all",
