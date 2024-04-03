@@ -5,7 +5,6 @@ import { checkUserCredentials } from '../src/controllers/loginController';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 chai.use(chaiHttp);
 chai.should();
 
@@ -18,7 +17,7 @@ describe('testing Login API', () => {
     it('it should return status code of 200', done => {
       const user = {
         email: 'test1@example.com',
-        password:'1111@aa'
+        password: '1111@aa',
       };
       chai
         .request(app)
@@ -29,15 +28,13 @@ describe('testing Login API', () => {
           expect(res.body).to.have.property('message');
           expect(res.body.message).to.equal('Logged In Successfully');
           done();
-        })
-
-
+        });
     });
 
     // check if user is not found in database
     it('it should return status code of 400 with User forget to provide at least one special character', done => {
       const user = {
-        email: "tryme@example.com",
+        email: 'tryme@example.com',
         password: '11111aa',
       };
       chai
@@ -56,7 +53,7 @@ describe('testing Login API', () => {
 
     it('it should return status code of 400 with providing password,having no letter and special characters and langth is minimum', done => {
       const user = {
-        email: "tryme@example.com",
+        email: 'tryme@example.com',
         password: 'Passwo',
       };
       chai
@@ -74,7 +71,7 @@ describe('testing Login API', () => {
 
     it('it should return status code of 400 with user having password without at least one number ', done => {
       const user = {
-        email: "trymeexample.com",
+        email: 'trymeexample.com',
         password: 'Password!',
       };
       chai
@@ -91,7 +88,7 @@ describe('testing Login API', () => {
     // test user with invalid email
     it('it should return status code of 400 with  user having invalid email ', done => {
       const user = {
-        email: "tryme@example.com",
+        email: 'tryme@example.com',
         password: 'Password2#',
       };
       chai
@@ -103,17 +100,16 @@ describe('testing Login API', () => {
           expect(res.body).to.have.property('message');
 
           done();
-        })
-        ;
+        });
     });
-    
+
     //test if password has at least one letter
 
-    it("expecting error for password credentials without at least one letter", (done) => {
-      const user ={
-        email: "tryme@example.com",
+    it('expecting error for password credentials without at least one letter', done => {
+      const user = {
+        email: 'tryme@example.com',
         password: '1234562@',
-      }
+      };
       chai
         .request(app)
         .post('/api/users/login')
@@ -122,21 +118,21 @@ describe('testing Login API', () => {
           expect(res).to.have.status(400);
           done();
         });
-  
-  
-    })
+    });
 
     //database Error
 
-    it("handling error returned by database", (done) => {
-      new Error("Database error");
-      checkUserCredentials('test1@example.com', '1111@aa', (err:any, user:any) => {
-        expect(user).to.be.undefined
-        done()
-      })
-
-    })
-    
+    it('handling error returned by database', done => {
+      new Error('Database error');
+      checkUserCredentials(
+        'test1@example.com',
+        '1111@aa',
+        (err: any, user: any) => {
+          expect(user).to.be.undefined;
+          done();
+        }
+      );
+    });
   });
 });
 
