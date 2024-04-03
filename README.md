@@ -1,4 +1,4 @@
-
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/atlp-rwanda/alpha-ec-be/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/atlp-rwanda/alpha-ec-be/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/atlp-rwanda/alpha-ec-be/badge.svg)](https://coveralls.io/github/atlp-rwanda/alpha-ec-be)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ff7b5120f00838b17f66/maintainability)](https://codeclimate.com/github/atlp-rwanda/alpha-ec-be/maintainability)

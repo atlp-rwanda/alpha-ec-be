@@ -9,13 +9,17 @@
     {
       "url": "http://localhost:3000",
       "description": "Development server"
+    },
+    {
+      "url": "https://alpha-ec-be.onrender.com/swagger",
+      "description": "production server server"
     }
   ],
   "paths": {
     "/api/users/login": {
       "post": {
         "tags": [
-          "login"
+          "users"
         ],
         "summary": "Sign in to the application",
         "description": "Only registered user can login to the account.User must login by using email and password",
@@ -67,7 +71,7 @@
         }
       }
     },
-    "/api/users": {
+    "/api/users/register": {
       "post": {
         "tags": ["users"],
         "summary": "Create a user",
@@ -169,4 +173,6 @@
       }
     }
   }
+  
 }
+  

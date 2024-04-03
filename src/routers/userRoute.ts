@@ -6,7 +6,7 @@ import validatingUser from '../controllers/loginController';
 
 const router = Router();
 
-router.post('/users', validationMiddleware(userValidationSchema), createUser);
+router.post('/users/register', validationMiddleware(userValidationSchema), createUser);
 router.post('/users/login',validationMiddleware(loginUserSchema) ,validatingUser);
 
 export default router;

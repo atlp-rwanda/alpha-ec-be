@@ -6,7 +6,6 @@ import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
 import { userValidationSchema } from '../src/validations';
-import { validationMiddleware } from '../src/middleware';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -23,7 +22,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(201);
@@ -42,7 +41,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -61,7 +60,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -84,7 +83,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -104,7 +103,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -124,7 +123,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -144,7 +143,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -167,7 +166,7 @@ describe('USER API TEST', () => {
 
    chai
        .request(app)
-       .post('/api/users')
+       .post('/api/users/register')
        .send(user)
        .end((err, res) => {
            validateStub.restore();
@@ -193,7 +192,7 @@ describe('USER API TEST', () => {
 
     chai
       .request(app)
-      .post('/api/users')
+      .post('/api/users/register')
       .send(user)
       .end((err, res) => {
         saveStub.restore();
