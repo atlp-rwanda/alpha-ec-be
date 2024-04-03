@@ -29,7 +29,7 @@
     "ignore": [
       "src/**/*.spec.ts"
     ],
-    "exec": "cross-env NODE_ENV=development tsc && node ./dist/server.js"
+    "exec": "cross-env NODE_ENV=production tsc && node ./dist/server.js"
   },
   "author": "alpha atlp team",
   "license": "ISC",
