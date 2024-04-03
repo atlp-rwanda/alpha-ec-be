@@ -31,3 +31,18 @@ export const loginUserSchema = Joi.object({
       return value;
     }, 'Password validation'),
 });
+
+export const resetPasswordSchema = Joi.object({
+  password: Joi.string()
+    .required()
+    .custom((value, helpers) => {
+      const passwordError = testPassword(value);
+      if (passwordError) {
+        return helpers.error('any.invalid', { message: passwordError });
+      }
+      return value;
+    }, 'Password validation'),
+  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+    'any.only': 'confirm password must be the same as password',
+  }),
+});

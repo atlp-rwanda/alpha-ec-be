@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:5000",
       "description": "Development server"
     },
     {
@@ -124,6 +124,114 @@
                   "status": "Success!",
                   "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWU1ZGVhZjcxZjhjMDBlNjZlNWUyMDYiLCJpYXQiOjE3MDk2NjU3MjIsImV4cCI6MTcwOTY3MjkyMn0.JTjNO1wa0UjBmSDlcbQYM8R_4DG8BCQ9JpR9E-bATxM",
                   "message": "User created successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/forgot-password": {
+      "post": {
+        "tags": ["password"],
+        "summary": "forgot Password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTkxYmQyLTEyODYtNGUxMC05MTU3LTFjMjc4ZTE3YTI2MSIsImlhdCI6MTcxMjUwOTUxNiwiZXhwIjoxNzEyNTEwMTE2fQ.loCU1X1No7hfIHk56dQMSU9zKQA_2jZUK-BRM3BHQjU",
+                  "message": "Password reset link sent successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/reset-password/{token}": {
+      "patch": {
+        "tags": ["password"],
+        "summary": "Reset Password",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Token for password reset",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "required": true
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "required": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTkxYmQyLTEyODYtNGUxMC05MTU3LTFjMjc4ZTE3YTI2MSIsImlhdCI6MTcxMjUwOTUxNiwiZXhwIjoxNzEyNTEwMTE2fQ.loCU1X1No7hfIHk56dQMSU9zKQA_2jZUK-BRM3BHQjU",
+                  "message": "Password reset and Logged in successfully"
                 }
               }
             }
