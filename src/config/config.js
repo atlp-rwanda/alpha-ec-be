@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -7,7 +8,7 @@ const getDatabaseConfig = () => {
   const envPrefixMap = {
     development: 'DATABASE',
     test: 'TEST_DATABASE',
-    production: 'PROD_DATABASE'
+    production: 'PROD_DATABASE',
   };
 
   const prefix = envPrefixMap[env] || 'DATABASE';

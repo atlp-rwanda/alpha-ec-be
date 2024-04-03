@@ -2,10 +2,10 @@ import { createLogger, format, transports } from 'winston';
 import path from 'path';
 import fs from 'fs';
 
-const logDirectory = 'logs'; 
+const logDirectory = 'logs';
 
 if (!fs.existsSync(logDirectory)) {
-    fs.mkdirSync(logDirectory);
+  fs.mkdirSync(logDirectory);
 }
 
 export const logger = createLogger({
@@ -20,7 +20,10 @@ export const logger = createLogger({
   ),
   defaultMeta: { service: 'alpha-ec-be' },
   transports: [
-    new transports.File({ filename: path.join(logDirectory, 'error.log'), level: 'error' }),
+    new transports.File({
+      filename: path.join(logDirectory, 'error.log'),
+      level: 'error',
+    }),
     new transports.File({ filename: path.join(logDirectory, 'combined.log') }),
   ],
 });

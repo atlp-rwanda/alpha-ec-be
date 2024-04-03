@@ -9,7 +9,7 @@ export const sendResponse = <T>(
   const result = /^20\d$/.test(status.toString()) ? 'Success!' : 'Error!';
   return res.status(status).json({
     status: result,
-    data: data,
-    message: message,
+    data,
+    message,
   });
 };

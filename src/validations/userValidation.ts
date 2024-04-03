@@ -17,7 +17,6 @@ export const userValidationSchema = Joi.object({
       }
       return value;
     }, 'Password validation'),
-    
 });
 
 export const loginUserSchema = Joi.object({

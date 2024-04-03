@@ -4,7 +4,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { UserAttributes } from '../database/models/user';
 import Database from '../database/index';
-import {sendResponse} from '../utils/response';
+import { sendResponse } from '../utils/response';
+// eslint-disable-next-line import/extensions
 import getDatabaseConfig from '../config/config.js';
 
 dotenv.config();
@@ -12,6 +13,7 @@ dotenv.config();
 interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
 
 export const createUser = async (
+  // eslint-disable-next-line @typescript-eslint/ban-types
   req: Request<{}, {}, UserCreationAttributes>,
   res: Response
 ) => {
@@ -50,6 +52,7 @@ export const createUser = async (
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
 
     return sendResponse<string>(res, 201, token, 'User created successfully!');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return sendResponse<null>(res, 500, null, err.message);
   }
