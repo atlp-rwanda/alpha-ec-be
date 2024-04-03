@@ -18,9 +18,7 @@
   "paths": {
     "/api/users/login": {
       "post": {
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "summary": "Sign in to the application",
         "description": "Only registered user can login to the account.User must login by using email and password",
         "requestBody": {
@@ -40,10 +38,7 @@
                     "example": "Password2@"
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
-                ]
+                "required": ["email", "password"]
               }
             }
           }
@@ -163,16 +158,8 @@
             "description": "The password of the user."
           }
         },
-        "required": [
-          "name",
-          "email",
-          "phone",
-          "address",
-          "password"
-        ]
+        "required": ["name", "email", "phone", "address", "password"]
       }
     }
   }
-  
 }
-  

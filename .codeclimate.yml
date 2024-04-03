@@ -1,4 +1,4 @@
-version: "2"
+version: '2'
 checks:
   complex-logic:
     enabled: false
@@ -8,8 +8,7 @@ checks:
     eslint:
       enabled: true
 exclude_patterns:
-  - "**/package-lock.json/"
-  - "**/.env/*"
-  - "**/test/*"
-  - "**/tests/*"
- 
+  - '**/package-lock.json/'
+  - '**/.env/*'
+  - '**/test/*'
+  - '**/tests/*'

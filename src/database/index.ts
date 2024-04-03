@@ -3,11 +3,9 @@ import getDatabaseConfig from '../config/config';
 import Models from './models';
 import { logger } from '../utils';
 
-
-
 const { username, database, password, host } = getDatabaseConfig();
 const sequelize = new Sequelize(database, username, password, {
-  host: host,
+  host,
   dialect: 'postgres',
   logging: false,
 });

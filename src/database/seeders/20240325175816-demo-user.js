@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
  * @typedef {import('sequelize-cli').Migration} Migration
  */
 
+/* eslint-disable valid-jsdoc */
 /**
  * Runs the migration.
  * @param {import('sequelize').QueryInterface} queryInterface - The Sequelize QueryInterface instance.
@@ -29,7 +30,7 @@ export const up = async queryInterface => {
         id: uuidv4(),
         name: 'ruth uwmaha',
         password:
-        '$2b$10$L88WJjhwBAzERaSDjTbctOe/WjO3i0X7KKUjKMCW4XBRjdyEgs22W',
+          '$2b$10$L88WJjhwBAzERaSDjTbctOe/WjO3i0X7KKUjKMCW4XBRjdyEgs22W',
         email: 'test1@example.com',
         phone: '1234567890',
         address: 'kigali, Rwanda',

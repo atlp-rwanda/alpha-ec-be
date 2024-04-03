@@ -1,6 +1,6 @@
 export interface passwordChecksInt {
   regex: RegExp;
-  message: String;
+  message: string;
 }
 
 export const passwordChecks: passwordChecksInt[] = [
@@ -23,16 +23,15 @@ export const passwordChecks: passwordChecksInt[] = [
 ];
 
 export const testPassword = (password: string) => {
-    if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{6,}$/.test(password)) {
-      let error = 'Please provide a password with';
-  
-      passwordChecks.forEach(check => {
-        if (!check.regex.test(password)) {
-          error += check.message;
-        }
-      });
-      return error + `!`;
-    } else {
-      return null;
-    }
- };
+  if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{6,}$/.test(password)) {
+    let error = 'Please provide a password with';
+
+    passwordChecks.forEach(check => {
+      if (!check.regex.test(password)) {
+        error += check.message;
+      }
+    });
+    return `${error}!`;
+  }
+  return null;
+};

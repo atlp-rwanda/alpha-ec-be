@@ -4,8 +4,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ff7b5120f00838b17f66/maintainability)](https://codeclimate.com/github/atlp-rwanda/alpha-ec-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ff7b5120f00838b17f66/test_coverage)](https://codeclimate.com/github/atlp-rwanda/alpha-ec-be/test_coverage)
 
-
-
 ![](https://img.shields.io/badge/Maintained-Yes-green)
 ![](https://img.shields.io/badge/Pull_Requests-Accepting-green)
 ![](https://img.shields.io/badge/Contributions-Accepting-cyan)
@@ -14,7 +12,6 @@
 <div align="left">
   <img width="544" alt="Screen Shot 2024-04-01 at 17 51 45" src="https://github.com/atlp-rwanda/alpha-ec-be/assets/102757126/a79b2b93-2fcc-4909-a663-598d4339ba80">
 </div>
-
 
 <a name="readme-top"></a>
 
@@ -38,7 +35,6 @@
 # 📖 E-COMMERCE<a name="about-project"></a>
 
 This repository contains the backend for an e-commerce application built with Node.js, Express, and PostgreSQL. It includes a comprehensive suite of tests using Mocha to ensure the reliability and functionality of the application.
-
 
 # 🧾 Key Features <a name="key-features"></a>
 

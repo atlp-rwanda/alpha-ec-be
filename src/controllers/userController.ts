@@ -4,15 +4,14 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { UserAttributes } from '../database/models/user';
 import Database from '../database/index';
-import {sendResponse} from '../utils/response';
-import getDatabaseConfig from '../config/config.js';
+import { sendResponse } from '../utils/response';
+import getDatabaseConfig from '../config/config';
 
 dotenv.config();
-
 interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
 
 export const createUser = async (
-  req: Request<{}, {}, UserCreationAttributes>,
+  req: Request<object, object, UserCreationAttributes>,
   res: Response
 ) => {
   try {
@@ -50,7 +49,8 @@ export const createUser = async (
     const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
 
     return sendResponse<string>(res, 201, token, 'User created successfully!');
-  } catch (err: any) {
-    return sendResponse<null>(res, 500, null, err.message);
+  } catch (err: unknown) {
+    const errors = err as Error;
+    return sendResponse<null>(res, 500, null, errors.message);
   }
 };

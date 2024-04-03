@@ -154,28 +154,30 @@ describe('USER API TEST', () => {
   });
 
   it('should handle server errors during user creation', function (done) {
-   const validateStub = sinon.stub(userValidationSchema, 'validate').throws(new Error('Validation error'));
+    const validateStub = sinon
+      .stub(userValidationSchema, 'validate')
+      .throws(new Error('Validation error'));
 
-   const user = {
-       name: 'Test User',
-       email: 'testas@example.com',
-       phone: '1234567890',
-       address: '123 Test Street',
-       password: '11111@aa',
-   };
+    const user = {
+      name: 'Test User',
+      email: 'testas@example.com',
+      phone: '1234567890',
+      address: '123 Test Street',
+      password: '11111@aa',
+    };
 
-   chai
-       .request(app)
-       .post('/api/users/register')
-       .send(user)
-       .end((err, res) => {
-           validateStub.restore();
+    chai
+      .request(app)
+      .post('/api/users/register')
+      .send(user)
+      .end((err, res) => {
+        validateStub.restore();
 
-           expect(res.statusCode).to.equal(500);
-           expect(res.body).to.have.property('message');
-           done();
-       });
-});
+        expect(res.statusCode).to.equal(500);
+        expect(res.body).to.have.property('message');
+        done();
+      });
+  });
 
   it('should handle server errors during user creation', function (done) {
     const saveStub = sinon
