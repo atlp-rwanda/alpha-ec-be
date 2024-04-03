@@ -11,7 +11,7 @@
       "description": "Development server"
     },
     {
-      "url": "https://alpha-ec-be.onrender.com/swagger",
+      "url": "https://alpha-ec-be.onrender.com",
       "description": "production server server"
     }
   ],

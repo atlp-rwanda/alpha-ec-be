@@ -100,6 +100,22 @@ To ensure the reliability and stability of the backend code, we employ testing p
 
 - GitHub: [@Nadinefiona](https://github.com/Nadinefiona)
 
+👤 **Irasubiza Elyse**
+
+- GitHub: [@IrasubizaElyse]
+
+👤 **Mukunzi Ndahiro James**
+
+- GitHub: [@MukunziNdahiroJames]
+
+👤 **Sophie Mukagema**
+
+- GitHub: [@SophieMukagema]
+
+👤 **Izibyose Musabe Honore**
+
+- GitHub: [@IzibyoseMusabeHonor]
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->
