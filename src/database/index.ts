@@ -3,11 +3,29 @@ import getDatabaseConfig from '../config/config';
 import Models from './models';
 import { logger } from '../utils';
 
-const { username, database, password, host } = getDatabaseConfig();
+interface DatabaseConfigInterface {
+  database: string;
+  username: string;
+  password: string;
+  host: string;
+  port: string;
+  dialect: string;
+  secret: string;
+  dialectOptions?: {
+    ssl: {
+      require: boolean;
+      rejectUnauthorized: boolean;
+    };
+  };
+}
+
+const { username, database, password, host, dialectOptions } =
+  getDatabaseConfig() as DatabaseConfigInterface;
 const sequelize = new Sequelize(database, username, password, {
   host,
   dialect: 'postgres',
   logging: false,
+  ...(dialectOptions ? { dialectOptions } : {}),
 });
 
 sequelize
