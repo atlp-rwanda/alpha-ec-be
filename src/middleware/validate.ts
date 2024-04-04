@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { logger, sendResponse } from '../utils';
+import { sendResponse } from '../utils';
 
 // eslint-disable-next-line no-shadow
 enum requestType {
@@ -21,7 +20,6 @@ export const validationMiddleware =
   (req: Request, res: Response, next: NextFunction) => {
     try {
       const { error } = schema.validate(req.body, { abortEarly: false });
-
       if (error) {
         const errors: errorInterface[] = [];
         error.details.forEach(err => {

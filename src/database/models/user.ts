@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+import { Product } from './product';
 
 export interface UserAttributes {
   id: string;
@@ -36,6 +37,18 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   declare readonly createdAt: Date;
 
   declare readonly updatedAt: Date;
+
+  /**
+   * Associations.
+   * @param {IModels} models - The models object containing all initialized models.
+   * @returns {Object} An object representing association.
+   */
+  public static associate(models: { Product: typeof Product }) {
+    User.hasMany(models.Product, {
+      foreignKey: 'sellerId',
+      as: 'products',
+    });
+  }
 
   /**
    * Overrides the default toJSON method to exclude the password field.

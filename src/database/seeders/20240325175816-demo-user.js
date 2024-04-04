@@ -16,7 +16,7 @@ export const up = async queryInterface => {
     'users',
     [
       {
-        id: uuidv4(),
+        id: '21da0219-f83c-41a4-9157-dabfe7534037',
         name: 'eric tuyishimire',
         password:
           '$2b$10$fi3qIU16lNCRJ5TIJHiOlubfecaxpCw3xixfwgEcRkS7iitoQ/qVC',

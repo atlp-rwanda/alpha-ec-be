@@ -12,9 +12,6 @@ export const isAuthenticated = (
     'jwt',
     { session: false },
     (err: Error, user: UserAttributes) => {
-      if (err) {
-        return sendResponse(res, 500, null, err.message);
-      }
       if (!user) {
         return sendResponse(res, 403, null, 'Please login...');
       }
@@ -23,7 +20,7 @@ export const isAuthenticated = (
         id: user.id,
         name: user.name,
         email: user.email,
-        role: 'buyer',
+        role: 'seller',
       };
 
       req.user = currUser;
