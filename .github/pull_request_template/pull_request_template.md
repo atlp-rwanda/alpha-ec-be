@@ -15,6 +15,7 @@ setting up project database
 
 - set up the env according to your localhost database credentials
 - use the api in the index.ts in routers to connect to the database
+- use npm run dev to connect to the database
 
 #### Any background context you want to provide?
 
