@@ -421,6 +421,81 @@
         }
       }
     },
+    "/api/users/google-auth": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Initiate Google authentication",
+        "description": "This endpoint redirects the user to Google's authentication page.",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Redirects to Google's authentication page"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/users/google-auth/callback": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Handle Google authentication callback",
+        "description": "This endpoint handles the callback from Google after the user has authenticated.",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "User authenticated successfully, returns user information and token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "googleId": {
+                      "type": "string"
+                    },
+                    "photoUrl": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not found or authentication failed"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/products": {
       "post": {
         "tags": ["Products"],
@@ -932,6 +1007,551 @@
                 }
               }
             }
+          }
+        }
+      },
+      "/api/products": {
+        "post": {
+          "tags": ["Products"],
+          "summary": "Create a Product",
+          "security": [
+            {
+              "token": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "required": true,
+                      "default": ""
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "binary"
+                      },
+                      "description": "The images of the product"
+                    },
+                    "category": {
+                      "type": "string",
+                      "required": true,
+                      "default": ""
+                    },
+                    "price": {
+                      "type": "number",
+                      "required": true,
+                      "default": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "object"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "Success!",
+                    "data": {
+                      "id": "3764f889-b2d7-44bf-8bd1-35c80b61dc8d",
+                      "name": "Toyota",
+                      "slug": "Toyota",
+                      "images": [
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421646/a5mpdlll7subatkekkpg.webp",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/mwlwva0knlbqmodaeep5.jpg",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/kq02mwxjybjj6wxwbq9w.png",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421648/zwl3pgmbyy6eaqratuz9.png"
+                      ],
+                      "category": "Cars",
+                      "price": 5000,
+                      "expiryDate": null,
+                      "bonus": null,
+                      "status": "available",
+                      "quantity": 0,
+                      "sellerId": "3a75ff63-736e-4f7b-9d98-26dd10f4d0c6",
+                      "createdAt": "2024-04-06T16:40:49.098Z",
+                      "updatedAt": "2024-04-06T16:40:49.098Z"
+                    },
+                    "message": "Product created successfully!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": ["Products"],
+          "summary": "Get all Product",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "The page number to retrieve.",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "The number of items per page.",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            {
+              "name": "name",
+              "in": "query",
+              "description": "search by roduct name",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "sellerId",
+              "in": "query",
+              "description": "search by ID of the seller.",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "category",
+              "in": "query",
+              "description": "search by category of the products.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "sort",
+              "in": "query",
+              "description": "The sorting order of the products. Format: field:direction. Example: price:asc.",
+              "required": false,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "priceLessThan",
+              "in": "query",
+              "description": "Search by price less than.",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            {
+              "name": "priceGreaterThan",
+              "in": "query",
+              "description": "Search by price greater than.",
+              "required": false,
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "array"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "Success!",
+                    "data": {
+                      "totalItems": 4,
+                      "Products": [
+                        {
+                          "id": "20adb047-8102-494d-8a8a-7b50990bc770",
+                          "name": "Tesla 2021",
+                          "slug": "Tesla-2021",
+                          "images": [
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712655506/wnkf3bz48p4xqqdfawxe.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712655506/hrs5xtkuesgtmqp7hxzt.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712655507/wfv49zbedielow5o3wv6.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712655508/exoqd0ljytlpwzqnlfku.jpg"
+                          ],
+                          "category": "Cars",
+                          "price": 60000,
+                          "expiryDate": null,
+                          "bonus": null,
+                          "status": "available",
+                          "quantity": 0,
+                          "seller": {
+                            "id": "67c5effe-7445-4fa1-97c7-6a2d73223fd7",
+                            "name": "ruth uwmaha",
+                            "email": "test1@example.com",
+                            "phone": "1234567890"
+                          },
+                          "createdAt": "2024-04-09T09:38:28.677Z",
+                          "updatedAt": "2024-04-09T09:38:28.677Z"
+                        },
+                        {
+                          "id": "42b16d25-eba2-4b61-8414-5b79bcd1dd54",
+                          "name": "Tesla 2022",
+                          "slug": "Tesla-2022",
+                          "images": [
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712654317/rty18ci6afl4b3zsnyia.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712654317/ogzbowhizuj2ztgbwkvc.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712654318/qkin8np2bekvrnkgzuph.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712654326/m5ow2rc8ez2pb7edy2ip.jpg"
+                          ],
+                          "category": "Cars",
+                          "price": 60000,
+                          "expiryDate": null,
+                          "bonus": null,
+                          "status": "available",
+                          "quantity": 0,
+                          "seller": {
+                            "id": "67c5effe-7445-4fa1-97c7-6a2d73223fd7",
+                            "name": "ruth uwmaha",
+                            "email": "test1@example.com",
+                            "phone": "1234567890"
+                          },
+                          "createdAt": "2024-04-09T09:18:46.325Z",
+                          "updatedAt": "2024-04-09T09:18:46.325Z"
+                        },
+                        {
+                          "id": "302b7e29-3e4d-4198-b4b3-d9274654679e",
+                          "name": "Tesla 2023",
+                          "slug": "Tesla-2023",
+                          "images": [
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712649578/nefk7thvfpucsmn3mdxm.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712649578/gofryvfhcoouhlofgyaa.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712649579/jv7ki7kequjgdluqqeed.jpg",
+                            "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712649580/srhzwvum3kgd5aoun3ai.jpg"
+                          ],
+                          "category": "Cars",
+                          "price": 60000,
+                          "expiryDate": null,
+                          "bonus": null,
+                          "status": "available",
+                          "quantity": 0,
+                          "seller": {
+                            "id": "67c5effe-7445-4fa1-97c7-6a2d73223fd7",
+                            "name": "ruth uwmaha",
+                            "email": "test1@example.com",
+                            "phone": "1234567890"
+                          },
+                          "createdAt": "2024-04-09T07:59:40.661Z",
+                          "updatedAt": "2024-04-09T07:59:40.661Z"
+                        }
+                      ],
+                      "totalPages": 2,
+                      "from": 0,
+                      "to": 3
+                    },
+                    "message": "successfully!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/products/{id}": {
+        "get": {
+          "tags": ["Products"],
+          "summary": "Get a Product",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The ID of the product to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "object"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "Success!",
+                    "data": {
+                      "id": "3764f889-b2d7-44bf-8bd1-35c80b61dc8d",
+                      "name": "Toyota",
+                      "slug": "Toyota",
+                      "images": [
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421646/a5mpdlll7subatkekkpg.webp",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/mwlwva0knlbqmodaeep5.jpg",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/kq02mwxjybjj6wxwbq9w.png",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421648/zwl3pgmbyy6eaqratuz9.png"
+                      ],
+                      "category": "Cars",
+                      "price": 5000,
+                      "expiryDate": null,
+                      "bonus": null,
+                      "status": "available",
+                      "quantity": 0,
+                      "sellerId": "3a75ff63-736e-4f7b-9d98-26dd10f4d0c6",
+                      "createdAt": "2024-04-06T16:40:49.098Z",
+                      "updatedAt": "2024-04-06T16:40:49.098Z"
+                    },
+                    "message": "Product created successfully!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "patch": {
+          "tags": ["Products"],
+          "summary": "Update a Product",
+          "security": [
+            {
+              "token": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The ID of the product to retrieve."
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "required": false,
+                      "default": ""
+                    },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "binary"
+                      },
+                      "required": false,
+                      "description": "The images of the product",
+                      "default": []
+                    },
+                    "category": {
+                      "type": "string",
+                      "required": false,
+                      "default": ""
+                    },
+                    "price": {
+                      "type": "number",
+                      "required": false,
+                      "default": 0
+                    },
+                    "expiryDate": {
+                      "type": "string",
+                      "required": false,
+                      "default": ""
+                    },
+                    "bonus": {
+                      "type": "number",
+                      "required": false,
+                      "default": ""
+                    },
+                    "status": {
+                      "type": "string",
+                      "required": false,
+                      "default": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "object"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "Success!",
+                    "data": {
+                      "id": "3764f889-b2d7-44bf-8bd1-35c80b61dc8d",
+                      "name": "Toyota",
+                      "slug": "Toyota",
+                      "images": [
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421646/a5mpdlll7subatkekkpg.webp",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/mwlwva0knlbqmodaeep5.jpg",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421647/kq02mwxjybjj6wxwbq9w.png",
+                        "https://res.cloudinary.com/dn8vyfgnl/image/upload/v1712421648/zwl3pgmbyy6eaqratuz9.png"
+                      ],
+                      "category": "Cars",
+                      "price": 5000,
+                      "expiryDate": null,
+                      "bonus": null,
+                      "status": "available",
+                      "quantity": 0,
+                      "sellerId": "3a75ff63-736e-4f7b-9d98-26dd10f4d0c6",
+                      "createdAt": "2024-04-06T16:40:49.098Z",
+                      "updatedAt": "2024-04-06T16:40:49.098Z"
+                    },
+                    "message": "Product updated successfully!"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Products"],
+          "summary": "Get a Product",
+          "security": [
+            {
+              "token": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "The ID of the product to retrieve."
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "type": "null"
+                      },
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "status": "Success!",
+                    "data": null,
+                    "message": "Product deleted successfully!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "schemas": {
+          "User": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the user."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email address of the user."
+              },
+              "phone": {
+                "type": "string",
+                "description": "The phone number of the user."
+              },
+              "address": {
+                "type": "string",
+                "description": "The address of the user."
+              },
+              "password": {
+                "type": "string",
+                "description": "The password of the user."
+              }
+            },
+            "required": ["name", "email", "phone", "address", "password"]
           }
         }
       }
