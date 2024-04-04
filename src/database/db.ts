@@ -19,9 +19,9 @@ sequelize
 const models = Models(sequelize);
 
 Object.keys(models).forEach(key => {
-  // @ts-expect-error ignore expected errors
+ 
   if (models[key].associate) {
-    // @ts-expect-error ignore expected errors
+   
     models[key].associate(models);
   }
 });
