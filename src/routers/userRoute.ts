@@ -8,6 +8,8 @@ const router = Router();
 
 router.post(
   '/users/register',
+  // isAuthenticated,
+  // isSeller,
   validationMiddleware(userValidationSchema),
   createUser
 );
