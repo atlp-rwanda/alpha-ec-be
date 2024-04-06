@@ -25,6 +25,7 @@ const UserOTPVerificationModel = (sequelize: Sequelize) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        primaryKey: true
       },
       otp: {
         type: DataTypes.STRING,
