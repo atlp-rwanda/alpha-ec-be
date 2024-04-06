@@ -1,13 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import Database from '../database';
 import { sendResponse } from '../utils';
 import config from '../config/config';
 
-/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // eslint-disable-next-line require-jsdoc
 export async function checkUserCredentials(
@@ -64,3 +65,4 @@ const validatingUser = async (req: Request, res: Response) => {
 };
 
 export default validatingUser;
+
