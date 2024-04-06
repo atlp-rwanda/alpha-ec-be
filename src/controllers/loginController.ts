@@ -8,6 +8,7 @@ import Database from '../database';
 import { sendResponse } from '../utils';
 import config from '../config/config';
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // eslint-disable-next-line require-jsdoc
@@ -60,9 +61,15 @@ const validatingUser = async (req: Request, res: Response) => {
       res.header('Authorization', `Bearer ${token}`);
       // generate success Response
       return sendResponse<string>(res, 200, token, 'Logged In Successfully');
+         res.cookie('token', token);
+         res.header('Authorization', `Bearer ${token}`);
+       
+
+        //generate success Response
+        
+       return sendResponse<string>(res, 200, token, 'Logged In Successfully');
     }
   )(req, res);
 };
 
 export default validatingUser;
-
