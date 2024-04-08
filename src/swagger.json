@@ -7,12 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:5000",
       "description": "Development server"
     },
     {
       "url": "https://alpha-ec-be.onrender.com",
-      "description": "production server server"
+      "description": "Production server"
     }
   ],
   "components": {
@@ -417,6 +417,56 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/users/login/verify": {
+      "post": {
+        "tags": ["authentication"],
+        "summary": "Verify OTP code",
+        "description": "Verify the OTP code sent to the user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "verificationCode": {
+                    "type": "string",
+                    "description": "The OTP code to verify."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP successfully verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Login required"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Error while verifying OTP"
           }
         }
       }

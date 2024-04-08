@@ -3,6 +3,7 @@ import { createUser } from '../controllers/userController';
 import { validationMiddleware } from '../middleware';
 import { userValidationSchema, loginUserSchema } from '../validations';
 import validatingUser from '../controllers/loginController';
+import verifyOTP from '../controllers/verifyController';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.post(
   validationMiddleware(loginUserSchema),
   validatingUser
 );
+router.post('/users/login/verify', verifyOTP);
 
 export default router;
