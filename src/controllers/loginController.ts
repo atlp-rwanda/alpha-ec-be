@@ -1,15 +1,16 @@
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import speakeasy from 'speakeasy';
+import jwt from 'jsonwebtoken';
 import Database from '../database';
 import { sendResponse } from '../utils';
 import config from '../config/config';
+import sendEmail from '../utils/sendEmail';
+import { handleCookies } from '../utils/handleCookie';
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // eslint-disable-next-line require-jsdoc
 export async function checkUserCredentials(
@@ -55,19 +56,46 @@ const validatingUser = async (req: Request, res: Response) => {
       const { secret } = config();
       const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
 
-      // store token in header and cookie
+      // create two factor secrete
 
-      res.cookie('token', token);
-      res.header('Authorization', `Bearer ${token}`);
-      // generate success Response
-      return sendResponse<string>(res, 200, token, 'Logged In Successfully');
-         res.cookie('token', token);
-         res.header('Authorization', `Bearer ${token}`);
-       
+      const secretOTP = await speakeasy.generateSecret({ length: 15 });
 
-        //generate success Response
-        
-       return sendResponse<string>(res, 200, token, 'Logged In Successfully');
+      // generate OTPtoken
+
+      const OTPtoken = await speakeasy.totp({
+        secret: secretOTP.base32,
+        encoding: 'base32',
+        time: Math.floor(Date.now() / 1000 / 90),
+        step: 90,
+      });
+      res.cookie('OTPtoken', OTPtoken, { httpOnly: true });
+
+      // create object to save 2fa token and corresponding
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedToken = await bcrypt.hash(OTPtoken, salt);
+      const mailOptions = {
+        email: req.body.email,
+        subject: 'verification code',
+        text: 'Hello thank you for loging in',
+        html: `Your verification code is: ${OTPtoken} and it will expire in <b>5 minutes</b>`,
+      };
+
+      // mailer sender implemantation
+      await sendEmail(mailOptions);
+
+      // creating mail options object
+      const encodedToken = Buffer.from(hashedToken).toString('base64');
+      await handleCookies({
+        duration: 5,
+        cookieVariable: 'onloginToken',
+        cookieValue: encodedToken,
+        idBasedVariables: 'onloggingUserid',
+        id: user.id,
+        res,
+      });
+
+      return sendResponse<string>(res, 200, token, 'OTP Email sent');
     }
   )(req, res);
 };
