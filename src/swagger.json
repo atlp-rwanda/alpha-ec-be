@@ -1070,6 +1070,53 @@
               }
             }
           }
+        },
+    "/api/users/update": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Update  profile",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": "Profile updated successfully!",
+                  "message": "Profile updated successfully!"
+                }
+              }
+            }
+          }
         }
       },
       "/api/products": {
@@ -1618,5 +1665,50 @@
         }
       }
     }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the user."
+          },
+          "phone": {
+            "type": "string",
+            "description": "The phone number of the user."
+          },
+          "image": {
+            "type": "string",
+            "description": "image of the user."
+          },
+          "gender": {
+            "type": "string",
+            "description": "gender of the user."
+          },
+          "preferedcurrency": {
+            "type": "string",
+            "description": "gender of the user."
+          },
+          "preferedlanguage": {
+            "type": "string",
+            "description": "gender of the user."
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the user."
+          }
+        },
+        "required": ["name", "email", "image", "address", "password"]
+      }
+    }
   }
-}
+}}}

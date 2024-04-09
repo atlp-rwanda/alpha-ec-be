@@ -31,3 +31,17 @@ export const loginUserSchema = Joi.object({
       return value;
     }, 'Password validation'),
 });
+
+export const personalValidationalSchema = Joi.object({
+  name: Joi.string().min(3).max(30).optional(),
+  image: Joi.string().optional(),
+  gender: Joi.string().optional(),
+  birthdate: Joi.string().optional(),
+  preferedlanguage: Joi.string().optional(),
+  preferedcurrency: Joi.string().optional(),
+  phone: Joi.string()
+    .optional()
+    .regex(/^(?:\+?\d{12}|\d{10})$/)
+    .message('Please provide a valid phone number'),
+  address: Joi.string().optional(),
+});

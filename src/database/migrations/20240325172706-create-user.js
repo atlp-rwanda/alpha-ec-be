@@ -30,6 +30,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      preferedlanguage: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      preferedcurrency: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       password: {
         allowNull: false,
         type: Sequelize.STRING,

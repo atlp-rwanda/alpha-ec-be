@@ -5,7 +5,12 @@ import { Role } from './role';
 export interface UserAttributes {
   id: string;
   name: string;
+  image: string;
   email: string;
+  gender: string;
+  birthdate: string;
+  preferedlanguage: string;
+  preferedcurrency: string;
   phone: string;
   address: string;
   password: string;
@@ -18,8 +23,18 @@ export interface UserAttributes {
   role?: Role;
 }
 
-interface UserCreationAttributes
-  extends Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+interface userCreationAttributes
+  extends Omit<
+    UserAttributes,
+    | 'id'
+    | 'image'
+    | 'gender'
+    | 'birthdate'
+    | 'preferedlanguage'
+    | 'preferedcurrency'
+    | 'createdAt'
+    | 'updatedAt'
+  > {
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -27,14 +42,24 @@ interface UserCreationAttributes
 /**
  * Represents a user in the system.
  */
-export class User extends Model<UserAttributes, UserCreationAttributes> {
+export class User extends Model<UserAttributes, userCreationAttributes> {
   declare id: string;
 
   declare name: string;
 
+  declare image: string;
+
   declare email: string;
 
   declare phone: string;
+
+  declare gender: string;
+
+  declare birthdate: string;
+
+  declare preferedlanguage: string;
+
+  declare preferedcurrency: string;
 
   declare address: string;
 
@@ -86,7 +111,12 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     return {
       id: this.id,
       name: this.name,
+      image: this.image,
       email: this.email,
+      gender: this.gender,
+      birthdate: this.birthdate,
+      preferedlanguage: this.preferedlanguage,
+      preferedcurrency: this.preferedcurrency,
       phone: this.phone,
       address: this.address,
       password: undefined,
@@ -127,6 +157,51 @@ export const UserModel = (sequelize: Sequelize) => {
           key: 'id', // Change to the correct foreign key of Role model
         },
       },
+      image: '',
+      gender: '',
+      birthdate: '',
+      preferedlanguage: '',
+      preferedcurrency: ''
+    },
+    {
+      sequelize,
+      modelName: 'User',
+      tableName: 'users',
+      timestamps: true,
+    }
+  );
+
+  return User;
+}
+const updateprofilemodel = (sequelize: Sequelize) => {
+  User.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      name: DataTypes.STRING,
+      image: DataTypes.STRING,
+      email: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      birthdate: DataTypes.STRING,
+      preferedlanguage: DataTypes.STRING,
+      preferedcurrency: DataTypes.STRING,
+      phone: DataTypes.STRING,
+      address: DataTypes.STRING,
+      password: DataTypes.STRING,
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
+      roleId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        defaultValue: DataTypes.UUIDV4, // Change the default value to an UUID
+        references: {
+          model: 'Roles',
+          key: 'id', // Change to the correct foreign key of Role model
+        },
+      },
     },
     {
       sequelize,
@@ -139,4 +214,4 @@ export const UserModel = (sequelize: Sequelize) => {
   return User;
 };
 
-export default UserModel;
+export default updateprofilemodel;

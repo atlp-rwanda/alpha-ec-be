@@ -82,3 +82,38 @@ export const uploadImages = async () => {
   await Promise.all(uploadPromises);
   return imageUrls;
 };
+
+export const singleFileUpload = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  upload.single('image')(req, res, async err => {
+    if (err) {
+      return res
+        .status(500)
+        .send({ data: [], message: 'Server error', error: err.message });
+    }
+
+    try {
+      if (req.file) {
+        const image = req.file as Express.Multer.File;
+        const { buffer, originalname } = image;
+        const Url = await cloudUpload(buffer, originalname);
+        req.body.image = Url;
+      }
+
+      next();
+    } catch (uploadError) {
+      const errorMessage =
+        uploadError instanceof Error
+          ? uploadError.message
+          : 'An unknown error occurred';
+      return res.status(500).send({
+        data: [],
+        message: 'Upload failed',
+        error: errorMessage,
+      });
+    }
+  });
+};

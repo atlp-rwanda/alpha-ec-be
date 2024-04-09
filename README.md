@@ -20,11 +20,12 @@
 # 📗 Table of Contents
 
 - [📗 Table of Contents](#-table-of-contents)
-  - [📖 About Project](#-about-project-)
-  - [🧾 Key Features ](#-key-features-)
-  - [🚀 Documentation ](#-documentation-)
+- [📖 E-COMMERCE](#-e-commerce)
+- [🧾 Key Features ](#-key-features-)
+  - [Basic Information:](#basic-information)
+  - [🚀 API Documentation ](#-api-documentation-)
   - [💻 Getting Started ](#-getting-started-)
-  - [🛠 Built With ](#-built-with)
+  - [💻 Built with ](#-built-with-)
   - [👥 Authors ](#-authors-)
   - [🤝 Contributing ](#-contributing-)
   - [⭐️ Show your support ](#️-show-your-support-)
