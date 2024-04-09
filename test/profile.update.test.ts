@@ -4,22 +4,21 @@ import { describe, it } from 'mocha';
 import app from '../src/app';
 import sinon from 'sinon';
 import Database from '../src/database';
-import { object } from 'joi';
 
 chai.use(chaiHttp);
 const { expect } = chai;
-let token: string = '';
+let token = '';
 
 describe('update-profile', () => {
   before(done => {
-    const currentuser = {
-      email: 'test4@example.com',
+    const user = {
+      email: 'test1@example.com',
       password: '1111@aa',
     };
     chai
       .request(app)
       .post('/api/users/login')
-      .send(currentuser)
+      .send(user)
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property('data');
