@@ -42,8 +42,10 @@
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mocha": "^10.0.6",
+    "@types/multer": "^1.4.11",
     "@types/node": "^20.11.30",
     "@types/passport": "^1.0.16",
+    "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.11.4",
     "@types/sinon": "^17.0.3",
@@ -88,18 +90,22 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "chai-http": "^4.4.0",
+    "cloudinary": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.1",
     "sinon": "^17.0.1",
+    "sinon-chai": "^3.7.0",
     "swagger": "^0.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
@@ -132,7 +138,9 @@
     "exclude": [
       "src/database/*",
       "src/config/*",
-      "src/utils/logger.ts"
+      "src/utils/logger.ts",
+      "src/utils/cloud.ts",
+      "src/middleware/fileUpload.ts"
     ]
   }
 }

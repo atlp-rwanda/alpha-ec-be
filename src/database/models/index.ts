@@ -1,13 +1,15 @@
 import { Sequelize } from 'sequelize';
-import UserModel, { User } from './user';
-
-export { User };
+import UserModel from './user';
+import ProductModel from './product';
 
 const Models = (sequelize: Sequelize) => {
-  // eslint-disable-next-line no-shadow
   const User = UserModel(sequelize);
+  const Product = ProductModel(sequelize);
+
   return {
     User,
+    Product,
   };
 };
+
 export default Models;
