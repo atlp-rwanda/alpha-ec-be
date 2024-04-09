@@ -15,7 +15,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'test@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '11111@aa',
     };
@@ -53,7 +53,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'test@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '11111@aa',
     };
@@ -76,7 +76,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testuser@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '1234567!',
     };
@@ -96,7 +96,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testuser@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: 'aaaaaaa!',
     };
@@ -116,7 +116,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testuser@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '1aaaaaaa',
     };
@@ -136,7 +136,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testuser@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: 'aaa1@',
     };
@@ -161,7 +161,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testas@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '11111@aa',
     };
@@ -187,7 +187,7 @@ describe('USER API TEST', () => {
     const user = {
       name: 'Test User',
       email: 'testas@example.com',
-      phone: '1234567890',
+      phone: '0788691201',
       address: '123 Test Street',
       password: '11111@aa',
     };

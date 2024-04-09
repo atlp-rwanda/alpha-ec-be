@@ -5,8 +5,8 @@ export const userValidationSchema = Joi.object({
   name: Joi.string().min(3).max(30).required(),
   email: Joi.string().email().required(),
   phone: Joi.string()
-    .regex(/^(?:\+?\d{12}|\d{10})$/)
-    .message('Please provide a valid phone number'),
+    .regex(/^(078|079|072|073)\d{7}$/)
+    .message('Please provide a valid phone number start with 078/079/072/073'),
   address: Joi.string().required(),
   password: Joi.string()
     .required()
@@ -34,14 +34,18 @@ export const loginUserSchema = Joi.object({
 
 export const personalValidationalSchema = Joi.object({
   name: Joi.string().min(3).max(30).optional(),
-  image: Joi.string().optional(),
-  gender: Joi.string().optional(),
-  birthdate: Joi.string().optional(),
+  photoUrl: Joi.string().optional(),
+  gender: Joi.string().valid('male', 'female').optional(),
+  birthdate: Joi.string()
+    .pattern(
+      /^(?:19|20)\d{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)$/
+    )
+    .message('Please provide a valid birthdate in the format YYYY-MM-DD')
+    .optional(),
   preferedlanguage: Joi.string().optional(),
   preferedcurrency: Joi.string().optional(),
   phone: Joi.string()
-    .optional()
-    .regex(/^(?:\+?\d{12}|\d{10})$/)
-    .message('Please provide a valid phone number'),
+    .regex(/^(078|079|072|073)\d{7}$/)
+    .message('Please provide a valid phone number start with 078/079/072/073'),
   address: Joi.string().optional(),
 });

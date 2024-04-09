@@ -16,7 +16,7 @@ export const up = async queryInterface => {
     'users',
     [
       {
-        id: '21da0219-f83c-41a4-9157-dabfe7534037',
+        id: uuidv4(),
         name: 'eric tuyishimire',
         password:
           '$2b$10$fi3qIU16lNCRJ5TIJHiOlubfecaxpCw3xixfwgEcRkS7iitoQ/qVC',
@@ -47,6 +47,18 @@ export const up = async queryInterface => {
         phone: '0788270273',
         roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0853',
         address: '123 Test Street',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        name: 'rwema remy',
+        password:
+          '$2b$10$ghcxUhRfRVHvEOtt16Vj7OcANFjXAr2atOjaPzw1ENZFzGpCe7Xdu',
+        email: 'rwemaremy21@gmail.com',
+        phone: '0788524384',
+        roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+        address: 'kigali',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

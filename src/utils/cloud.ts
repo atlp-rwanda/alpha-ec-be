@@ -53,7 +53,6 @@ export const cloudUpload = async (
     });
   });
 };
-
 export const deleteCloudinaryFile = async (url: string) => {
   try {
     await cloudinary.uploader.destroy(url);

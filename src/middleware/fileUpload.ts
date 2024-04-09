@@ -100,9 +100,19 @@ export const singleFileUpload = async (
         const image = req.file as Express.Multer.File;
         const { buffer, originalname } = image;
         const Url = await cloudUpload(buffer, originalname);
-        req.body.image = Url;
+        req.body.photoUrl = Url;
       }
-
+      req.body = Object.fromEntries(
+        Object.entries(req.body).filter(
+          ([, v]) =>
+            v !== '' &&
+            v !== null &&
+            v !== undefined &&
+            !(Array.isArray(v) && v.length === 0) &&
+            v !== 'string' &&
+            v !== '0'
+        )
+      );
       next();
     } catch (uploadError) {
       const errorMessage =
