@@ -28,6 +28,7 @@ export const updateUser = async (req: Request, res: Response) => {
     if (!user) {
       return sendResponse<null>(res, 404, null, 'User not found');
     }
+
     const result = await Database.User.update(fieldsToUpdate, {
       where: { id },
     });
@@ -42,7 +43,6 @@ export const updateUser = async (req: Request, res: Response) => {
         'profile updated successfully!'
       );
     }
-    return sendResponse(res, 404, req.body, 'Fail to update');
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
