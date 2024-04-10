@@ -110,7 +110,8 @@
     "src/**/*.ts",
     "src/config/config.js",
     "test/*/.ts",
-    "swagger.json"
+    "swagger.json",
+    "src/database/models/role.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

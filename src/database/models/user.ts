@@ -1,5 +1,6 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Product } from './product';
+import { Role } from './role';
 
 export interface UserAttributes {
   id: string;
@@ -10,6 +11,8 @@ export interface UserAttributes {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  roleId?: string;
+  role?: Role;
 }
 
 interface UserCreationAttributes
@@ -34,20 +37,36 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   declare password: string;
 
+  declare roleId?: string;
+
+  declare role: Role;
+
   declare readonly createdAt: Date;
 
   declare readonly updatedAt: Date;
 
   /**
+   * Represents a product in the system.
+   */
+
+  /**
+   * Overrides the default toJSON method to exclude the password field.
+   * @returns {Object} An object representing the user, excluding the password.
+   */
+  /**
    * Associations.
    * @param {IModels} models - The models object containing all initialized models.
    * @returns {Object} An object representing association.
    */
-  public static associate(models: { Product: typeof Product }) {
+  public static associate(models: {
+    Product: typeof Product;
+    Role: typeof Role;
+  }) {
     User.hasMany(models.Product, {
       foreignKey: 'sellerId',
       as: 'products',
     });
+    User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' });
   }
 
   /**
@@ -62,13 +81,14 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
       phone: this.phone,
       address: this.address,
       password: undefined,
+      role: this.role,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
   }
 }
 
-const UserModel = (sequelize: Sequelize) => {
+export const UserModel = (sequelize: Sequelize) => {
   User.init(
     {
       id: {
@@ -83,6 +103,15 @@ const UserModel = (sequelize: Sequelize) => {
       password: DataTypes.STRING,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
+      roleId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        defaultValue: DataTypes.UUIDV4, // Change the default value to an UUID
+        references: {
+          model: 'Roles',
+          key: 'id', // Change to the correct foreign key of Role model
+        },
+      },
     },
     {
       sequelize,

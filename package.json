@@ -140,7 +140,9 @@
       "src/config/*",
       "src/utils/logger.ts",
       "src/utils/cloud.ts",
-      "src/middleware/fileUpload.ts"
+      "src/middleware/fileUpload.ts",
+      "src/helper/excOperation.ts",
+      "src/helper/productQueries.ts"
     ]
   }
 }

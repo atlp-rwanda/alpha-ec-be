@@ -20,6 +20,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      roleId: {
+        allowNull: true,
+        defaultValue: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+        type: Sequelize.UUID,
+      },
+
       address: {
         allowNull: false,
         type: Sequelize.STRING,

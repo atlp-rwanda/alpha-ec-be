@@ -11,18 +11,16 @@ export const isAuthenticated = (
   passport.authenticate(
     'jwt',
     { session: false },
-    (err: Error, user: UserAttributes) => {
+   (err: Error, user: UserAttributes) => {
       if (!user) {
         return sendResponse(res, 403, null, 'Please login...');
       }
-
       const currUser = {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: 'seller',
+        role: user?.role?.name,
       };
-
       req.user = currUser;
 
       next();
@@ -32,7 +30,19 @@ export const isAuthenticated = (
 
 export const isSeller = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || !('role' in req.user) || req.user.role !== 'seller') {
-    return sendResponse(res, 401, null, 'Not authorized...');
+    return sendResponse(
+      res,
+      401,
+      null,
+      'Not authorized! user should be seller'
+    );
+  }
+  next();
+};
+
+export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user || !('role' in req.user) || req.user.role !== 'admin') {
+    return sendResponse(res, 401, null, 'Not authorized! User should be admin');
   }
   next();
 };

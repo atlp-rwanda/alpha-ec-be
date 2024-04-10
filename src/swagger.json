@@ -77,6 +77,285 @@
         }
       }
     },
+    "/api/roles": {
+      "post": {
+        "tags": ["Role"],
+        "summary": "create role",
+        "description": "only admin can be able to assign role and create role",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "requestBody": {
+          "description": "role body details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "guest"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "guest role"
+                  }
+                },
+                "required": ["name", "description"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Role"],
+        "summary": "List all users",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "tags": ["Role"],
+        "description": "Get role by id",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the role",
+            "schema": {
+              "type": "string",
+              "example": "63caaf3527b29e1d399896da"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Role"],
+        "description": "Delete the role by id",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the role",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Role"],
+        "description": "Update a Role",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the role",
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "type": "object",
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/roles": {
+      "post": {
+        "tags": ["Role"],
+        "summary": "assign role to user",
+        "description": "only admin can be able to assign role ",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "requestBody": {
+          "description": "role body details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "example": "3c34c7cc-443c-4f9a-abcf-2749bfc18f3c"
+                  },
+                  "roleId": {
+                    "type": "string",
+                    "example": "d290f1ee-6c54-4b01-90e6-d701748f0853"
+                  }
+                },
+                "required": ["userId", "roleId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/register": {
       "post": {
         "tags": ["users"],
