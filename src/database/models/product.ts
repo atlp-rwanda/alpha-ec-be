@@ -1,6 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
 
+
 export interface ProductAttributes {
   id: string;
   name: string;
