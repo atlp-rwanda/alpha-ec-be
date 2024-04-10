@@ -29,7 +29,7 @@
     "ignore": [
       "src/**/*.spec.ts"
     ],
-    "exec": "npm run lint:fix && npm run prettier:fix && cross-env NODE_ENV=development tsc && node ./dist/server.js"
+    "exec":"npm run lint:fix && npm run prettier:fix && cross-env NODE_ENV=development tsc && node ./dist/server.js"
   },
   "author": "alpha atlp team",
   "license": "ISC",
@@ -148,7 +148,8 @@
       "src/utils/cloud.ts",
       "src/middleware/fileUpload.ts",
       "src/helper/excOperation.ts",
-      "src/helper/productQueries.ts"
+      "src/helper/productQueries.ts",
+      "src/utils/sendEmail.ts"
     ]
   }
 }
