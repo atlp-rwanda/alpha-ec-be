@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-// import jwt, { SignOptions } from 'jsonwebtoken';
-import Database from '../database';
 import { getCookieInfo } from '../utils/handleCookie';
 import { sendResponse } from '../utils';
 
@@ -23,14 +21,7 @@ const verifyOTP = async (req: Request, res: Response) => {
       const isMatch = await bcrypt.compare(incomingToken, decodedToken);
 
       if (isMatch) {
-        const user = await Database.User.findOne({
-          where: { id: cookies.onloggingUserid },
-        });
-
-        if (!user) {
-          return sendResponse<null>(res, 404, null, 'User not found');
-        }
-        return sendResponse<null>(res, 200, null, 'OTP successfully verified');
+        return sendResponse(res, 200, null, 'OTP successfully verified');
       }
       return sendResponse(res, 403, null, 'OTP not validated');
     }

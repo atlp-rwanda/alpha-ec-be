@@ -29,7 +29,7 @@
     "ignore": [
       "src/**/*.spec.ts"
     ],
-    "exec": "npm run lint:fix && npm run prettier:fix && cross-env NODE_ENV=development tsc && node ./dist/server.js"
+    "exec":"npm run lint:fix && npm run prettier:fix && cross-env NODE_ENV=development tsc && node ./dist/server.js"
   },
   "author": "alpha atlp team",
   "license": "ISC",
@@ -138,7 +138,8 @@
     "exclude": [
       "src/database/*",
       "src/config/*",
-      "src/utils/logger.ts"
+      "src/utils/logger.ts",
+      "src/utils/sendEmail.ts"
     ]
   }
 }

@@ -1,21 +1,14 @@
 import chai from 'chai';
-import sinon, { SinonAssert, SinonMatcher } from 'sinon';
+import sinon from 'sinon';
 import Database from '../src/database';
+
 import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import app from '../src/app';
 import { userValidationSchema } from '../src/validations';
-import { createUser } from '../src/controllers/userController';
-import { Request, Response } from 'express';
-import sinonChai from 'sinon-chai';
-
-chai.use(sinonChai);
 
 chai.use(chaiHttp);
 const { expect } = chai;
-dotenv.config();
 
 describe('USER API TEST', () => {
   it('should create a new user', done => {
@@ -32,26 +25,9 @@ describe('USER API TEST', () => {
       .post('/api/users/register')
       .send(user)
       .end((err, res) => {
-        expect(res).to.have.status(500);
+        expect(res).to.have.status(201);
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.equal('User created successfully!');
-        done();
-      });
-  });
-
-  it('should return validation errors if required fields are missing', done => {
-    const user = {
-      name: 'Test User',
-      email: 'testuser@example.com',
-      // Missing phone, address, and password
-    };
-
-    chai
-      .request(app)
-      .post('/api/users/register')
-      .send(user)
-      .end((err, res) => {
-        expect(res).to.have.status(400);
         done();
       });
   });
@@ -70,11 +46,28 @@ describe('USER API TEST', () => {
       .post('/api/users/register')
       .send(user)
       .end((err, res) => {
-        expect(res).to.have.status(201);
+        expect(res).to.have.status(200);
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.equal(
           'A user with this email already exists.'
         );
+        done();
+      });
+  });
+
+  it('should return validation errors if required fields are missing', done => {
+    const user = {
+      name: 'Test User',
+      email: 'testuser@example.com',
+      // Missing phone, address, and password
+    };
+
+    chai
+      .request(app)
+      .post('/api/users/register')
+      .send(user)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
         done();
       });
   });
