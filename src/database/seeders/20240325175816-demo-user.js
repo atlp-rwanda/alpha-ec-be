@@ -30,7 +30,7 @@ export const up = async queryInterface => {
         id: uuidv4(),
         name: 'ruth uwmaha',
         password:
-          '$2b$10$L88WJjhwBAzERaSDjTbctOe/WjO3i0X7KKUjKMCW4XBRjdyEgs22W',
+          '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
         email: 'test1@example.com',
         phone: '1234567890',
         roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
