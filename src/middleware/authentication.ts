@@ -11,7 +11,7 @@ export const isAuthenticated = (
   passport.authenticate(
     'jwt',
     { session: false },
-   (err: Error, user: UserAttributes) => {
+    (err: Error, user: UserAttributes) => {
       if (!user) {
         return sendResponse(res, 403, null, 'Please login...');
       }

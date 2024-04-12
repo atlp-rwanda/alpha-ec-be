@@ -9,6 +9,9 @@ export interface UserAttributes {
   phone: string;
   address: string;
   password: string;
+  googleId?: string;
+  photoUrl?: string;
+  verified?: boolean;
   createdAt: Date;
   updatedAt: Date;
   roleId?: string;
@@ -36,6 +39,12 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   declare address: string;
 
   declare password: string;
+
+  declare googleId: string;
+
+  declare photoUrl: string;
+
+  declare verified: boolean;
 
   declare roleId?: string;
 
@@ -81,6 +90,9 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
       phone: this.phone,
       address: this.address,
       password: undefined,
+      googleId: this.googleId,
+      photoUrl: this.photoUrl,
+      verified: this.verified,
       role: this.role,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -101,6 +113,9 @@ export const UserModel = (sequelize: Sequelize) => {
       phone: DataTypes.STRING,
       address: DataTypes.STRING,
       password: DataTypes.STRING,
+      googleId: DataTypes.STRING,
+      photoUrl: DataTypes.STRING,
+      verified: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
       roleId: {
