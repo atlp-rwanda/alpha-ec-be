@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { createUser } from '../controllers/userController';
 import { validationMiddleware } from '../middleware';
 import { userValidationSchema, loginUserSchema } from '../validations';
-import validatingUser from '../controllers/loginController';
+import loginController from '../controllers/loginController';
 import verifyOTP from '../controllers/verifyController';
 
 const router = Router();
@@ -15,7 +15,7 @@ router.post(
 router.post(
   '/users/login',
   validationMiddleware(loginUserSchema),
-  validatingUser
+  loginController
 );
 router.post('/users/login/verify', verifyOTP);
 
