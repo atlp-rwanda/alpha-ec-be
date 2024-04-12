@@ -66,7 +66,7 @@ describe('POST, /api/users/change-password', () => {
       .send(userPassword)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('Please login...');
+        expect(res.body.message).to.equal('You are not authorized');
         done();
       });
   });

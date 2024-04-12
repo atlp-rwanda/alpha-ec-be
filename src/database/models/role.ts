@@ -32,7 +32,7 @@ export class Role
     return {
       id: this.id,
       name: this.name,
-      email: this.description,
+      description: this.description,
     };
   }
 }
