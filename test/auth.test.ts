@@ -11,15 +11,15 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Google Authentication', () => {
- let req: any,
+  let req: any,
     res: any,
     next: any,
     authenticateStub: SinonStub<any[], any>,
     userTokenStub: SinonStub<any[], any>;
 
- let sandbox: SinonSandbox;
+  let sandbox: SinonSandbox;
 
- beforeEach(() => {
+  beforeEach(() => {
     res = {
       status: sinon.stub().returnsThis(),
       json: sinon.stub(),
@@ -29,13 +29,13 @@ describe('Google Authentication', () => {
     authenticateStub = sandbox.stub(passport, 'authenticate');
 
     userTokenStub = sandbox.stub().returns(Promise.resolve('sample_token'));
- });
+  });
 
- afterEach(() => {
+  afterEach(() => {
     sandbox.restore();
- });
+  });
 
- it('Handles Google Login Failure', (done) => {
+  it('Handles Google Login Failure', done => {
     authenticateStub.callsFake((strategy, callback) => {
       callback(new Error('Authentication failed'), null);
     });
@@ -48,52 +48,53 @@ describe('Google Authentication', () => {
         expect(authenticateStub.calledOnce).to.be.true;
         done();
       });
- });
+  });
 
+  it('Handles User not found', done => {
+    const user = null;
+    const err = null;
+    authenticateStub.callsArgWith(1, err, user);
 
- it('Handles User not found', done => {
-  const user = null;
-  const err = null;
-  authenticateStub.callsArgWith(1, err, user);
+    handleGoogleCallback(req, res);
 
-  handleGoogleCallback(req, res);
+    expect(res.status.calledWith(401));
+    expect(res.json.calledWith({ error: 'User not found' }));
+    done();
+  });
 
-  expect(res.status.calledWith(401));
-  expect(res.json.calledWith({ error: 'User not found' }));
-  done();
-});
-
- it('generate token', (done) => {
+  it('generate token', done => {
     const generatedToken = userToken(
       '92c472c8-406a-4a89-898f-46965830316a',
       'nadinefiona9@gmail.com'
     );
     expect(typeof generatedToken).to.equal('string');
     done();
- });
-
- it('should handle Google authentication failure', (done) => {
-  authenticateStub.callsFake((strategy, callback) => {
-    callback(new Error('Authentication failed'), null);
   });
 
-  handleGoogleCallback(req, res);
+  it('should handle Google authentication failure', done => {
+    authenticateStub.callsFake((strategy, callback) => {
+      callback(new Error('Authentication failed'), null);
+    });
 
-  expect(res.status.calledWith(500));
-  expect(res.json.calledWith({ error: 'Failed to authenticate with Google' }));
+    handleGoogleCallback(req, res);
 
-  done();
-});
+    expect(res.status.calledWith(500));
+    expect(
+      res.json.calledWith({ error: 'Failed to authenticate with Google' })
+    );
 
-it('should generate token for valid user', async () => {
-  const user = { id: '123', email: 'test@test.com' };
-  authenticateStub.callsArgWith(1, null, user);
+    done();
+  });
 
-  handleGoogleCallback(req, res);
+  it('should generate token for valid user', async () => {
+    const user = { id: '123', email: 'test@test.com' };
+    authenticateStub.callsArgWith(1, null, user);
 
-  await new Promise((resolve) => process.nextTick(resolve));
+    handleGoogleCallback(req, res);
 
-  expect(res.status.calledWith(200));
-  expect(res.json.calledWith({ token: 'sample_token' }));
-});
+    await new Promise(resolve => process.nextTick(resolve));
+
+    expect(res.status.calledWith(200));
+    expect(res.json.calledWith({ token: 'sample_token' }));
+  });
 });

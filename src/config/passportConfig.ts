@@ -11,7 +11,7 @@ const jwtOptions = {
 };
 
 passport.use(
-  new JwtStrategy(jwtOptions, async function (jwtPayload, done) {
+  new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
     try {
       const currentTime = Math.floor(Date.now() / 1000);
       if (jwtPayload.exp < currentTime) {

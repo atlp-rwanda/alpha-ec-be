@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import config from '../config/config';
 
 export const userToken = (userId: string, email: string) => {
   return jwt.sign(
@@ -6,7 +7,7 @@ export const userToken = (userId: string, email: string) => {
       sub: userId,
       email,
     },
-    process.env.JWT_SECRET as string,
+    config().secret,
     { expiresIn: '1h' }
   );
 };

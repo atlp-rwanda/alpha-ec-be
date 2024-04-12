@@ -1,7 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
-import { checkUserCredentials } from '../src/controllers/loginController';
+import Database from '../src/database';
+import loginController from '../src/controllers/loginController';
+import sinon from 'sinon';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,19 +121,22 @@ describe('testing Login API', () => {
           done();
         });
     });
-
-    //database Error
-
-    it('handling error returned by database', done => {
-      new Error('Database error');
-      checkUserCredentials(
-        'test1@example.com',
-        '1111@aa',
-        (err: any, user: any) => {
-          expect(user).to.be.undefined;
-          done();
-        }
-      );
+    it('in case of any error during finding user in database', async () => {
+      const stubOnDatabase = sinon
+        .stub(Database.User, 'findOne')
+        .throws(new Error());
+      const user = {
+        email: 'test1@example.com',
+        password: '1111@aa',
+      };
+      chai
+        .request(app)
+        .post('/api/users/login')
+        .send(user)
+        .end((err, res) => {
+          stubOnDatabase.restore();
+          expect(res).to.have.status(500);
+        });
     });
   });
 });
