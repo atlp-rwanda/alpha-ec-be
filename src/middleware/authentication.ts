@@ -15,6 +15,7 @@ export const isAuthenticated = (
       if (!user) {
         return sendResponse(res, 403, null, 'Please login...');
       }
+
       const currUser = {
         id: user.id,
         name: user.name,
@@ -22,7 +23,6 @@ export const isAuthenticated = (
         role: user?.role?.name,
       };
       req.user = currUser;
-
       next();
     }
   )(req, res, next);

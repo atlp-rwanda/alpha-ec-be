@@ -32,6 +32,23 @@ describe('USER API TEST', () => {
       });
   });
 
+  it('should return validation errors if required fields are missing', done => {
+    const user = {
+      name: 'Test User',
+      email: 'testuser@example.com',
+      // Missing phone, address, and password
+    };
+
+    chai
+      .request(app)
+      .post('/api/users/register')
+      .send(user)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+
   it('should return an error if the email is already in use', done => {
     const user = {
       name: 'Test User',
@@ -46,28 +63,11 @@ describe('USER API TEST', () => {
       .post('/api/users/register')
       .send(user)
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(400);
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.equal(
           'A user with this email already exists.'
         );
-        done();
-      });
-  });
-
-  it('should return validation errors if required fields are missing', done => {
-    const user = {
-      name: 'Test User',
-      email: 'testuser@example.com',
-      // Missing phone, address, and password
-    };
-
-    chai
-      .request(app)
-      .post('/api/users/register')
-      .send(user)
-      .end((err, res) => {
-        expect(res).to.have.status(400);
         done();
       });
   });

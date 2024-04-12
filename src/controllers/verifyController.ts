@@ -1,14 +1,18 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import config from '../config/config';
 import { getCookieInfo } from '../utils/handleCookie';
 import { sendResponse } from '../utils';
+import token from './loginController';
 
 dotenv.config();
 
-const verifyOTP = async (req: Request, res: Response) => {
+const verifyOTP = async (req: Request, user: any, res: Response) => {
   try {
     const { verificationCode } = req.body;
+    let user;
 
     if (req.headers.cookie) {
       const Cookiearray = req.headers.cookie.trim().split(';');
@@ -21,9 +25,9 @@ const verifyOTP = async (req: Request, res: Response) => {
       const isMatch = await bcrypt.compare(incomingToken, decodedToken);
 
       if (isMatch) {
-        return sendResponse(res, 200, null, 'OTP successfully verified');
+        return sendResponse(res, 200, token, 'OTP successfully verified');
       }
-      return sendResponse(res, 403, null, 'OTP not validated');
+      return sendResponse(res, 403, null, 'Invalid OTP.please try again');
     }
     return sendResponse(res, 403, null, 'Login required');
   } catch (err) {
