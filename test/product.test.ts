@@ -115,8 +115,8 @@ describe('PRODUCT API TEST', () => {
       .end((err, res) => {
         expect(res.body.message).to.equal('Product created successfully!');
         done();
-      })
-  }).timeout(5000)
+      });
+  }).timeout(5000);
 
   it('Should not create a product twice', function (done) {
     this.timeout(5000);

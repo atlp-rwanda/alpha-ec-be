@@ -13,7 +13,7 @@ export const isAuthenticated = (
     { session: false },
     (err: Error, user: UserAttributes) => {
       if (!user) {
-        return sendResponse(res, 403, null, 'Please login...');
+        return sendResponse(res, 403, null, 'You are not authorized');
       }
       const currUser = {
         id: user.id,
