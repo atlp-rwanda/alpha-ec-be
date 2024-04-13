@@ -27,10 +27,9 @@ export const isAuthenticated = (
       if (!user) {
         return sendResponse(res, 401, null, 'You are not authorized');
       }
-
       const isLogout = await checkLogout(req);
       if (isLogout) {
-        return sendResponse(res, 401, null, 'Token Already Blacklisted');
+        return sendResponse(res, 401, null, 'You are not authorized');
       }
 
       const currUser = {

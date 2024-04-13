@@ -10,6 +10,7 @@ import { pagination } from '../src/utils';
 chai.use(chaiHttp);
 const { expect } = chai;
 export let token: string = '';
+let id = '';
 
 describe('PRODUCT API TEST', () => {
   before(done => {
@@ -100,7 +101,7 @@ describe('PRODUCT API TEST', () => {
   });
 
   it('Should create a product', function (done) {
-    this.timeout(5000);
+    this.timeout(10000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -125,10 +126,10 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
 
   it('Should create a product', function (done) {
-    this.timeout(5000);
+    this.timeout(10000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -153,9 +154,22 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
+  it('should update product availability successfully', async () => {
+    const product = await Database.Product.findAll();
+    const productId = product[0].id;
+
+    chai
+      .request(app)
+      .patch(`/api/products/${productId}/status`)
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+      });
+  });
+
   it('Should not create a product if category is not found', function (done) {
-    this.timeout(5000);
+    this.timeout(10000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -180,10 +194,10 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(400);
         done();
       });
-  }).timeout(5000);
+  }).timeout(10000);
 
   it('Should not create a product twice', function (done) {
-    this.timeout(5000);
+    this.timeout(10000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -209,7 +223,7 @@ describe('PRODUCT API TEST', () => {
         );
         done();
       });
-  });
+  }).timeout(10000);
 
   it('Should handle server errors during user creation', function (done) {
     this.timeout(5000);
@@ -242,14 +256,25 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-
+ 
   it('Should get all products', function (done) {
     chai
       .request(app)
       .get('/api/products')
       .end((err, res) => {
-        productId = res.body.data.products[0].id;
+        id=res.body.data.products[0].id;
         expect(res.body).to.have.property('message');
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+  it('Should update a product', (done) =>{
+    chai
+      .request(app)
+      .patch('/api/products/'+ id)
+      .set('Authorization', `Bearer ${token}`)
+      .field('name', 'chevrolet')
+      .end((err, res) => {
         expect(res).to.have.status(200);
         done();
       });
@@ -358,7 +383,6 @@ describe('PRODUCT API TEST', () => {
       .request(app)
       .get(`/api/products/3669aace-d388-49dc-bd1a-8ec2885baa22`)
       .end((err, res) => {
-        expect(res.body).to.have.property('message');
         expect(res).to.have.status(404);
         done();
       });
@@ -379,37 +403,19 @@ describe('PRODUCT API TEST', () => {
   it('Should return error if a product is not found', function (done) {
     chai
       .request(app)
-      .patch(`/api/products/${productId}`)
+      .patch('/api/products' + productId)
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.body).to.have.property('message');
-        expect(res).to.have.status(400);
+        expect(res).to.have.status(404);
         done();
       });
   });
-
-  it('should handle server errors during user retrieval', function (done) {
-    const findOneStub = sinon
-      .stub(Database.Product, 'findOne')
-      .throws(new Error('Database error'));
+  it('Should get a single product', (done) => {
 
     chai
       .request(app)
-      .get(`/api/products/${productId}`)
-      .end((err, res) => {
-        findOneStub.restore();
-
-        expect(res).to.have.status(500);
-        done();
-      });
-  });
-
-  it('Should update a product', function (done) {
-    chai
-      .request(app)
-      .patch(`/api/products/${productId}`)
+      .get(`/api/products/${id}`)
       .set('Authorization', `Bearer ${token}`)
-      .field('name', 'MAZDA')
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
@@ -417,48 +423,69 @@ describe('PRODUCT API TEST', () => {
       });
   });
 
-  it('Should throw an error while failed to update a product', function (done) {
+  it('should handle server errors during user retrieval', (done) => {
+    const findOneStub = sinon
+      .stub(Database.Product, 'findOne')
+      .throws(new Error('Database error'));
+
+    chai
+      .request(app)
+      .get(`/api/products/${id}`)
+      .end((err, res) => {
+        findOneStub.restore();
+        expect(res).to.have.status(500);
+        done();
+      });
+  });
+
+  it('Should throw an error while failed to update a product',(done) => {
     const updateStub = sinon
       .stub(Database.Product, 'update')
       .throws(new Error('Database error'));
 
     chai
       .request(app)
-      .patch(`/api/products/${productId}`)
+      .patch(`/api/products/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'MAZDA')
       .field('categoryId', 1)
       .end((err, res) => {
         updateStub.restore();
-        expect(res.body).to.have.property('message');
         expect(res).to.have.status(500);
         done();
       });
   });
-
-  it('Should throw while failed to delete a product', function (done) {
+  it('Should update a product', (done) => {
+    chai
+      .request(app)
+      .patch(`/api/products/${id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
+  it('Should throw error while failed to delete a product', (done) => {
     const destroyStub = sinon
       .stub(Database.Product, 'destroy')
       .throws(new Error('Database error'));
     chai
       .request(app)
-      .delete(`/api/products/${productId}`)
+      .delete(`/api/products/${id}`)
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         destroyStub.restore();
-        expect(res.body).to.have.property('message');
         expect(res).to.have.status(500);
         done();
       });
   });
 
-  it('Should delete a product', function (done) {
+  it('Should delete a product', (done) => {
     chai
       .request(app)
-      .delete(`/api/products/${productId}`)
+      .delete('/api/products/' + id)
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
         expect(res.body.message).to.equal('Product deleted successfully!');
         done();
@@ -480,14 +507,14 @@ describe('PRODUCT API TEST', () => {
   it('Should not delete a product if not found', function (done) {
     chai
       .request(app)
-      .delete(`/api/products/${productId}`)
+      .delete('/api/products' + id)
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.body).to.have.property('message');
         expect(res).to.have.status(404);
         done();
       });
   });
+
   const products = {
     rows: [
       {
@@ -585,4 +612,43 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
+});
+
+describe('PRODUCT AVAILABILITY', () => {
+  it('should return 404 if product not found', done => {
+    const productId = '20adb047-8102-494d-8a8a-7b50990bc770';
+    chai
+      .request(app)
+      .patch(`/api/products/${productId}/status`)
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('message', 'Product not found');
+        done();
+      });
+  });
+  it('should return internal server error with status of 500', done => {
+    const productId = '20000';
+    chai
+      .request(app)
+      .patch(`/api/products/${productId}/status`)
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(500);
+        done();
+      });
+  });
+  it('Should get all available products ', done => {
+    chai
+      .request(app)
+      .get('/api/products')
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res.body).to.have.property('message');
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
+
 });

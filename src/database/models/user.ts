@@ -79,6 +79,9 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
 
   declare readonly updatedAt: Date;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static find: any;
+
   /**
    * Represents a product in the system.
    */

@@ -2,10 +2,10 @@ import { Sequelize } from 'sequelize';
 import UserModel from './user';
 import RoleModel from './role';
 import ProductModel from './product';
-import CategoryModel from './category';
 import LogoutModel from './logout';
 import WishlistModel from './wishlist';
 import initializeChatModel from './chat';
+import CategoryModel from './category';
 
 const Models = (sequelize: Sequelize) => {
   const User = UserModel(sequelize);

@@ -4,6 +4,7 @@ import {
   validationMiddleware,
   isAuthenticated,
   isSeller,
+  // isBuyer,
 } from '../middleware';
 import {
   productValidationSchema,
@@ -15,6 +16,7 @@ import {
   getAllProducts,
   getAProduct,
   updateAProduct,
+  updateProductAvailability,
 } from '../controllers';
 
 const router = Router();
@@ -27,11 +29,14 @@ router.post(
   validationMiddleware(productValidationSchema),
   createAProduct
 );
-
 router.get('/products', getAllProducts);
-
 router.get('/products/:id', getAProduct);
-
+router.patch(
+  '/products/:id/status',
+  isAuthenticated,
+  isSeller,
+  updateProductAvailability
+);
 router.patch(
   '/products/:id',
   isAuthenticated,

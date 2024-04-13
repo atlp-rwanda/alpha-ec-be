@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 // import { string } from 'joi';
-import { UserAttributes } from '../database/models/user';
+import { User, UserAttributes } from '../database/models/user';
 import Database from '../database/index';
 import { sendResponse } from '../utils/response';
 import { sendEmail } from '../utils/email';
@@ -72,4 +73,8 @@ export const createUser = async (
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
   }
+};
+export const getAllUsers = async (req: Request, res: Response) => {
+  const users = await User.findAll();
+  res.status(200).json({ message: 'List of all users', data: users });
 };
