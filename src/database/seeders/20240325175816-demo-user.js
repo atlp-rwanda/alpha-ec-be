@@ -52,6 +52,18 @@ export const up = async queryInterface => {
       },
       {
         id: uuidv4(),
+        name: 'sophie',
+        password:
+          '$2b$10$ltHGjPpfWlsQaEzWHR0/vON9dQgS0KsJ6SztA1urcS7rR2f5uZhhu',
+        email: 'sofidele12@gmail.com',
+        phone: '0788275156',
+        roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+        address: 'kigali',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
         name: 'rwema remy',
         password:
           '$2b$10$ghcxUhRfRVHvEOtt16Vj7OcANFjXAr2atOjaPzw1ENZFzGpCe7Xdu',

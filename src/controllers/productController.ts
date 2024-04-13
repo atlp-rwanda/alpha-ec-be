@@ -130,7 +130,6 @@ export const deleteAProduct = async (req: Request, res: Response) => {
         'destroy',
         query
       );
-
       if (result !== 0) {
         return sendResponse(res, 200, null, 'Product deleted successfully!');
       }

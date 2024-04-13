@@ -11,6 +11,7 @@ import {
 import loginController from '../controllers/loginController';
 import updatePassword from '../controllers/changePasswordController';
 import changePasswordValidationSchema from '../validations/newPasswordValidation';
+import logoutUser from '../controllers/logoutController';
 
 import { singleFileUpload } from '../middleware/fileUpload';
 import { verifyEmail } from '../controllers/userVerifyController';
@@ -33,6 +34,7 @@ router.post(
   validationMiddleware(changePasswordValidationSchema),
   updatePassword
 );
+router.post('/users/logout', isAuthenticated, logoutUser);
 router.get('/users/profile', isAuthenticated, getUser);
 router.patch(
   '/users/profile',
