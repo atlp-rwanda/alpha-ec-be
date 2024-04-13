@@ -7,7 +7,7 @@ module.exports = {
       'users',
       [
         {
-          id: uuidv4(),
+          id: 'd95193b1-5548-4650-adea-71f622667095',
           name: 'Judas Iscariot',
           password:
             '$2b$10$H2Hy7n8GuBorUPY3ucOHI.Jryou31S.1F3iZ64GPu7Pyvv.Za7W8q',
@@ -27,6 +27,19 @@ module.exports = {
           email: 'j.mukunzi@alustudent.com',
           phone: '0788691201',
           address: '123 Test Street',
+          verified: true,
+          roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          name: 'sophie',
+          password:
+            '$2b$10$ltHGjPpfWlsQaEzWHR0/vON9dQgS0KsJ6SztA1urcS7rR2f5uZhhu',
+          email: 'sofidele12@gmail.com',
+          phone: '0788275156',
+          address: 'kigali',
           verified: true,
           roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
           createdAt: new Date(),

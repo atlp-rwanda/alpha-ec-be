@@ -4,8 +4,10 @@ import getDatabaseConfig from '../config/config';
 const { secret } = getDatabaseConfig();
 
 // Verifies a token
-export const verifyToken = (token: string): { email: string } | null => {
-  const decoded = jwt.verify(token, secret) as { email: string };
+export const verifyToken = (
+  token: string
+): { email: string; id: string } | null => {
+  const decoded = jwt.verify(token, secret) as { email: string; id: string };
   return decoded;
 };
 

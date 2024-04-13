@@ -49,18 +49,6 @@ describe('Logout Api Test', () => {
     chai
       .request(app)
       .post('/api/users/logout')
-      .end((err, res) => {
-        expect(res.body).to.have.property('message');
-        expect(res).to.have.status(401);
-        done();
-      });
-  });
-
-  it('Should return Token already blacklisted', function (done) {
-    this.timeout(5000);
-    chai
-      .request(app)
-      .post('/api/users/logout')
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');

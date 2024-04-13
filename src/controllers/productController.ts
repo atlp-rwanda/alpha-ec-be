@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import { ProductAttributes } from '../database/models/product';
+import { Product, ProductAttributes } from '../database/models/product';
 import { sendResponse } from '../utils/response';
 import Database from '../database';
 import { deleteCloudinaryFile } from '../utils';
 import { uploadImages } from '../middleware';
 import { buildQuery, excOperation } from '../helper';
 import { CategoryAttributes } from '../database/models/category';
+import { CheckUserCredential } from '../middleware/statuscheck';
 
 interface ProductCreationAttributes extends Omit<ProductAttributes, 'id'> {}
 interface UserInterface {
@@ -69,7 +70,7 @@ export const createAProduct = async (
       categoryId,
       expiryDate,
       bonus,
-      status: status || 'available',
+      status: status || false,
       quantity: quantity || 0,
       sellerId,
     });
@@ -90,6 +91,7 @@ export const createAProduct = async (
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
+    req.user = await CheckUserCredential(req);
     const query = buildQuery(req);
     const products = await excOperation<ProductAttributes[]>(
       'Product',
@@ -159,29 +161,60 @@ export const deleteAProduct = async (req: Request, res: Response) => {
 
 export const getAProduct = async (req: Request, res: Response) => {
   try {
+    req.user = await CheckUserCredential(req);
+
     const productId = req.params.id;
+    const user = req.user as UserInterface;
 
-    const query = {
-      where: { id: productId },
-      include: [
-        {
-          model: Database.User,
-          as: 'seller',
-          attributes: ['id', 'name', 'phone', 'email'],
-        },
-        {
-          model: Database.Category,
-          as: 'category',
-          attributes: ['id', 'name'],
-        },
-      ],
-    };
+    let product: ProductAttributes;
 
-    const product: ProductAttributes = await excOperation<ProductAttributes>(
-      'Product',
-      'findOne',
-      query
-    );
+    if (user && user.role === 'seller') {
+      const sellerId = user.id;
+
+      const query = {
+        where: { [Op.and]: [{ id: productId }, { sellerId }] },
+        include: [
+          {
+            model: Database.User,
+            as: 'seller',
+            attributes: ['id', 'name', 'phone', 'email'],
+          },
+          {
+            model: Database.Category,
+            as: 'category',
+            attributes: ['id', 'name'],
+          },
+        ],
+      };
+
+      product = await excOperation<ProductAttributes>(
+        'Product',
+        'findOne',
+        query
+      );
+    } else {
+      const query = {
+        where: { id: productId },
+        include: [
+          {
+            model: Database.User,
+            as: 'seller',
+            attributes: ['id', 'name', 'phone', 'email'],
+          },
+          {
+            model: Database.Category,
+            as: 'category',
+            attributes: ['id', 'name'],
+          },
+        ],
+      };
+
+      product = await excOperation<ProductAttributes>(
+        'Product',
+        'findOne',
+        query
+      );
+    }
 
     if (!product) {
       return sendResponse<null>(res, 404, null, 'Product not found!');
@@ -255,5 +288,29 @@ export const updateAProduct = async (req: Request, res: Response) => {
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
+  }
+};
+
+export const updateProductAvailability = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findOne({ where: { id } });
+    if (!product) {
+      return sendResponse<null>(res, 404, null, 'Product not found');
+    }
+    product.status = !product.status;
+    await product.save();
+    return sendResponse<ProductAttributes>(
+      res,
+      200,
+      product,
+      'Product status updated successfully!'
+    );
+  } catch (error: unknown) {
+    const err = error as Error;
+    res.status(500).json({ status: 500, success: false, message: err.message });
   }
 };

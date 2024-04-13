@@ -253,14 +253,17 @@
 
           const fetchMessages = async () => {
             const displayMessage = document.getElementById('messages');
-            const messages = await fetch('https://alpha-ec-be.onrender.com/api/chats', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('Token')}`,
-              },
-            });
+            const messages = await fetch(
+              'https://alpha-ec-be.onrender.com/api/chats',
+              {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('Token')}`,
+                },
+              }
+            );
             const result = await messages.json();
             const data = result.data;
 
@@ -273,7 +276,7 @@
               const realTime = data[i].createdAt;
               const findTime = findRealTime(realTime);
 
-              if (data[i].sender.id === userId) {
+              if (data[i].senderId === userId) {
                 newMessage.textContent = `Me: ` + data[i].content;
                 span.textContent = findTime;
                 span.classList.add('MyTime');
