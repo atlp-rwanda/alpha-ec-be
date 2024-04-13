@@ -111,6 +111,43 @@
         }
       }
     },
+    "/api/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "get all users",
+        "description": "it should list all users",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/profile": {
       "patch": {
         "tags": ["users"],

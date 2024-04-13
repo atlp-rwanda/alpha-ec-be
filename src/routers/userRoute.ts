@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router } from 'express';
 import { getUser, updateUser } from '../controllers/update-profileController';
-import { createUser } from '../controllers/userController';
-import { isAuthenticated, validationMiddleware } from '../middleware';
+import { createUser, getAllUsers } from '../controllers/userController';
+import { isAdmin, isAuthenticated, validationMiddleware } from '../middleware';
 import {
   userValidationSchema,
   loginUserSchema,
@@ -35,6 +35,7 @@ router.post(
   updatePassword
 );
 router.post('/users/logout', isAuthenticated, logoutUser);
+router.get('/users', isAuthenticated, isAdmin, getAllUsers);
 router.get('/users/profile', isAuthenticated, getUser);
 router.patch(
   '/users/profile',

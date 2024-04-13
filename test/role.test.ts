@@ -31,7 +31,16 @@ describe('should create and assign role', () => {
           done();
         });
     });
-
+    it(' it should get all users with a stutus code of 200', done => {
+      chai
+        .request(app)
+        .get('/api/users')
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
     it('it should return status code of 201', done => {
       const role = {
         name: 'guest',

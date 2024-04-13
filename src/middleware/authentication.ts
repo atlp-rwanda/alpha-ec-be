@@ -24,13 +24,10 @@ export const isAuthenticated = (
     'jwt',
     { session: false },
     async (err: Error, user: UserAttributes) => {
-      if (!user) {
-        return sendResponse(res, 401, null, 'You are not authorized');
-      }
-
       const isLogout = await checkLogout(req);
-      if (isLogout) {
-        return sendResponse(res, 401, null, 'Token Already Blacklisted');
+
+      if (!user || isLogout) {
+        return sendResponse(res, 401, null, 'You are not authorized');
       }
 
       const currUser = {
