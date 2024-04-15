@@ -16,8 +16,8 @@ describe('should create and assign role', () => {
   describe('should test roles', () => {
     before(done => {
       const user = {
-        email: 'jmukunzindahiro@gmail.com',
-        password: '123@nda',
+        email: 'test2@example.com',
+        password: '1111@aa',
       };
       chai
         .request(app)

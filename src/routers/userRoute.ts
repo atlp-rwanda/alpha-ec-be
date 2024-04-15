@@ -13,6 +13,7 @@ import updatePassword from '../controllers/changePasswordController';
 import changePasswordValidationSchema from '../validations/newPasswordValidation';
 
 import { singleFileUpload } from '../middleware/fileUpload';
+import { verifyEmail } from '../controllers/userVerifyController';
 
 const router = Router();
 
@@ -40,5 +41,7 @@ router.patch(
   validationMiddleware(personalValidationalSchema),
   updateUser
 );
+
+router.get('/users/verify-email/:token', verifyEmail);
 
 export default router;

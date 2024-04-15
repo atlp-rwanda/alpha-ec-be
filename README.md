@@ -111,7 +111,7 @@ To ensure the reliability and stability of the backend code, we employ testing p
 
 👤 **Izibyose Musabe Honore**
 
-- GitHub: [@IzibyoseMusabeHonor]
+- GitHub: [@musabehonore](https://github.com/musabehonore)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

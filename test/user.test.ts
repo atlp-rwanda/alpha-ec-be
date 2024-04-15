@@ -27,10 +27,12 @@ describe('USER API TEST', () => {
       .end((err, res) => {
         expect(res).to.have.status(201);
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal('User created successfully!');
+        expect(res.body.message).to.equal(
+          'User created successfully! Check your email for verification.'
+        );
         done();
       });
-  });
+  }).timeout(10000);
 
   it('should return validation errors if required fields are missing', done => {
     const user = {
