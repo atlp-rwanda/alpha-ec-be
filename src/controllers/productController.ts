@@ -6,6 +6,7 @@ import Database from '../database';
 import { deleteCloudinaryFile } from '../utils';
 import { uploadImages } from '../middleware';
 import { buildQuery, excOperation } from '../helper';
+import { CategoryAttributes } from '../database/models/category';
 
 interface ProductCreationAttributes extends Omit<ProductAttributes, 'id'> {}
 interface UserInterface {
@@ -20,7 +21,7 @@ export const createAProduct = async (
   res: Response
 ) => {
   try {
-    const { name, price, category, expiryDate, bonus, status, quantity } =
+    const { name, price, categoryId, expiryDate, bonus, status, quantity } =
       req.body;
 
     const user = req.user as UserInterface;
@@ -44,14 +45,28 @@ export const createAProduct = async (
       );
     }
 
+    const catQuery = {
+      where: {
+        id: categoryId,
+      },
+    };
+    const categoryExist: CategoryAttributes | null =
+      await excOperation<CategoryAttributes>('Category', 'findOne', catQuery);
+
+    if (!categoryExist) {
+      return sendResponse<null>(res, 400, null, 'Category does not exists!');
+    }
+
     const images = await uploadImages();
+
+    const slug = `${name.split(' ').join('-')}-${sellerId.slice(0, 7)}`;
 
     const product = Database.Product.build({
       name,
-      slug: name.split(' ').join('-'),
+      slug,
       images,
       price,
-      category,
+      categoryId,
       expiryDate,
       bonus,
       status: status || 'available',
@@ -148,6 +163,18 @@ export const getAProduct = async (req: Request, res: Response) => {
 
     const query = {
       where: { id: productId },
+      include: [
+        {
+          model: Database.User,
+          as: 'seller',
+          attributes: ['id', 'name', 'phone', 'email'],
+        },
+        {
+          model: Database.Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
     };
 
     const product: ProductAttributes = await excOperation<ProductAttributes>(

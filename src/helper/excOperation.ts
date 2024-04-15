@@ -11,7 +11,7 @@ type SequelizeOperation =
   | 'count'
   | 'findAndCountAll';
 
-type Models = 'User' | 'Product';
+type Models = 'User' | 'Product' | 'Category';
 
 export const excOperation = async <T>(
   modelName: Models,

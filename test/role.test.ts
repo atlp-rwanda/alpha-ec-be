@@ -110,7 +110,7 @@ describe('should create and assign role', () => {
         .get('/api/roles')
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
-          id = res.body.data[0].id;
+          id = res.body.data[1].id;
           expect(res.statusCode).to.equal(200);
           expect(res.body).to.have.property('message');
           expect(res.body.message).to.equal('Roles fetched successfully!');
