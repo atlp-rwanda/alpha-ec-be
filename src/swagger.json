@@ -162,7 +162,7 @@
         "summary": "get user profile",
         "security": [
           {
-            "bearerAuth": []
+            "token": []
           }
         ],
         "responses": {
