@@ -18,7 +18,7 @@ describe('POST, /api/users/change-password', () => {
 
   before(done => {
     const user = {
-      email: 'test1@example.com',
+      email: 'test4@example.com',
       password: userPassword.oldPassword,
     };
     chai

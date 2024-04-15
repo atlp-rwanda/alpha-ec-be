@@ -1,0 +1,52 @@
+<html>
+
+  <head>
+    <title>Email Verification</title>
+    <style>
+      @import
+      url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+      body { font-family: 'Merriweather Sans', sans-serif; background-color:
+      #f0f0f0; margin: 0; padding: 0; display: flex; justify-content: center;
+      align-items: center; height: 100vh; } .content { max-width: 600px; width:
+      100%; text-align: center; padding: 20px; background-color: #fff;
+      border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: 20px;
+      } .content h1 { color: #3f51b5; font-weight: 600; font-size: 24px; }
+      .content p { color: #555; font-size: 16px; font-weight: bold; } .content
+      small { color: #777; font-size: 14px; font-weight: bold; display: block;
+      margin-top: 10px; } .content img { max-width: 100%; border-radius: 5px;
+      margin-bottom: 20px; } .content a { display: inline-block; padding: 10px
+      20px; margin: 20px 0; background-color: #3f51b5; color: #fff;
+      text-decoration: none; border-radius: 25px; } .social-icons { position:
+      absolute; top: 10px; right: 10px; } .social-icons a { display:
+      inline-block; margin: 0 10px; } .footer { text-align: center; padding:
+      20px 0; background-color: #3f51b5; } .footer img { max-width: 100%;
+      height: auto; } .name1 { font-weight: bolder; }
+    </style>
+  </head>
+
+  <body>
+    <div class='content'>
+      <img
+        src='https://sendpulse.com/blog/wp-content/uploads/2020/07/verification-service-cover-1-1110x420.png'
+        alt='E-commerce Image'
+      />
+      <p>Hey&nbsp;&nbsp;
+        <span class='name1'>{{name}}</span>
+        ,<br />
+        You are almost ready to start enjoying our e-commerce.<br />
+        Simply click the button below to verify your email address.</p>
+      <a
+        style='background-color: green; color: #ffffff; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 3px;'
+        href='{{verificationLink}}'
+      >Verify Email Address</a>
+      <small>This link lasts for only 15 minutes. If you find that it has
+        expired just re-login to get another.
+        <br />
+        <br />
+        If you didn't sign up on our e-commerce, you can safely ignore this
+        email.</small>
+    </div>
+
+  </body>
+
+</html>

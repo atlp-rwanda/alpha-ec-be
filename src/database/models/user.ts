@@ -140,9 +140,12 @@ const UserModel = (sequelize: Sequelize) => {
       password: DataTypes.STRING,
       googleId: DataTypes.STRING,
       photoUrl: DataTypes.STRING,
-      verified: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
+      verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       roleId: {
         type: DataTypes.UUID,
         allowNull: true,

@@ -14,7 +14,7 @@ let token: string = '';
 describe('PRODUCT API TEST', () => {
   before(done => {
     const user = {
-      email: 'test1@example.com',
+      email: 'test3@example.com',
       password: '1111@aa',
     };
     chai

@@ -1,9 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/app';
-import Database from '../src/database';
 import loginController from '../src/controllers/loginController';
 import sinon from 'sinon';
+import Database from '../src/database';
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@ describe('testing Login API', () => {
 
     it('it should return status code of 200', done => {
       const user = {
-        email: 'test1@example.com',
+        email: 'test2@example.com',
         password: '1111@aa',
       };
       chai
@@ -31,7 +31,26 @@ describe('testing Login API', () => {
           expect(res.body.message).to.equal('Logged In Successfully');
           done();
         });
-    });
+    }).timeout(10000);
+
+    it('should be told to verify before login (401)', done => {
+      const user = {
+        email: 'test1@example.com',
+        password: '1111@aa',
+      };
+      chai
+        .request(app)
+        .post('/api/users/login')
+        .send(user)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body).to.have.property('message');
+          expect(res.body.message).to.equal(
+            'Please check your email to verify your account before login.'
+          );
+          done();
+        });
+    }).timeout(10000);
 
     // check if user is not found in database
     it('it should return status code of 400 with User forget to provide at least one special character', done => {

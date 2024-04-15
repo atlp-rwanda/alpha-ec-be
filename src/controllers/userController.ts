@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 // import { string } from 'joi';
 import { UserAttributes } from '../database/models/user';
 import Database from '../database/index';
 import { sendResponse } from '../utils/response';
-import getDatabaseConfig from '../config/config';
+import { sendEmail } from '../utils/email';
+import { signToken } from '../utils';
 
 dotenv.config();
 interface UserCreationAttributes extends Omit<UserAttributes, 'id'> {}
@@ -16,7 +16,7 @@ export const createUser = async (
   res: Response
 ) => {
   try {
-    const { name, email, phone, address, password } = req.body;
+    const { name, email, phone, address, password, verified } = req.body;
 
     const userExist = await Database.User.findOne({
       where: {
@@ -41,15 +41,33 @@ export const createUser = async (
       phone,
       address,
       password: hashedPassword,
+      verified,
     });
 
     await user.save();
 
-    const { secret } = getDatabaseConfig();
+    // Send verification email
+    const verificationToken = signToken({ email: user.email }, '15m');
 
-    const token = jwt.sign({ id: user.id }, secret, { expiresIn: '2h' });
+    await user.save();
 
-    return sendResponse<string>(res, 201, token, 'User created successfully!');
+    const mailOptions = {
+      to: email,
+      subject: 'Your Email verification',
+      template: 'email',
+      context: {
+        name,
+        verificationLink: `${process.env.SWAGGER_ROOT_URL}/api/users/verify-email/${verificationToken}`,
+      },
+    };
+    await sendEmail(mailOptions);
+
+    return sendResponse<null>(
+      res,
+      201,
+      null,
+      'User created successfully! Check your email for verification.'
+    );
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
