@@ -6,6 +6,10 @@ export interface UserAttributes {
   id: string;
   name: string;
   email: string;
+  gender: string;
+  birthdate: string;
+  preferedlanguage: string;
+  preferedcurrency: string;
   phone: string;
   address: string;
   password: string;
@@ -18,8 +22,17 @@ export interface UserAttributes {
   role?: Role;
 }
 
-interface UserCreationAttributes
-  extends Omit<UserAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+interface userCreationAttributes
+  extends Omit<
+    UserAttributes,
+    | 'id'
+    | 'gender'
+    | 'birthdate'
+    | 'preferedlanguage'
+    | 'preferedcurrency'
+    | 'createdAt'
+    | 'updatedAt'
+  > {
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -27,7 +40,7 @@ interface UserCreationAttributes
 /**
  * Represents a user in the system.
  */
-export class User extends Model<UserAttributes, UserCreationAttributes> {
+export class User extends Model<UserAttributes, userCreationAttributes> {
   declare id: string;
 
   declare name: string;
@@ -35,6 +48,14 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   declare email: string;
 
   declare phone: string;
+
+  declare gender: string;
+
+  declare birthdate: string;
+
+  declare preferedlanguage: string;
+
+  declare preferedcurrency: string;
 
   declare address: string;
 
@@ -87,6 +108,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
       id: this.id,
       name: this.name,
       email: this.email,
+      gender: this.gender,
+      birthdate: this.birthdate,
+      preferedlanguage: this.preferedlanguage,
+      preferedcurrency: this.preferedcurrency,
       phone: this.phone,
       address: this.address,
       password: undefined,
@@ -100,7 +125,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   }
 }
 
-export const UserModel = (sequelize: Sequelize) => {
+const UserModel = (sequelize: Sequelize) => {
   User.init(
     {
       id: {
@@ -127,6 +152,10 @@ export const UserModel = (sequelize: Sequelize) => {
           key: 'id', // Change to the correct foreign key of Role model
         },
       },
+      gender: DataTypes.STRING,
+      birthdate: DataTypes.STRING,
+      preferedlanguage: DataTypes.STRING,
+      preferedcurrency: DataTypes.STRING,
     },
     {
       sequelize,
@@ -138,5 +167,4 @@ export const UserModel = (sequelize: Sequelize) => {
 
   return User;
 };
-
 export default UserModel;

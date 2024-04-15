@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const getPrefix = () => {
-  const env = process.env.NODE_ENV || 'production';
+  const env = process.env.NODE_ENV || 'development';
   const envPrefixMap = {
     development: 'DATABASE',
     test: 'TEST_DATABASE',
@@ -22,7 +22,7 @@ const getDatabaseConfig = () => {
     password: process.env[`${prefix}_PASSWORD`] || '',
     host: process.env[`${prefix}_HOST`] || '5432',
     port: process.env[`${prefix}_PORT`] || '',
-    dialect: process.env.DIALECT || '',
+    dialect: process.env.DIALECT || 'postgres',
     secret: process.env.JWT_SECRET || 'secret',
   };
 

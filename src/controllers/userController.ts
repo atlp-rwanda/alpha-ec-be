@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+// import { string } from 'joi';
 import { UserAttributes } from '../database/models/user';
 import Database from '../database/index';
 import { sendResponse } from '../utils/response';

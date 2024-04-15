@@ -11,6 +11,7 @@ export const pagination = <Z>(
   const totalPages = Math.ceil(totalItems / limit);
   const from = (currentPage - 1) * limit;
   const to = Math.min(from + limit, totalItems);
+
   const payload = {
     totalItems,
     [name]: rows,
@@ -18,5 +19,6 @@ export const pagination = <Z>(
     from: currentPage <= totalPages ? from : undefined,
     to: currentPage <= totalPages ? to : undefined,
   };
+
   return payload;
 };

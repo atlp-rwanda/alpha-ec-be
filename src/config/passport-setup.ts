@@ -10,7 +10,7 @@ import Database from '../database';
 const googleStrategyOptions: StrategyOptionsWithRequest = {
   clientID: process.env.GOOGLE_CLIENT_ID as string,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-  callbackURL: '/api/users/google-auth/callback',
+  callbackURL: process.env.GOOGLE_CALLBACK_URL as string,
   passReqToCallback: true,
 };
 passport.use(

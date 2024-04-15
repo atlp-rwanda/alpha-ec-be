@@ -39,7 +39,7 @@ describe('PRODUCT API TEST', () => {
       .post('/api/products')
       .send(product)
       .end((err, res) => {
-        expect(res).to.have.status(403);
+        expect(res).to.have.status(401);
         done();
       });
   });
@@ -70,7 +70,7 @@ describe('PRODUCT API TEST', () => {
       .post('/api/products')
       .send(product)
       .end((err, res) => {
-        expect(res).to.have.status(403);
+        expect(res).to.have.status(401);
         done();
       });
   });

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-import { sendResponse } from '../utils';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { logger, sendResponse } from '../utils';
 
 // eslint-disable-next-line no-shadow
 enum requestType {
