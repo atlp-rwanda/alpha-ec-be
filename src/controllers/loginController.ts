@@ -29,7 +29,7 @@ const loginController = async (req: Request, res: Response) => {
         template: 'email',
         context: {
           name,
-          verificationLink: `${process.env.SWAGGER_ROOT_URL}/api/users/verify-email/${verificationToken}`,
+          verificationLink: `${process.env.ROOT_URL}/api/users/verify-email/${verificationToken}`,
         },
       };
       await sendEmail(mailOptions);
