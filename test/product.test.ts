@@ -9,7 +9,7 @@ import { pagination } from '../src/utils';
 
 chai.use(chaiHttp);
 const { expect } = chai;
-let token: string = '';
+export let token: string = '';
 
 describe('PRODUCT API TEST', () => {
   before(done => {
@@ -31,7 +31,7 @@ describe('PRODUCT API TEST', () => {
   it('User should be authenticated', done => {
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
     };
 
     chai
@@ -62,7 +62,7 @@ describe('PRODUCT API TEST', () => {
   it('User should be authenticated', done => {
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: 1,
     };
 
     chai
@@ -77,7 +77,7 @@ describe('PRODUCT API TEST', () => {
   it('Product fields should be valid', done => {
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
     };
 
     chai
@@ -97,7 +97,7 @@ describe('PRODUCT API TEST', () => {
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
       price: 5000,
     };
 
@@ -106,14 +106,43 @@ describe('PRODUCT API TEST', () => {
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
       .field('name', product.name)
-      .field('category', product.category)
+      .field('categoryId', product.categoryId)
       .field('price', product.price)
       .attach('images', filePath)
       .attach('images', filePath)
       .attach('images', filePath)
       .attach('images', filePath)
       .end((err, res) => {
-        expect(res.body.message).to.equal('Product created successfully!');
+        expect(res.body).to.have.property('message');
+        expect(res).to.have.status(201);
+        done();
+      });
+  }).timeout(5000);
+
+  it('Should not create a product if category is not found', function (done) {
+    this.timeout(5000);
+
+    const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
+    const product = {
+      name: 'MAZDA 2024',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a008',
+      price: 5000,
+    };
+
+    chai
+      .request(app)
+      .post('/api/products')
+      .set('Authorization', `Bearer ${token}`)
+      .field('name', product.name)
+      .field('categoryId', product.categoryId)
+      .field('price', product.price)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .end((err, res) => {
+        expect(res.body).to.have.property('message');
+        expect(res).to.have.status(400);
         done();
       });
   }).timeout(5000);
@@ -124,7 +153,7 @@ describe('PRODUCT API TEST', () => {
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
       price: 5000,
     };
 
@@ -133,7 +162,7 @@ describe('PRODUCT API TEST', () => {
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
       .field('name', product.name)
-      .field('category', product.category)
+      .field('categoryId', product.categoryId)
       .field('price', product.price)
       .attach('images', filePath)
       .attach('images', filePath)
@@ -156,7 +185,7 @@ describe('PRODUCT API TEST', () => {
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
       name: 'MAZDA',
-      category: 'CAR',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
       price: 5000,
     };
 
@@ -165,7 +194,7 @@ describe('PRODUCT API TEST', () => {
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
       .field('name', product.name)
-      .field('category', product.category)
+      .field('categoryId', product.categoryId)
       .field('price', product.price)
       .attach('images', filePath)
       .attach('images', filePath)
@@ -346,7 +375,6 @@ describe('PRODUCT API TEST', () => {
       .patch(`/api/products/${productId}`)
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'MAZDA')
-      .field('category', 'Cars')
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
@@ -364,7 +392,7 @@ describe('PRODUCT API TEST', () => {
       .patch(`/api/products/${productId}`)
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'MAZDA')
-      .field('category', 'Cars')
+      .field('categoryId', 1)
       .end((err, res) => {
         updateStub.restore();
         expect(res.body).to.have.property('message');
@@ -430,61 +458,61 @@ describe('PRODUCT API TEST', () => {
       {
         id: 1,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
         price: 5000,
       },
       {
         id: 2,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
         price: 5000,
       },
       {
         id: 3,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
         price: 5000,
       },
       {
         id: 4,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 5,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 6,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 7,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 8,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 9,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
       {
         id: 10,
         name: 'MAZDA',
-        category: 'CAR',
+        categoryId: 1,
         price: 5000,
       },
     ],

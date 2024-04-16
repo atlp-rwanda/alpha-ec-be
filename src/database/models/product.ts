@@ -1,12 +1,13 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
+import { Category } from './category';
 
 export interface ProductAttributes {
   id: string;
   name: string;
   slug: string;
   images: string[];
-  category: string;
+  categoryId: string;
   price: number;
   expiryDate: Date;
   bonus: string;
@@ -38,7 +39,9 @@ export class Product extends Model<
 
   declare images: string[];
 
-  declare category: string;
+  declare categoryId: string;
+
+  declare category: Category;
 
   declare price: number;
 
@@ -63,10 +66,17 @@ export class Product extends Model<
    * @param {IModels} models - The models object containing all initialized models.
    * @returns {Object} An object representing association.
    */
-  public static associate(models: { User: typeof User }) {
+  public static associate(models: {
+    User: typeof User;
+    Category: typeof Category;
+  }) {
     Product.belongsTo(models.User, {
       foreignKey: 'sellerId',
       as: 'seller',
+    });
+    Product.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      as: 'category',
     });
   }
 
@@ -104,7 +114,14 @@ const ProductModel = (sequelize: Sequelize) => {
       name: DataTypes.STRING,
       slug: DataTypes.STRING,
       images: DataTypes.ARRAY(DataTypes.STRING),
-      category: DataTypes.STRING,
+      categoryId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        references: {
+          model: 'categories',
+          key: 'id',
+        },
+      },
       price: DataTypes.FLOAT,
       expiryDate: DataTypes.DATE,
       bonus: DataTypes.STRING,

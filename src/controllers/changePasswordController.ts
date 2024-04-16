@@ -43,8 +43,9 @@ const updatePasswordController = async (req: Request, res: Response) => {
       );
     }
     return sendResponse<null>(res, 400, null, 'Invalid credentials');
-  } catch (err) {
-    return err;
+  } catch (err: unknown) {
+    const errors = err as Error;
+    return sendResponse<null>(res, 500, null, errors.message);
   }
 };
 

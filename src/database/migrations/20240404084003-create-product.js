@@ -15,9 +15,6 @@ module.exports = {
       images: {
         type: Sequelize.ARRAY(Sequelize.STRING),
       },
-      category: {
-        type: Sequelize.STRING,
-      },
       price: {
         type: Sequelize.FLOAT,
         defaultValue: 0,
@@ -41,6 +38,14 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'users',
+          key: 'id',
+        },
+      },
+      categoryId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'categories',
           key: 'id',
         },
       },
