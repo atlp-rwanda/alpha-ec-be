@@ -54,6 +54,40 @@
             }
           }
         },
+
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/logout": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Sign out of the application",
+        "description": "Only logged-in users can log out of the account. User must log out by using a Bearer token in the 'Authorization' header.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",

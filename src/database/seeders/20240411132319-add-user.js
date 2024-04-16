@@ -45,6 +45,18 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: uuidv4(),
+          name: 'Mary',
+          password:
+            '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
+          email: 'test5@example.com',
+          phone: '07834567890',
+          verified: true,
+          address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
