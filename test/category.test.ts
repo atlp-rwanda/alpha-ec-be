@@ -53,9 +53,9 @@ describe('CATEGORIES API TEST', () => {
       .stub(Database.Category, 'build')
       .throws(new Error('Database error'));
 
-      const body = {
-        name: 'Test Category',
-      };
+    const body = {
+      name: 'Test Category',
+    };
     chai
       .request(app)
       .post('/api/categories')
@@ -186,7 +186,7 @@ describe('CATEGORIES API TEST', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(body)
       .end((err, res) => {
-        updateStub.restore()
+        updateStub.restore();
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(500);
 
