@@ -74,9 +74,9 @@ describe('should create and assign role', () => {
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body).to.have.property('message');
-          expect(res).to.have.status(401);
+          expect(res).to.have.status(403);
           expect(res.body.message).to.equal(
-            'Not authorized! user should be seller'
+            'Forbidden'
           );
           done();
         });

@@ -49,10 +49,10 @@ describe('PRODUCT API TEST', () => {
       .get('/api/roles')
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.statusCode).to.equal(401);
+        expect(res.statusCode).to.equal(403);
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.equal(
-          'Not authorized! User should be admin'
+          'Forbidden'
         );
         done();
       });
