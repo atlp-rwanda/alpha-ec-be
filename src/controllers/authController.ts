@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
-import { userToken } from '../utils/tokenGenerate';
 import { UserAttributes } from '../database/models/user';
-import { sendResponse } from '../utils/response';
+import { sendResponse, signToken } from '../utils';
 
 export const initiateGoogleLogin = (
   req: Request,
@@ -39,7 +38,7 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
       }
 
       try {
-        const token = await userToken(user.id, user.email);
+        const token = signToken({ id: user.id });
         sendResponse(res, 200, { token }, 'User authenticated successfully');
       } catch (error) {
         return sendResponse(

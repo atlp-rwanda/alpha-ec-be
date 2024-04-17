@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import app from '../src/app';
 import passport from '../src/config/passport-setup';
-import { userToken } from '../src/utils/tokenGenerate';
 import { handleGoogleCallback } from '../src/controllers/authController';
 
 chai.use(chaiHttp);
@@ -59,15 +58,6 @@ describe('Google Authentication', () => {
 
     expect(res.status.calledWith(401));
     expect(res.json.calledWith({ error: 'User not found' }));
-    done();
-  });
-
-  it('generate token', done => {
-    const generatedToken = userToken(
-      '92c472c8-406a-4a89-898f-46965830316a',
-      'nadinefiona9@gmail.com'
-    );
-    expect(typeof generatedToken).to.equal('string');
     done();
   });
 
