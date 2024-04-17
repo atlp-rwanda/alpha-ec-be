@@ -50,16 +50,19 @@ export const isSeller = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || !('role' in req.user) || req.user.role !== 'seller') {
     return sendResponse(
       res,
-      401,
+      403,
       null,
-      'Not authorized! user should be seller'
+      'Forbidden'
     );
   }
   next();
 };
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || !('role' in req.user) || req.user.role !== 'admin') {
-    return sendResponse(res, 401, null, 'Not authorized! User should be admin');
+    return sendResponse(res, 403, null, 'Forbidden');
   }
   next();
 };
+
+
+

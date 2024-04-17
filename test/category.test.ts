@@ -19,7 +19,6 @@ describe('CATEGORIES API TEST', () => {
       name: 'Test Category',
       description: 'Test category',
     };
-    console.log('token: ', token);
     chai
       .request(app)
       .post('/api/categories')
