@@ -2493,10 +2493,95 @@
         }
       }
     },
+<<<<<<< HEAD
     "/api/products/{id}/status": {
       "patch": {
         "tags": ["Products"],
         "summary": "Update availability of a Product",
+=======
+<<<<<<< HEAD
+    "/api/chatapp": {
+      "get": {
+        "tags": ["Chat"],
+        "summary": "Accessing index.html for chat application.",
+        "responses": {
+          "200": {
+            "description": "redirection to index.html file"
+          }
+        }
+      }
+    },
+    "/api/chats": {
+      "get": {
+        "tags": ["Chat"],
+        "summary": "Retrieving all messages sent in chat application",
+=======
+    "/api/carts": {
+      "post": {
+        "tags": ["carts"],
+        "summary": "Add a new cart",
+        "description": "Add a new cart to the database",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "e933f4c2-b10b-494a-8b57-7185e928b8a6"
+                  },
+                  "quantity": {
+                    "type": "string",
+                    "example": "4"
+                  }
+                },
+                "required": ["productId", "quantity"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["carts"],
+        "summary": "Get all carts",
+        "description": "Get all carts from the database",
+>>>>>>> 67416fd (ft(cart):)
+>>>>>>> 4e12cd2 (ft(cart):)
         "security": [
           {
             "token": []
@@ -2516,6 +2601,7 @@
         "requestBody": {},
         "responses": {
           "200": {
+<<<<<<< HEAD
             "description": "OK",
             "content": {
               "application/json": {
@@ -2535,7 +2621,238 @@
                 },
                 "example": {
                   "status": "Success!",
+<<<<<<< HEAD
                   "message": "Product updated successfully!"
+=======
+                  "data": [
+                    {
+                      "id": "92f75356-1a26-46b8-91d4-1ef245496757",
+                      "socketId": "g-LKiNdOF-RKF8KMAAAB",
+                      "senderId": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
+                      "content": "",
+                      "readStatus": false,
+                      "createdAt": "2024-04-23T13:35:07.841Z",
+                      "updatedAt": "2024-04-23T13:35:07.841Z",
+                      "sender": {
+                        "id": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
+                        "name": "Ruth Uwamahoro"
+                      }
+                    },
+                    {
+                      "id": "9aeef215-6fd6-4a16-b6c8-eb0f15720bea",
+                      "socketId": "g-LKiNdOF-RKF8KMAAAB",
+                      "senderId": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
+                      "content": "",
+                      "readStatus": false,
+                      "createdAt": "2024-04-23T13:35:08.351Z",
+                      "updatedAt": "2024-04-23T13:35:08.351Z",
+                      "sender": {
+                        "id": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
+                        "name": "Ruth Uwamahoro"
+                      }
+                    }
+                  ],
+                  "message": "Messages retrieved successfully"
+=======
+            "description": "Carts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/carts/{id}": {
+      "patch": {
+        "tags": ["carts"],
+        "summary": "Update a cart",
+        "description": "Update a cart in the database",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the cart",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cart"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["carts"],
+        "summary": "Delete a cart",
+        "description": "Delete a cart from the database",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the cart",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart deleted successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["carts"],
+        "summary": "Empty a cart",
+        "description": "Empty a cart from the database",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the cart",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart emptied successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/carts/products/{id}": {
+      "delete": {
+        "tags": ["carts"],
+        "summary": "Delete a product from the cart",
+        "description": "single product to be deleted from cart",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the product",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "e933f4c2-b10b-494a-8b57-7185e928b8a6"
+                  },
+                  "required": ["productId"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "product deleted successfully"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+>>>>>>> 67416fd (ft(cart):)
+>>>>>>> 4e12cd2 (ft(cart):)
                 }
               }
             }
