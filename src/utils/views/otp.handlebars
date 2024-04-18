@@ -1,0 +1,49 @@
+<html lang='en'>
+
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Email Verification</title>
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9; margin: 0; padding: 0; color: #333; }
+      .container { max-width: 600px; margin: 30px auto; padding: 30px;
+      background-color: #fff; border-radius: 10px; box-shadow: 0 0 20px rgba(0,
+      0, 0, 0.1); } .header { text-align: center; margin-bottom: 30px; } .header
+      img { width: 150px; margin-bottom: 20px; } .content { text-align: center;
+      margin-bottom: 30px; } .content p { font-size: 16px; line-height: 1.6;
+      margin-bottom: 20px; } .otp { background-color: #4CAF50; color: #fff;
+      padding: 15px 30px; border-radius: 5px; font-size: 20px; display:
+      inline-block; margin-bottom: 30px; } .note { font-size: 14px; color: #666;
+      line-height: 1.6; } .footer { text-align: center; margin-top: 20px;
+      font-size: 14px; color: #666; border-top: 1px solid #ccc; padding-top:
+      20px; }
+    </style>
+  </head>
+
+  <body>
+    <div class='container'>
+      <div class='header'>
+        <img
+          src='https://sendpulse.com/blog/wp-content/uploads/2020/07/verification-service-cover-1-1110x420.png'
+          alt='E-commerce Image'
+        />
+      </div>
+      <div class='content'>
+        <p>Welcome to our E-commerce Platform!</p>
+        <p>Please use the following One-Time Password (OTP) to complete your
+          email verification:</p>
+        <div class='otp'>{{otp}}</div>
+        <p class='note'>This OTP is valid for a limited time and can only be
+          used once.</p>
+      </div>
+      <div class='footer'>
+        <p>Please click the following link to verify your OTP:
+          <a href='{{verifyLink}}'>Verify OTP</a></p>
+        If you didn't sign up on our e-commerce, you can safely ignore this
+        email.<br />
+        © 2024 ATLP E-commerce. All rights reserved.
+      </div>
+    </div>
+  </body>
+</html>

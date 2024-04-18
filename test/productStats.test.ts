@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
 import { getProductStats } from '../src/controllers/statsController';
-import { token } from './product.test';
+import { headerTokenSeller } from './2FA.tets';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -36,7 +36,7 @@ describe('Product Stats Testing', () => {
     const res = await chai
       .request(app)
       .get('/api/stats?timeFrame=daily')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${headerTokenSeller}`);
     expect(res).to.have.status(200);
     expect(res.body).to.have.property(
       'message',
@@ -49,7 +49,7 @@ describe('Product Stats Testing', () => {
     const res = await chai
       .request(app)
       .get('/api/stats?timeFrame=last7days')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${headerTokenSeller}`);
     expect(res).to.have.status(200);
     expect(res.body).to.have.property(
       'message',
@@ -62,7 +62,7 @@ describe('Product Stats Testing', () => {
     const res = await chai
       .request(app)
       .get('/api/stats?timeFrame=last30days')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${headerTokenSeller}`);
     expect(res).to.have.status(200);
     expect(res.body).to.have.property(
       'message',

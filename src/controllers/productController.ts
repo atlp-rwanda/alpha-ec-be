@@ -277,6 +277,7 @@ export const getAProduct = async (req: Request, res: Response) => {
       phone: product.seller?.phone,
     };
     const data = {
+      product,
       relatedProducts,
       sellerInfo,
     };

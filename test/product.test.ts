@@ -6,6 +6,7 @@ import { describe, it } from 'mocha';
 import app from '../src/app';
 import path from 'path';
 import { pagination } from '../src/utils';
+import { headerTokenSeller } from './2FA.tets';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -13,22 +14,6 @@ export let token: string = '';
 let id = '';
 
 describe('PRODUCT API TEST', () => {
-  before(done => {
-    const user = {
-      email: 'test3@example.com',
-      password: '1111@aa',
-    };
-    chai
-      .request(app)
-      .post('/api/users/login')
-      .send(user)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('data');
-        token = res.body.data;
-        done();
-      });
-  });
   it('User should be authenticated', done => {
     const product = {
       name: 'MAZDA',
@@ -48,7 +33,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .get('/api/roles')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.statusCode).to.equal(403);
         expect(res.body).to.have.property('message');
@@ -60,7 +45,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .delete('/api/wishes')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.statusCode).to.equal(403);
         done();
@@ -92,7 +77,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(product)
       .end((err, res) => {
         expect(res).to.have.status(400);
@@ -114,7 +99,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -144,7 +129,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -173,7 +158,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -195,7 +180,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch(`/api/products/${productId}/status`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(200);
       });
@@ -214,7 +199,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -242,7 +227,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -274,7 +259,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .post('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
@@ -305,7 +290,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch('/api/products/' + id)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', 'chevrolet')
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -425,7 +410,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch(`/api/products/3669aace-d388-49dc-bd1a-8ec2885baa22`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(404);
@@ -437,7 +422,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch('/api/products' + productId)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -447,7 +432,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .get(`/api/products/${id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
@@ -477,7 +462,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch(`/api/products/${id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .field('name', 'MAZDA')
       .field('categoryId', 1)
       .end((err, res) => {
@@ -490,7 +475,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .patch(`/api/products/${id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(400);
         done();
@@ -503,7 +488,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .delete(`/api/products/${id}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         destroyStub.restore();
         expect(res).to.have.status(500);
@@ -515,7 +500,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .delete('/api/products/' + id)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.message).to.equal('Product deleted successfully!');
@@ -527,7 +512,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .delete(`/api/products/3669aace-d388-49dc-bd1a-8ec2885baa22`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(404);
@@ -539,7 +524,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .delete('/api/products' + id)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
@@ -637,7 +622,7 @@ describe('PRODUCT API TEST', () => {
     chai
       .request(app)
       .get('/api/wishes')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.statusCode).to.equal(200);
         done();
@@ -651,7 +636,7 @@ describe('PRODUCT AVAILABILITY', () => {
     chai
       .request(app)
       .patch(`/api/products/${productId}/status`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(404);
         expect(res.body).to.have.property('message', 'Product not found');
@@ -663,7 +648,7 @@ describe('PRODUCT AVAILABILITY', () => {
     chai
       .request(app)
       .patch(`/api/products/${productId}/status`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res).to.have.status(500);
         done();
@@ -673,7 +658,7 @@ describe('PRODUCT AVAILABILITY', () => {
     chai
       .request(app)
       .get('/api/products')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);

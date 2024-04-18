@@ -116,6 +116,7 @@ export const up = async queryInterface => {
         phone: '0783556915',
         roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
         address: 'kigali, Rwanda',
+        verified: true,
         createdAt: new Date(),
         updatedAt: new Date(),
         lastTimePasswordUpdated: new Date('2023-05-03'),

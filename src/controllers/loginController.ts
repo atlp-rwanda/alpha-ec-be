@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import { sendResponse, signToken } from '../utils';
 import { sendEmail } from '../utils/email';
 import { checkLoginCredentials } from '../middleware/loginMiddleware';
+import Checkrole from '../utils/checkRole';
 import Database from '../database';
 import {
   passwordExpired,
   handlePasswordExpiration,
 } from '../middleware/passwordExpiration';
-
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -53,11 +54,11 @@ const loginController = async (req: Request, res: Response) => {
         'Please check your email to verify your account before login.'
       );
     }
-    const token = signToken({ id: user.id });
-    return sendResponse<string>(res, 200, token, 'Logged In Successfully');
+    await Checkrole(user.id, email, req, res);
   } catch (error) {
     const errorMessage = (error as Error).message;
     return sendResponse<null>(res, 500, null, errorMessage);
   }
 };
+
 export default loginController;

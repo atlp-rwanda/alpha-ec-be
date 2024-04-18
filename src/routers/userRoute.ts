@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Router } from 'express';
+import express, { Request, Response } from 'express';
+import path from 'path';
 import { getUser, updateUser } from '../controllers/update-profileController';
 import { createUser, getAllUsers } from '../controllers/userController';
 import { isAdmin, isAuthenticated, validationMiddleware } from '../middleware';
@@ -23,8 +24,10 @@ import {
   resetPassword,
 } from '../controllers/resetPasswordController';
 import { userStatus } from '../controllers/userStatusController';
+import { isvalid } from '../middleware/otpauthMiddleware';
+import { sellerOtp, verifyOtp } from '../controllers/OTPcontroller';
 
-const router = Router();
+const router = express.Router();
 
 router.post(
   '/users/register',
@@ -52,6 +55,8 @@ router.patch(
   validationMiddleware(personalValidationalSchema),
   updateUser
 );
+router.post('/users/verify/:token', isvalid, sellerOtp);
+router.get('/users/verify-otp/:token', verifyOtp);
 
 router.get('/users/verify-email/:token', verifyEmail);
 router.post('/users/:id/account-status', isAuthenticated, isAdmin, userStatus);
