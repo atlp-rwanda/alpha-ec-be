@@ -57,6 +57,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      expired: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
 
