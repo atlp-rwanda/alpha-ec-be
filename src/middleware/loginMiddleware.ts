@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import Database from '../database';
 
 export const checkLoginCredentials = async (
