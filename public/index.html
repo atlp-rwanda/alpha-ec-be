@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Socket.IO chat</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+      #form {
+        background: rgba(51, 74, 178, 0.717);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #fcfcfcc4;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #000000;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+      #welmsg {
+        text-align: center;
+        background-color: rgba(128, 128, 128, 0.218);
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <h3 id="welmsg"></h3>
+      <ul id="messages"></ul>
+      <form id="form" action="">
+        <input id="input" autocomplete="off" /><button type="submit" id="send">
+          Send
+        </button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const email = 'test2@example.com';
+      const password = '1111@aa';
+      //fetching data by calling api
+      fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ email: email, password: password }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          let tokenValue = data.data;
+          localStorage.setItem('Token', tokenValue);
+          const socket = io('http://localhost:3000/', {
+            auth: {
+              token: tokenValue,
+            },
+          });
+          socket.on('connect', () => {
+            console.log('connected to server');
+            fetchMessages();
+          });
+
+          const value = document.getElementById('welmsg');
+          socket.on('welcome', data => {
+            value.innerHTML = data;
+          });
+
+          const fetchMessages = async () => {
+            const displayMessage = document.getElementById('messages');
+            const messages = await fetch('http://localhost:3000/api/chats', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+            });
+            const result = await messages.json();
+            console.log(result);
+
+            result.forEach(message => {
+              const messageElement = document.createElement('li');
+              messageElement.textContent = message.content;
+              displayMessage.appendChild(messageElement);
+            });
+          };
+
+          document.getElementById('form').addEventListener('submit', e => {
+            e.preventDefault();
+            const accessInputField = document.getElementById('input');
+
+            socket.emit('sentMessage', { content: accessInputField.value });
+          });
+
+          socket.on('receiveMessage', data => {
+            const displayMessage = document.getElementById('messages');
+            const newMessage = document.createElement('li');
+            newMessage.textContent = data.content;
+            displayMessage.appendChild(newMessage);
+          });
+        });
+    </script>
+  </body>
+</html>

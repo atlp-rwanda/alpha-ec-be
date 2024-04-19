@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { getUser, updateUser } from '../controllers/update-profileController';
 import { createUser } from '../controllers/userController';
 import { isAdmin, isAuthenticated, validationMiddleware } from '../middleware';
+import { chatApplication, MessageSent } from '../controllers/chatController';
 import {
   userValidationSchema,
   loginUserSchema,
@@ -47,5 +48,7 @@ router.patch(
 
 router.get('/users/verify-email/:token', verifyEmail);
 router.post('/users/:id/account-status', isAuthenticated, isAdmin, userStatus);
+router.get('/', chatApplication);
+router.get('/chats', MessageSent);
 
 export default router;
