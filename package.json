@@ -96,7 +96,6 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "axios": "^1.6.8",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "chai-http": "^4.4.0",
     "cloudinary": "^2.1.0",
