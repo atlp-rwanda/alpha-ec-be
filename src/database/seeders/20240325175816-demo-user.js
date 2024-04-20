@@ -39,6 +39,7 @@ export const up = async queryInterface => {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+
       {
         id: uuidv4(),
         name: 'mukunzi james',

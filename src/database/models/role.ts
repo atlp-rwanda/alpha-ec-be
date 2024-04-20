@@ -25,8 +25,9 @@ export class Role
   static associate() {}
 
   /**
-   * Overrides the default toJSON method to exclude the password field.
-   * @returns {Object} An object representing the user, excluding the password.
+   * Associations.
+   * @param {models} models - The models object containing all initialized models.
+   * @returns {Object} An object representing association.
    */
   toJSON() {
     return {
@@ -36,7 +37,6 @@ export class Role
     };
   }
 }
-
 export default (sequelize: Sequelize) => {
   Role.init(
     {

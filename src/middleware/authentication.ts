@@ -48,21 +48,20 @@ export const isAuthenticated = (
 
 export const isSeller = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || !('role' in req.user) || req.user.role !== 'seller') {
-    return sendResponse(
-      res,
-      403,
-      null,
-      'Forbidden'
-    );
+    return sendResponse(res, 403, null, 'Not authorized!');
   }
   next();
 };
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || !('role' in req.user) || req.user.role !== 'admin') {
-    return sendResponse(res, 403, null, 'Forbidden');
+    return sendResponse(res, 403, null, 'Not authorized!');
   }
   next();
 };
 
-
-
+export const isBuyer = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user || !('role' in req.user) || req.user.role !== 'buyer') {
+    return sendResponse(res, 403, null, 'Not authorized!');
+  }
+  next();
+};

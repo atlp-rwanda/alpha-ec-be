@@ -311,6 +311,122 @@
         }
       }
     },
+    "/api/wishes": {
+      "post": {
+        "tags": ["wishlist"],
+        "summary": "add wishes",
+        "description": "only buyer can be able to post wishes",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "requestBody": {
+          "description": "wishes body details",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "3c34c7cc-443c-4f9a-abcf-2749bfc18f3c"
+                  }
+                },
+                "required": ["productId"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["wishlist"],
+        "summary": "List all wishes",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["wishlist"],
+        "summary": " all wishes",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/roles/{id}": {
       "get": {
         "tags": ["Role"],
@@ -1203,6 +1319,7 @@
         }
       }
     },
+
     "/api/products/{id}": {
       "get": {
         "tags": ["Products"],
