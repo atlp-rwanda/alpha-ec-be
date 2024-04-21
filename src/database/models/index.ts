@@ -4,15 +4,9 @@ import RoleModel from './role';
 import ProductModel from './product';
 import LogoutModel from './logout';
 import WishlistModel from './wishlist';
-<<<<<<< HEAD
 import initializeChatModel from './chat';
-<<<<<<< HEAD
 import CategoryModel from './category';
-=======
-=======
 import cartModel from './cart';
->>>>>>> 67416fd (ft(cart):)
->>>>>>> 4e12cd2 (ft(cart):)
 
 const Models = (sequelize: Sequelize) => {
   const User = UserModel(sequelize);

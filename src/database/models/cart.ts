@@ -55,7 +55,7 @@ export class Cart extends Model<cartAttributes, cartCreationAttributes> {
   toJSON() {
     return {
       id: this.id,
-      userId: this.userId,
+      userId: undefined,
       products: this.products,
       totalprice: this.totalprice,
       createdAt: this.createdAt,
@@ -78,7 +78,7 @@ const cartModel = (sequelize: Sequelize) => {
         allowNull: false,
         references: {
           model: 'users',
-          key: 'id',
+          key: 'name',
         },
       },
       products: { type: DataTypes.ARRAY(DataTypes.JSON) },

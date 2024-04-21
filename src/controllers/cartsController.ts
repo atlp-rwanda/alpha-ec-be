@@ -23,7 +23,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
       return sendResponse<null>(res, 404, null, 'Product not found');
     }
     if (validProduct.quantity < product.quantity) {
-      return sendResponse<null>(res, 404, null, 'Quantity Exceeds Stock');
+      return sendResponse<null>(res, 406, null, 'Quantity Exceeds Stock');
     }
     const cartExist = await Database.Cart.findOne({ where: { userId: id } });
     if (!cartExist) {
@@ -33,7 +33,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
         totalprice: validProduct.price * product.quantity,
       });
       await cart.save();
-      return sendResponse(res, 200, cart, 'Product added to cart');
+      return sendResponse(res, 201, cart, 'Product added to cart');
     }
     const findProduct = cartExist.products.find(
       p => p.productId === product.productId
@@ -41,18 +41,19 @@ export const addItemToCart = async (req: Request, res: Response) => {
     if (findProduct) {
       return sendResponse<null>(
         res,
-        404,
+        409,
         null,
         'Product already in cart, Please update!'
       );
     }
+
     const updatedProducts = [...cartExist.products, product];
     const updatedTotalPrice = await calculateTotal(updatedProducts);
     const updatedCart = await Database.Cart.update(
       { products: updatedProducts, totalprice: updatedTotalPrice },
       { where: { id: cartExist.id }, returning: true }
     );
-    return sendResponse(res, 200, updatedCart[1], 'Product added to cart');
+    return sendResponse(res, 201, updatedCart[1], 'Product is added to cart ');
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
@@ -70,7 +71,6 @@ export const getCart = async (req: Request, res: Response) => {
     }
     const cart = {
       id: cartFound.id,
-      userId: cartFound.userId,
       produtcs: await formatCartItems(cartFound.products),
       totalprice: cartFound.totalprice,
     };
@@ -96,7 +96,7 @@ export const updateCart = async (req: Request, res: Response) => {
       return sendResponse<null>(res, 404, null, 'Product not found');
     }
     if (validProduct.quantity < product.quantity) {
-      return sendResponse<null>(res, 404, null, 'Quantity Exceeds Stock');
+      return sendResponse<null>(res, 406, null, 'Quantity Exceeds Stock');
     }
     const cartFound = await Database.Cart.findOne({
       where: { id: cartId },
@@ -115,45 +115,13 @@ export const updateCart = async (req: Request, res: Response) => {
       { products: updatedProducts, totalprice: updatedTotalPrice },
       { where: { id: cartFound.id }, returning: true }
     );
-    return sendResponse(res, 200, updatedCart[1], 'Cart updated');
+    return sendResponse(res, 201, updatedCart[1], 'Cart updated');
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);
   }
 };
 
-//= ====================================================================================================================
-// delete the product by productId from cart
-
-export const deleteProductFromCart = async (req: Request, res: Response) => {
-  const { id } = req.user as UserInterface;
-  const { productId } = req.body;
-  try {
-    const cartFound = await Database.Cart.findOne({
-      where: { userId: id },
-    });
-    if (!cartFound) {
-      return sendResponse<null>(res, 404, null, 'Cart not found');
-    }
-    const updatedProducts = cartFound.products.filter(
-      p => p.productId !== productId
-    );
-    const updatedTotalPrice = await calculateTotal(updatedProducts);
-    const updatedCart = await Database.Cart.update(
-      { products: updatedProducts, totalprice: updatedTotalPrice },
-      { where: { id: cartFound.id }, returning: true }
-    );
-    return sendResponse(
-      res,
-      200,
-      updatedCart[1],
-      'Product deleted from the cart'
-    );
-  } catch (err: unknown) {
-    const errors = err as Error;
-    return sendResponse<null>(res, 500, null, errors.message);
-  }
-};
 //= =============================================================================================================================
 // delete entire cart with cartid
 
@@ -174,7 +142,33 @@ export const deleteCart = async (req: Request, res: Response) => {
     return sendResponse<null>(res, 500, null, errors.message);
   }
 };
+//= ====================================================================================================================
+// will delete a product from the cart
+export const deleteProductFromCart = async (req: Request, res: Response) => {
+  const { id } = req.user as UserInterface;
+  const productId = req.params.id;
+  try {
+    const cartFound = await Database.Cart.findOne({
+      where: { userId: id },
+    });
+    if (!cartFound) {
+      return sendResponse<null>(res, 404, null, 'Cart not found');
+    }
 
+    const updatedProducts = cartFound.products.filter(
+      p => p.productId !== productId
+    );
+    const updatedTotalPrice = await calculateTotal(updatedProducts);
+    const updatedCart = await Database.Cart.update(
+      { products: updatedProducts, totalprice: updatedTotalPrice },
+      { where: { id: cartFound.id }, returning: true }
+    );
+    return sendResponse(res, 200, updatedCart[1], 'Product deleted');
+  } catch (err: unknown) {
+    const errors = err as Error;
+    return sendResponse<null>(res, 500, null, errors.message);
+  }
+};
 //= ===========================================================================================================================
 // empty the cart
 
