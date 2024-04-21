@@ -1,40 +1,75 @@
-// import { Socket, Server } from 'socket.io';
-// import res from './server';
-// import Database from './database';
-// import { logger } from './utils';
-// import { decodeToken } from './utils/tokenGenerate';
+import { Server, Socket } from 'socket.io';
+import { Server as HttpServer } from 'http';
+import Database from './database';
+import { decodeToken, findUsername } from './utils/tokenGenerate';
+import { logger } from './utils';
 
-// const io = new Server(res);
+interface CustomSocket extends Socket {
+  userId?: string;
+}
 
-// interface CustomSocket extends Socket {
-//   userId?: string;
-// }
-// const findId = (socket: CustomSocket) => {
-//   const { token } = socket.handshake.auth;
-//   const id = decodeToken(token);
-//   socket.userId = id;
-//   return id;
-// };
+export const findId = (socket: CustomSocket) => {
+  const { token } = socket.handshake.auth;
+  const id = decodeToken(token);
+  socket.emit('sendUserId', id);
+  socket.userId = id;
+  return id;
+};
 
-// io.use(async (socket: CustomSocket, next) => {
-//   const id = findId(socket);
-//   socket.userId = id;
-//   next();
-// });
+interface ChatMessage {
+  socketId: string;
+  content: string;
+  messageDate: string;
+}
+const handleSentMessage = async (
+  socket: CustomSocket,
+  data: ChatMessage,
+  io: Server
+) => {
+  const senderId = socket.userId!;
+  const readStatus = false;
+  if (senderId) {
+    const { content } = data;
+    const { socketId } = data;
+    const { messageDate } = data;
+    const senderName = await findUsername(socket.userId!);
+    Database.Chat.create({
+      socketId,
+      senderId,
+      content,
+      readStatus,
+    });
 
-// io.on('connection', (socket: CustomSocket) => {
-//   logger.info('user connected');
-//   io.emit('welcome', 'welcome to our chat application');
-//   socket.on('disconnect', () => {
-//     logger.info('user disconnected');
-//   });
-//   // eslint-disable-next-line no-shadow
-//   socket.on('sentMessage', data => {
-//     const senderId = socket.userId;
-//     if (senderId) {
-//       const { content } = data;
-//       Database.Chat.create({ senderId, content });
-//       io.emit('receiveMessage', data);
-//     }
-//   });
-// });
+    // eslint-disable-next-line no-shadow
+    io.emit('receiveMessage', {
+      socketId,
+      messageDate,
+      senderName,
+      content,
+      readStatus,
+    });
+  }
+};
+
+const handleTyping = async (socket: CustomSocket, isTyping: string) => {
+  socket.broadcast.emit('typing', isTyping);
+};
+
+const handleDisconnect = () => {
+  logger.info('user disconnected');
+};
+export const socketSetUp = (server: HttpServer) => {
+  const io = new Server(server);
+  io.use(async (socket: CustomSocket, next) => {
+    const id = findId(socket);
+    socket.userId = id;
+    next();
+  });
+
+  io.on('connection', async (socket: CustomSocket) => {
+    io.emit('welcome', 'welcome to our chat application');
+    socket.on('sentMessage', data => handleSentMessage(socket, data, io));
+    socket.on('typing', isTyping => handleTyping(socket, isTyping));
+    socket.on('disconnect', () => handleDisconnect);
+  });
+};

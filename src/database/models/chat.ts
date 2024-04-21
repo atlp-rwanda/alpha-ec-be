@@ -1,9 +1,12 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
+import { User } from './user';
 
 interface ChatAttributes {
   id: string;
-  senderId: string;
+  socketId: string;
+  senderId: string | null; // Updated data type to match Sequelize.UUID in the migration
   content: string;
+  readStatus: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -12,19 +15,35 @@ interface ChatCreationAttributes extends Omit<ChatAttributes, 'id'> {}
 /**
  * Chat model definition class.
  */
-class Chat
+export class Chat
   extends Model<ChatAttributes, ChatCreationAttributes>
   implements ChatAttributes
 {
   public id!: string;
 
-  public senderId!: string;
+  public senderId!: string | null; // Updated data type to match Sequelize.UUID in the migration
+
+  public socketId!: string;
 
   public content!: string;
+
+  public readStatus!: boolean;
 
   public readonly createdAt!: Date;
 
   public readonly updatedAt!: Date;
+
+  /**
+   * Associations.
+   * @param {IModels} models - The models object containing all initialized models.
+   * @returns {Object} An object representing association.
+   */
+  public static associate(models: { User: typeof User }) {
+    Chat.belongsTo(models.User, {
+      foreignKey: 'senderId',
+      as: 'sender',
+    });
+  }
 }
 
 // eslint-disable-next-line valid-jsdoc
@@ -44,8 +63,12 @@ export default function initializeChatModel(sequelize: Sequelize): typeof Chat {
         unique: true,
         defaultValue: DataTypes.UUIDV4,
       },
+      socketId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       senderId: {
-        type: DataTypes.UUID,
+        type: DataTypes.UUID, // Ensure this matches the data type in the migration
         references: {
           model: 'users',
           key: 'id',
@@ -54,6 +77,9 @@ export default function initializeChatModel(sequelize: Sequelize): typeof Chat {
       content: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      readStatus: {
+        type: DataTypes.BOOLEAN,
       },
     },
     {

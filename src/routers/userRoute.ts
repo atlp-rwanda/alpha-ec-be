@@ -48,7 +48,7 @@ router.patch(
 
 router.get('/users/verify-email/:token', verifyEmail);
 router.post('/users/:id/account-status', isAuthenticated, isAdmin, userStatus);
-router.get('/', chatApplication);
-router.get('/chats', MessageSent);
+router.get('/chatapp', chatApplication);
+router.get('/chats', isAuthenticated, MessageSent);
 
 export default router;

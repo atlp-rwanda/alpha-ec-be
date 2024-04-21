@@ -23,6 +23,7 @@ const Models = (sequelize: Sequelize) => {
     Category,
     Logout,
     Chat,
+    Wishlist,
   };
 };
 

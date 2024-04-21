@@ -7,6 +7,9 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
+      socketId: {
+        type: Sequelize.STRING,
+      },
       senderId: {
         type: Sequelize.UUID,
         allowNull: false,
@@ -19,6 +22,9 @@ module.exports = {
       },
       content: {
         type: Sequelize.STRING,
+      },
+      readStatus: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
