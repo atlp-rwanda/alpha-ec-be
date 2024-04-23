@@ -1,0 +1,50 @@
+<html lang='en'>
+
+  <head>
+    <meta charset='UTF-8' />
+    <title>Account Suspended</title>
+    <style>
+      @import
+      url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+      body { font-family: 'Merriweather Sans', sans-serif; background-color:
+      #f0f0f0; margin: 0; padding: 0; display: flex; justify-content: center;
+      align-items: center; height: 100vh; } .content { max-width: 600px; width:
+      100%; /* text-align: center; */ padding: 20px; background-color: #fff;
+      border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin: 20px;
+      } .content h1 { color: #3f51b5; font-weight: 600; font-size: 24px; }
+      .content p { color: #555; font-size: 16px; font-weight: bold; } .content
+      ul { text-align: left; padding: 0; margin: 10px 20px 20px 20px; color:
+      #555; font-size: 16px; font-weight: bold; } .content li { text-align:
+      left; font-size: 16px; color: #555; font-weight: bold; } .content img {
+      max-width: 100%; border-radius: 5px; margin-bottom: 20px; } .imgDiv {
+      display: flex; justify-content: center; align-items: center; } .name1 {
+      font-weight: bolder; }
+    </style>
+  </head>
+
+  <body>
+    <div class='content'>
+      <div class='imgDiv'>
+        <img
+          src='https://t3.ftcdn.net/jpg/05/82/35/42/360_F_582354289_L6C0CfftpibA1VAgveCpLaDH8lU4TaAV.jpg'
+          alt='Account Suspended'
+        />
+      </div>
+      <p>Dear&nbsp;&nbsp;&nbsp;
+        <span class='name1'>{{name}}</span>
+        ,<br />
+      </p>
+      <p>Your account's status has been changed to suspended due to the
+        following reasons:</p>
+      <ul>
+        {{#each reasons}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul><br />
+      <p>Please contact the administration as soon as possible for further
+        assistance.</p>
+      <p>Regards,</p>
+    </div>
+  </body>
+
+</html>

@@ -17,6 +17,11 @@ const loginController = async (req: Request, res: Response) => {
         'User not found or Invalid Credentials'
       );
     }
+
+    if (user.status !== true) {
+      return sendResponse<null>(res, 403, null, 'This account is SUSPENDED!!');
+    }
+
     if (!user.verified) {
       const verificationToken = signToken({ email: user.email }, '15m');
 
@@ -24,8 +29,8 @@ const loginController = async (req: Request, res: Response) => {
 
       const mailOptions = {
         to: email,
-        subject: 'Your Email verification',
-        template: 'email',
+        subject: 'Your Email Verification',
+        template: 'verifyAccount',
         context: {
           name,
           verificationLink: `${process.env.ROOT_URL}/api/users/verify-email/${verificationToken}`,

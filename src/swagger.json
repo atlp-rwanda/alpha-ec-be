@@ -54,7 +54,6 @@
             }
           }
         },
-
         "responses": {
           "200": {
             "description": "Success",
@@ -224,7 +223,6 @@
         }
       }
     },
-
     "/api/roles": {
       "post": {
         "tags": ["Role"],
@@ -1750,12 +1748,71 @@
                       "type": "string",
                       "example": "Error"
                     },
+                    "message": {
+                      "type": "string",
+                      "example": "jwt malformed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}/account-status": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Disable and Activate an account",
+        "description": "Disable and Activate an account",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "properties": [],
+                "example": [
+                  "Repeated violation of terms of service",
+                  "Not following usage policies",
+                  " Harrassment"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user's account status has been successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
                     "data": {
-                      "example": null
+                      "type": "string",
+                      "example": ""
                     },
                     "message": {
                       "type": "string",
-                      "example": "Internal server error"
+                      "example": "Status has been updated to SUSPENDED"
                     }
                   }
                 }
