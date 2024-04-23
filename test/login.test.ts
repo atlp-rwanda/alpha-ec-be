@@ -157,6 +157,22 @@ describe('testing Login API', () => {
           expect(res).to.have.status(500);
         });
     });
+    it('it should return This account is SUSPENDED', done => {
+      const user = {
+        email: 'test9@example.com',
+        password: '1111@aa',
+      };
+      chai
+        .request(app)
+        .post('/api/users/login')
+        .send(user)
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body).to.have.property('message');
+          expect(res.body.message).to.equal('This account is SUSPENDED!!');
+          done();
+        });
+    }).timeout(10000);
   });
 });
 

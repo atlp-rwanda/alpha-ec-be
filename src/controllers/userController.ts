@@ -16,7 +16,8 @@ export const createUser = async (
   res: Response
 ) => {
   try {
-    const { name, email, phone, address, password, verified } = req.body;
+    const { name, email, phone, address, password, verified, status } =
+      req.body;
 
     const userExist = await Database.User.findOne({
       where: {
@@ -42,6 +43,7 @@ export const createUser = async (
       address,
       password: hashedPassword,
       verified,
+      status,
     });
 
     await user.save();
@@ -49,12 +51,10 @@ export const createUser = async (
     // Send verification email
     const verificationToken = signToken({ email: user.email }, '15m');
 
-    await user.save();
-
     const mailOptions = {
       to: email,
-      subject: 'Your Email verification',
-      template: 'email',
+      subject: 'Your Email Verification',
+      template: 'verifyAccount',
       context: {
         name,
         verificationLink: `${process.env.ROOT_URL}/api/users/verify-email/${verificationToken}`,

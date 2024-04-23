@@ -83,6 +83,18 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: 'c19de6bc-2f6c-499e-9399-f010d656b4f9',
+          name: 'Adolf Hitler',
+          password:
+            '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
+          email: 'test8@example.com',
+          phone: '0783556915',
+          verified: true,
+          address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

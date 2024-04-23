@@ -2,7 +2,7 @@
 import { Router } from 'express';
 import { getUser, updateUser } from '../controllers/update-profileController';
 import { createUser } from '../controllers/userController';
-import { isAuthenticated, validationMiddleware } from '../middleware';
+import { isAdmin, isAuthenticated, validationMiddleware } from '../middleware';
 import {
   userValidationSchema,
   loginUserSchema,
@@ -15,6 +15,7 @@ import logoutUser from '../controllers/logoutController';
 
 import { singleFileUpload } from '../middleware/fileUpload';
 import { verifyEmail } from '../controllers/userVerifyController';
+import { userStatus } from '../controllers/userStatusController';
 
 const router = Router();
 
@@ -45,5 +46,6 @@ router.patch(
 );
 
 router.get('/users/verify-email/:token', verifyEmail);
+router.post('/users/:id/account-status', isAuthenticated, isAdmin, userStatus);
 
 export default router;

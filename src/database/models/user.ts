@@ -20,6 +20,7 @@ export interface UserAttributes {
   updatedAt: Date;
   roleId?: string;
   role?: Role;
+  status: boolean;
 }
 
 interface userCreationAttributes
@@ -71,6 +72,8 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
 
   declare role: Role;
 
+  declare status: boolean;
+
   declare readonly createdAt: Date;
 
   declare readonly updatedAt: Date;
@@ -119,6 +122,7 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
       photoUrl: this.photoUrl,
       verified: this.verified,
       role: this.role,
+      status: this.status,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
@@ -145,6 +149,10 @@ const UserModel = (sequelize: Sequelize) => {
       verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
       roleId: {
         type: DataTypes.UUID,
