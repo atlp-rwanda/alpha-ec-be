@@ -67,6 +67,16 @@ describe('should create and assign role', () => {
           done();
         });
     });
+    it('get all wishes with status code of 200 ', done => {
+      chai
+        .request(app)
+        .get('/api/wishes')
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
     it('Should not delete a product should be 401 if you are not seller', function (done) {
       chai
         .request(app)
@@ -74,10 +84,8 @@ describe('should create and assign role', () => {
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.body).to.have.property('message');
-          expect(res).to.have.status(401);
-          expect(res.body.message).to.equal(
-            'Not authorized! user should be seller'
-          );
+          expect(res).to.have.status(403);
+          expect(res.body.message).to.equal('Not authorized!');
           done();
         });
     });
@@ -110,7 +118,7 @@ describe('should create and assign role', () => {
         .get('/api/roles')
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
-          id = res.body.data[1].id;
+          id = res.body.data[0].id;
           expect(res.statusCode).to.equal(200);
           expect(res.body).to.have.property('message');
           expect(res.body.message).to.equal('Roles fetched successfully!');

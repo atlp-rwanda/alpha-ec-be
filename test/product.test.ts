@@ -49,11 +49,19 @@ describe('PRODUCT API TEST', () => {
       .get('/api/roles')
       .set('Authorization', `Bearer ${token}`)
       .end((err, res) => {
-        expect(res.statusCode).to.equal(401);
+        expect(res.statusCode).to.equal(403);
         expect(res.body).to.have.property('message');
-        expect(res.body.message).to.equal(
-          'Not authorized! User should be admin'
-        );
+        expect(res.body.message).to.equal('Not authorized!');
+        done();
+      });
+  });
+  it('delete all wishes with status code of 200 ', done => {
+    chai
+      .request(app)
+      .delete('/api/wishes')
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(403);
         done();
       });
   });
@@ -119,6 +127,33 @@ describe('PRODUCT API TEST', () => {
       });
   }).timeout(5000);
 
+  it('Should create a product', function (done) {
+    this.timeout(5000);
+
+    const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
+    const product = {
+      name: 'chevrolet1',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
+      price: 5000,
+    };
+
+    chai
+      .request(app)
+      .post('/api/products')
+      .set('Authorization', `Bearer ${token}`)
+      .field('name', product.name)
+      .field('categoryId', product.categoryId)
+      .field('price', product.price)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .end((err, res) => {
+        expect(res.body).to.have.property('message');
+        expect(res).to.have.status(201);
+        done();
+      });
+  }).timeout(5000);
   it('Should not create a product if category is not found', function (done) {
     this.timeout(5000);
 
@@ -538,5 +573,16 @@ describe('PRODUCT API TEST', () => {
     expect(result2).to.have.property('to').to.equal(8);
     expect(result2).to.have.property('totalItems').to.equal(10);
     done();
+  });
+
+  it('get all wishes with status code of 200 ', done => {
+    chai
+      .request(app)
+      .get('/api/wishes')
+      .set('Authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
   });
 });

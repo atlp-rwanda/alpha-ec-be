@@ -46,6 +46,7 @@ describe('POST, /api/users/change-password', () => {
         done();
       });
   });
+
   it('when old password is not the same as the one stored in database', done => {
     chai
       .request(app)

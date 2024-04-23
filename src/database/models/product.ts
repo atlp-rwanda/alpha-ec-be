@@ -1,6 +1,7 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
 import { Category } from './category';
+import { Wishlist } from './wishlist';
 
 export interface ProductAttributes {
   id: string;
@@ -17,13 +18,11 @@ export interface ProductAttributes {
   createdAt: Date;
   updatedAt: Date;
 }
-
 interface ProductCreationAttributes
   extends Omit<ProductAttributes, 'id' | 'createdAt' | 'updatedAt'> {
   createdAt?: Date;
   updatedAt?: Date;
 }
-
 /**
  * Represents a product in the system.
  */
@@ -69,6 +68,7 @@ export class Product extends Model<
   public static associate(models: {
     User: typeof User;
     Category: typeof Category;
+    Wishlist: typeof Wishlist;
   }) {
     Product.belongsTo(models.User, {
       foreignKey: 'sellerId',
@@ -77,6 +77,10 @@ export class Product extends Model<
     Product.belongsTo(models.Category, {
       foreignKey: 'categoryId',
       as: 'category',
+    });
+    Product.hasMany(models.Wishlist, {
+      foreignKey: 'productId',
+      as: 'wishlist',
     });
   }
 
@@ -102,7 +106,6 @@ export class Product extends Model<
     };
   }
 }
-
 const ProductModel = (sequelize: Sequelize) => {
   Product.init(
     {
@@ -145,8 +148,6 @@ const ProductModel = (sequelize: Sequelize) => {
       timestamps: true,
     }
   );
-
   return Product;
 };
-
 export default ProductModel;

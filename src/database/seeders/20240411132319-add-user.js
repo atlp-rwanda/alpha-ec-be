@@ -21,6 +21,19 @@ module.exports = {
         },
         {
           id: uuidv4(),
+          name: 'Ndahiro James',
+          password:
+            '$2b$10$Jnzk1aJ9PdePqGuW1CtRN.TyswmnBKdqPp0pySXvi5NYNjponsl0K',
+          email: 'j.mukunzi@alustudent.com',
+          phone: '0788691201',
+          address: '123 Test Street',
+          verified: true,
+          roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
           name: 'Simon Peter',
           password:
             '$2b$10$d.uGhOTM/3rt5IcOYEejru6mPeJrIZgA0v9UTghYdQTdvtrxMbw7m',
@@ -54,6 +67,19 @@ module.exports = {
           phone: '07834567890',
           verified: true,
           address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
+          name: 'ndahiro james',
+          password:
+            '$2a$10$/2hcfbCc/PPMjavxfk6abuEpIJQ5s7epUQfUHGZ/SbmTxv1180caK',
+          email: 'test10@example.com',
+          phone: '0788691201',
+          verified: true,
+          roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+          address: 'kigali',
           createdAt: new Date(),
           updatedAt: new Date(),
         },

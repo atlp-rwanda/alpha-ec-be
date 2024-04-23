@@ -20,7 +20,6 @@ const loginController = async (req: Request, res: Response) => {
     if (!user.verified) {
       const verificationToken = signToken({ email: user.email }, '15m');
 
-      await user.save();
       const { name } = user;
 
       const mailOptions = {
@@ -46,7 +45,8 @@ const loginController = async (req: Request, res: Response) => {
 
     return sendResponse<string>(res, 200, token, 'Logged In Successfully');
   } catch (error) {
-    return sendResponse<null>(res, 500, null, 'Internal Server Error');
+    const errorMessage = (error as Error).message;
+    return sendResponse<null>(res, 500, null, errorMessage);
   }
 };
 export default loginController;
