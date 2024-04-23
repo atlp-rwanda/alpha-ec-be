@@ -32,6 +32,19 @@ export const loginUserSchema = Joi.object({
     }, 'Password validation'),
 });
 
+const PasswordPattern =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+export const resetPasswordSchema = Joi.object({
+  password: Joi.string().required().pattern(PasswordPattern),
+  confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+    'any.only': 'confirm password must be the same as password',
+  }),
+});
+
+export const emailValidation = Joi.object({
+  email: Joi.string().email().required(),
+});
 export const personalValidationalSchema = Joi.object({
   name: Joi.string().min(3).max(30).optional(),
   photoUrl: Joi.string().optional(),

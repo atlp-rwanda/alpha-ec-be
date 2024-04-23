@@ -13,7 +13,6 @@ const userPassword = {
   password: '1111@aa',
 };
 
-
 describe('Socket testing', () => {
   var token: string = '';
 

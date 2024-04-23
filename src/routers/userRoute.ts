@@ -8,6 +8,8 @@ import {
   userValidationSchema,
   loginUserSchema,
   personalValidationalSchema,
+  resetPasswordSchema,
+  emailValidation,
 } from '../validations';
 import loginController from '../controllers/loginController';
 import updatePassword from '../controllers/changePasswordController';
@@ -16,6 +18,10 @@ import logoutUser from '../controllers/logoutController';
 
 import { singleFileUpload } from '../middleware/fileUpload';
 import { verifyEmail } from '../controllers/userVerifyController';
+import {
+  forgotPassword,
+  resetPassword,
+} from '../controllers/resetPasswordController';
 import { userStatus } from '../controllers/userStatusController';
 
 const router = Router();
@@ -51,4 +57,14 @@ router.post('/users/:id/account-status', isAuthenticated, isAdmin, userStatus);
 router.get('/chatapp', chatApplication);
 router.get('/chats', isAuthenticated, MessageSent);
 
+router.post(
+  '/users/forgot-password',
+  validationMiddleware(emailValidation),
+  forgotPassword
+);
+router.patch(
+  '/users/reset-password/:token',
+  validationMiddleware(resetPasswordSchema),
+  resetPassword
+);
 export default router;

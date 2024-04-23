@@ -72,6 +72,18 @@ module.exports = {
         },
         {
           id: uuidv4(),
+          name: 'Irasubiza',
+          password:
+            '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
+          email: 'test6@example.com',
+          phone: '0783456789',
+          verified: true,
+          address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: uuidv4(),
           name: 'ndahiro james',
           password:
             '$2a$10$/2hcfbCc/PPMjavxfk6abuEpIJQ5s7epUQfUHGZ/SbmTxv1180caK',
