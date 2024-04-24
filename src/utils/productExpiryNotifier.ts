@@ -35,6 +35,6 @@ export async function notifyProductExpiry(product: Product) {
     await sendEmail(mailOptions);
     console.log(`Email sent to seller for product ${product.name}`);
   } catch (error) {
-    console.error(`Failed to send email for product ${product.name}:`, error);
+    // console.error(`Failed to send email for product ${product.name}:`, error);
   }
 }

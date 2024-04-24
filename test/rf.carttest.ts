@@ -167,7 +167,7 @@ describe('CART TEST', () => {
     const product = await Database.Product.findAll();
     let productId = product[0].id;
     console.log(productId);
-    const id='hello world'
+    const id = 'hello world';
     const products = {
       productId,
       quantity: '5',
@@ -198,7 +198,6 @@ describe('CART TEST', () => {
         expect(res).to.have.status(201);
       });
   });
- 
 
   it('delete cart with 500', done => {
     const { Cart } = Database;
@@ -241,7 +240,6 @@ describe('CART TEST', () => {
       });
   });
 
- 
   it('Should delete a product in  cart ', async () => {
     const product = await Database.Product.findAll();
     const productId = product[0].id;

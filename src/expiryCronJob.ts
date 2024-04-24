@@ -12,7 +12,7 @@ import { notifyProductExpiry } from './utils/productExpiryNotifier';
 dotenv.config();
 
 export const scheduleProductExpiryCron = (): void => {
-  const cronTime = process.env.CRON_TIME || '';
+  const cronTime = process.env.CRONTIME || '';
 
   cron.schedule(cronTime, async () => {
     console.log(`Running a cron job at ${cronTime}`);
@@ -33,6 +33,9 @@ export const scheduleProductExpiryCron = (): void => {
     });
 
     for (const product of products) {
+      if (product.expired) {
+        await product.update({ status: false });
+      }
       await product.update({ expired: true });
       await notifyProductExpiry(product);
     }
