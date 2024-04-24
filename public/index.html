@@ -208,7 +208,7 @@
             e.preventDefault();
 
             const response = await fetch(
-              'http://localhost:3000/api/users/login',
+              'https://alpha-ec-be.onrender.com/api/users/login',
               {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -233,7 +233,7 @@
       const establishSocketConnection = () => {
         const tokenValue = localStorage.getItem('Token');
         if (tokenValue) {
-          const socket = io('http://localhost:3000/', {
+          const socket = io('https://alpha-ec-be.onrender.com/', {
             auth: {
               token: tokenValue,
             },
@@ -253,7 +253,7 @@
 
           const fetchMessages = async () => {
             const displayMessage = document.getElementById('messages');
-            const messages = await fetch('http://localhost:3000/api/chats', {
+            const messages = await fetch('https://alpha-ec-be.onrender.com/api/chats', {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
