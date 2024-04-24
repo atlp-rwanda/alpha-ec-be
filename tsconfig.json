@@ -111,7 +111,8 @@
     "src/config/config.js",
     "test/*/.ts",
     "swagger.json",
-    "src/database/models/role.ts"
+    "src/database/models/role.ts",
+    "src/database/models/chat.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

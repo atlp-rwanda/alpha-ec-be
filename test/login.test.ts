@@ -21,6 +21,7 @@ describe('testing Login API', () => {
         email: 'test2@example.com',
         password: '1111@aa',
       };
+
       chai
         .request(app)
         .post('/api/users/login')

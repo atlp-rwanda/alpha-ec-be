@@ -1,0 +1,379 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Socket.IO chat</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: white;
+      }
+      #great-container {
+        background-color: white;
+        position: relative;
+        margin: auto;
+        width: 50%;
+        border-bottom: none;
+        padding: 0.25rem;
+        box-shadow: 0 0px 6px 0px rgba(0, 0, 0, 0.348);
+      }
+      #form {
+        background: rgba(51, 74, 178, 0.717);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        width: 50%;
+        margin: auto;
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #fcfcfcc4;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #000000;
+      }
+      #img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+      }
+      #typingStatus {
+        color: rgb(54, 54, 253);
+      }
+      #profile-status {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        padding: 20px 0px;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      .time,
+      .MyTime {
+        font-size: 13px;
+        max-width: 80%;
+        padding: 0.5rem 1rem;
+        white-space: nowrap;
+      }
+      .time {
+        color: blue;
+        margin-left: auto;
+      }
+      .MyTime {
+        color: white;
+      }
+
+      .mine {
+        background-color: rgba(2, 68, 167, 0.752);
+        color: white;
+        width: fit-content;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        margin-left: auto;
+      }
+      #typingStatus {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #377b37;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+      }
+      .Others {
+        background-color: rgba(211, 211, 211, 0.752);
+        color: black;
+        width: fit-content;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        margin-right: auto;
+      }
+
+      #welmsg {
+        text-align: center;
+        background-color: rgba(128, 128, 128, 0.218);
+        margin: 0;
+        padding: 0;
+      }
+      #loginForm {
+        margin: 0 auto;
+        width: 50%;
+      }
+      #loginForm input {
+        width: 300px;
+        height: 40px;
+        margin-bottom: 30px;
+        background-color: rgb(121, 109, 109);
+        padding-left: 10px;
+        border: dotted 1px black;
+      }
+      #loginForm button {
+        margin-left: 130px;
+        width: 100px;
+        background-color: blue;
+        color: white;
+        padding: 10px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        border: none;
+        font-size: 19px;
+      }
+    </style>
+  </head>
+  <body>
+    <section id="great-container">
+      <div class="main-container" id="chatApp">
+        <h3 id="welmsg"></h3>
+        <div id="profile-status">
+          <img
+            src="https://images.unsplash.com/photo-1710971228630-f59c4cb257a8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            id="img"
+          />
+          <div>
+            <p id="name"></p>
+          </div>
+        </div>
+        <ul id="messages"></ul>
+        <div id="typingStatus"></div>
+        <form id="form" action="">
+          <input id="input" /><button type="submit" id="send">Send</button>
+        </form>
+        <div id="userStatus"></div>
+      </div>
+      <div>
+        <form action="" id="loginForm">
+          <input type="text" name="email" placeholder="email" id="email" />
+          <br />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            id="password"
+          />
+          <br />
+          <button type="submit" id="login">Login</button>
+        </form>
+      </div>
+    </section>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const loginToAccount = () => {
+        document.addEventListener('DOMContentLoaded', e => {
+          e.preventDefault;
+          const email = document.querySelector('#email');
+          const password = document.getElementById('password');
+          const loginButton = document.getElementById('login');
+          const chatElement = document.getElementById('chatApp');
+          const loginForm = document.getElementById('loginForm');
+
+          loginButton.addEventListener('click', async e => {
+            e.preventDefault();
+
+            const response = await fetch(
+              'http://localhost:3000/api/users/login',
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  email: email.value,
+                  password: password.value,
+                }),
+              }
+            );
+            const result = await response.json();
+            if (result.data) {
+              const storeToken = localStorage.setItem('Token', result.data);
+              establishSocketConnection();
+              loginForm.style.display = 'none';
+              chatElement.style.display = 'block';
+            }
+          });
+        });
+      };
+      loginToAccount();
+
+      const establishSocketConnection = () => {
+        const tokenValue = localStorage.getItem('Token');
+        if (tokenValue) {
+          const socket = io('http://localhost:3000/', {
+            auth: {
+              token: tokenValue,
+            },
+          });
+          socket.on('sendUserId', getId => {
+            localStorage.setItem('userId', getId);
+          });
+
+          const value = document.getElementById('welmsg');
+          socket.on('welcome', data => {
+            setInterval(() => {
+              value.innerHTML = data;
+            }, 1000);
+          });
+
+          // fetching messages and displaying them
+
+          const fetchMessages = async () => {
+            const displayMessage = document.getElementById('messages');
+            const messages = await fetch('http://localhost:3000/api/chats', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('Token')}`,
+              },
+            });
+            const result = await messages.json();
+            const data = result.data;
+
+            // displaying messages
+
+            for (let i = 0; i < data.length; i++) {
+              const userId = localStorage.getItem('userId');
+              const newMessage = document.createElement('p');
+              const span = document.createElement('span');
+              const realTime = data[i].createdAt;
+              const findTime = findRealTime(realTime);
+
+              if (data[i].sender.id === userId) {
+                newMessage.textContent = `Me: ` + data[i].content;
+                span.textContent = findTime;
+                span.classList.add('MyTime');
+                newMessage.className = 'mine';
+                newMessage.style.textAlign = 'right';
+              } else {
+                newMessage.textContent = `${data[i].sender.name}: ${data[i].content}`;
+                formatTyping(data[i].sender.name);
+                span.textContent = findTime;
+                span.classList.add('time');
+                newMessage.className = 'Others';
+                newMessage.style.textAlign = 'left';
+              }
+              const displayMessage = document.getElementById('messages');
+              newMessage.appendChild(span);
+              displayMessage.appendChild(newMessage);
+            }
+            return data;
+          };
+          fetchMessages();
+
+          document.getElementById('form').addEventListener('submit', e => {
+            e.preventDefault();
+            const accessInputField = document.getElementById('input');
+            socket.emit('sentMessage', {
+              messageDate: new Date(),
+              content: accessInputField.value,
+              socketId: socket.id,
+            });
+            accessInputField.value = '';
+          });
+
+          const findRealTime = time => {
+            const date = new Date(time);
+
+            const formattedHours = date.getHours() % 12 || 12;
+            const amPm = date.getHours() < 12 ? 'AM' : 'PM';
+
+            // Format the time
+            formattedTime = `${formattedHours}:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()} ${amPm}`;
+            return formattedTime;
+          };
+          const formatTyping = name => {
+            const inputField = document.getElementById('input');
+            let typingTimer;
+            const typingTimeout = 1000;
+
+            inputField.addEventListener('input', () => {
+              clearTimeout(typingTimer);
+              socket.emit('typing', true);
+              typingTimer = setTimeout(() => {
+                socket.emit('typing', false);
+              }, typingTimeout);
+            });
+
+            // Update typing status UI
+            const typingStatus = document.getElementById('typingStatus');
+            socket.on('typing', isTyping => {
+              if (isTyping) {
+                typingStatus.style.display = 'block';
+                typingStatus.textContent = ` ${name} is typing...`;
+              } else {
+                typingStatus.style.display = 'none';
+                typingStatus.textContent = '';
+              }
+            });
+          };
+
+          socket.on('receiveMessage', data => {
+            const newMessage = document.createElement('li');
+            const senderName = data.senderName;
+            const span = document.createElement('span');
+            const findTime = findRealTime(data.messageDate);
+
+            if (data.content.trim() !== '') {
+              if (data.socketId === socket.id) {
+                newMessage.textContent = 'Me: ' + data.content;
+                span.textContent = findTime;
+                span.classList.add('MyTime');
+                newMessage.className = 'mine';
+                newMessage.style.textAlign = 'right';
+              } else {
+                newMessage.textContent = `${data.senderName}: ${data.content}`;
+                newMessage.className = 'Others';
+                span.textContent = findTime;
+                span.classList.add('time');
+                newMessage.style.textAlign = 'left';
+              }
+
+              const displayMessage = document.getElementById('messages');
+              newMessage.appendChild(span);
+              displayMessage.appendChild(newMessage);
+            } else {
+              console.error('Message content is empty');
+            }
+          });
+        } else {
+          alert('login please');
+        }
+      };
+    </script>
+  </body>
+</html>

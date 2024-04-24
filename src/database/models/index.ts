@@ -5,6 +5,7 @@ import ProductModel from './product';
 import CategoryModel from './category';
 import LogoutModel from './logout';
 import WishlistModel from './wishlist';
+import initializeChatModel from './chat';
 
 const Models = (sequelize: Sequelize) => {
   const User = UserModel(sequelize);
@@ -14,12 +15,14 @@ const Models = (sequelize: Sequelize) => {
   const Wishlist = WishlistModel(sequelize);
 
   const Logout = LogoutModel(sequelize);
+  const Chat = initializeChatModel(sequelize);
   return {
     Role,
     User,
     Product,
     Category,
     Logout,
+    Chat,
     Wishlist,
   };
 };

@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Product } from './product';
 import { Role } from './role';
+import { Chat } from './chat';
 
 export interface UserAttributes {
   id: string;
@@ -94,12 +95,14 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
   public static associate(models: {
     Product: typeof Product;
     Role: typeof Role;
+    Chat: typeof Chat;
   }) {
     User.hasMany(models.Product, {
       foreignKey: 'sellerId',
       as: 'products',
     });
     User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' });
+    User.hasMany(models.Chat, { foreignKey: 'senderId', as: 'sender' });
   }
 
   /**
