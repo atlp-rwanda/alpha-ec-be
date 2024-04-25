@@ -9,7 +9,7 @@ export const pagination = <Z>(
   const pageNumber = page > 1 ? page : 1;
   const currentPage = pageNumber !== 1 ? +pageNumber : 1;
   const totalPages = Math.ceil(totalItems / limit);
-  const from = (currentPage - 1) * limit;
+  const from = (currentPage - 1) * limit + 1;
   const to = Math.min(from + limit, totalItems);
 
   const payload = {

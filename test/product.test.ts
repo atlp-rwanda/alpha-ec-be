@@ -620,7 +620,7 @@ describe('PRODUCT API TEST', () => {
       .to.be.an('array')
       .to.have.lengthOf(10);
     expect(result).to.have.property('totalPages').to.equal(10);
-    expect(result).to.have.property('from').to.equal(9);
+    expect(result).to.have.property('from').to.equal(10);
     expect(result).to.have.property('to').to.equal(10);
     expect(result).to.have.property('totalItems').to.equal(10);
     expect(result2)
@@ -628,8 +628,8 @@ describe('PRODUCT API TEST', () => {
       .to.be.an('array')
       .to.have.lengthOf(10);
     expect(result2).to.have.property('totalPages').to.equal(5);
-    expect(result2).to.have.property('from').to.equal(6);
-    expect(result2).to.have.property('to').to.equal(8);
+    expect(result2).to.have.property('from').to.equal(7);
+    expect(result2).to.have.property('to').to.equal(9);
     expect(result2).to.have.property('totalItems').to.equal(10);
     done();
   });

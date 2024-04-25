@@ -5,6 +5,7 @@ import rolerouter from './role';
 import authRouter from './authRoute';
 import categoryRouter from './categoryRoute';
 import wishlistRouter from './wishlistRoute';
+import reviewRouter from './reviewRoute';
 import routercart from './cartRoutes';
 
 const router = Router();
@@ -14,10 +15,11 @@ const routers: Router[] = [
   authRouter,
   categoryRouter,
   wishlistRouter,
+  reviewRouter,
+  rolerouter,
   routercart,
 ];
 
 router.use('/api', routers);
-router.use('/api', rolerouter);
 
 export default router;

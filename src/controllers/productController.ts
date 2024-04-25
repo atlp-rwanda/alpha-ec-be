@@ -10,7 +10,7 @@ import { CategoryAttributes } from '../database/models/category';
 import { CheckUserCredential } from '../middleware/statuscheck';
 
 interface ProductCreationAttributes extends Omit<ProductAttributes, 'id'> {}
-interface UserInterface {
+export interface UserInterface {
   id: string;
   name: string;
   email: string;

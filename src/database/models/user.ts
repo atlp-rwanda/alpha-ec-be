@@ -2,6 +2,8 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Product } from './product';
 import { Role } from './role';
 import { Chat } from './chat';
+import { Reply } from './reply';
+import { Review } from './review';
 import { Cart } from './cart';
 
 export interface UserAttributes {
@@ -100,11 +102,21 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
     Product: typeof Product;
     Role: typeof Role;
     Chat: typeof Chat;
+    Review: typeof Review;
+    Reply: typeof Reply;
     Cart: typeof Cart;
   }) {
     User.hasMany(models.Product, {
       foreignKey: 'sellerId',
       as: 'products',
+    });
+    User.hasMany(models.Review, {
+      foreignKey: 'userId',
+      as: 'reviewer',
+    });
+    User.hasMany(models.Reply, {
+      foreignKey: 'userId',
+      as: 'repliedBy',
     });
     User.hasOne(models.Cart, {
       foreignKey: 'userId',
@@ -169,10 +181,10 @@ const UserModel = (sequelize: Sequelize) => {
       roleId: {
         type: DataTypes.UUID,
         allowNull: true,
-        defaultValue: DataTypes.UUIDV4, // Change the default value to an UUID
+        defaultValue: DataTypes.UUIDV4,
         references: {
           model: 'Roles',
-          key: 'id', // Change to the correct foreign key of Role model
+          key: 'id',
         },
       },
       gender: DataTypes.STRING,
