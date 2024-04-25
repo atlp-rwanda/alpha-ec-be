@@ -9,9 +9,9 @@ const logoutUser = async (req: Request, res: Response) => {
     const logout = Database.Logout.build({
       token: authorization as string,
     });
-    const result = await logout.save();
+    await logout.save();
 
-    return sendResponse(res, 200, result, 'Logged Out Succesfully');
+    return sendResponse(res, 200, null, 'Logged Out Succesfully');
   } catch (error) {
     return sendResponse(res, 500, null, 'Internal Server Error');
   }

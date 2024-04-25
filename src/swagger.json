@@ -110,6 +110,43 @@
         }
       }
     },
+    "/api/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "get all users",
+        "description": "it should list all users",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/profile": {
       "patch": {
         "tags": ["users"],
@@ -1234,6 +1271,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get all Product",
+        "security": [
+          {
+            "token": []
+          }
+        ],
         "parameters": [
           {
             "name": "page",
@@ -1245,6 +1287,7 @@
               "format": "int32"
             }
           },
+
           {
             "name": "limit",
             "in": "query",
@@ -1430,6 +1473,11 @@
       "get": {
         "tags": ["Products"],
         "summary": "Get a Product",
+        "security": [
+          {
+            "token": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1930,26 +1978,27 @@
         }
       }
     },
-    "/api/chatapp": {
-      "get": {
-        "tags": ["Chat"],
-        "summary": "Accessing index.html for chat application.",
-        "responses": {
-          "200": {
-            "description": "redirection to index.html file"
-          }
-        }
-      }
-    },
-    "/api/chats": {
-      "get": {
-        "tags": ["Chat"],
-        "summary": "Retrieving all messages sent in chat application",
+    "/api/products/{id}/status": {
+      "patch": {
+        "tags": ["Products"],
+        "summary": "Update availability of a Product",
         "security": [
           {
             "token": []
           }
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the product to retrieve."
+          }
+        ],
+        "requestBody": {},
         "responses": {
           "200": {
             "description": "OK",
@@ -1962,7 +2011,7 @@
                       "type": "string"
                     },
                     "data": {
-                      "type": "array"
+                      "type": "object"
                     },
                     "message": {
                       "type": "string"
@@ -1971,35 +2020,7 @@
                 },
                 "example": {
                   "status": "Success!",
-                  "data": [
-                    {
-                      "id": "92f75356-1a26-46b8-91d4-1ef245496757",
-                      "socketId": "g-LKiNdOF-RKF8KMAAAB",
-                      "senderId": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
-                      "content": "",
-                      "readStatus": false,
-                      "createdAt": "2024-04-23T13:35:07.841Z",
-                      "updatedAt": "2024-04-23T13:35:07.841Z",
-                      "sender": {
-                        "id": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
-                        "name": "Ruth Uwamahoro"
-                      }
-                    },
-                    {
-                      "id": "9aeef215-6fd6-4a16-b6c8-eb0f15720bea",
-                      "socketId": "g-LKiNdOF-RKF8KMAAAB",
-                      "senderId": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
-                      "content": "",
-                      "readStatus": false,
-                      "createdAt": "2024-04-23T13:35:08.351Z",
-                      "updatedAt": "2024-04-23T13:35:08.351Z",
-                      "sender": {
-                        "id": "3af72365-b2bf-4c46-bbc3-c23d636e2423",
-                        "name": "Ruth Uwamahoro"
-                      }
-                    }
-                  ],
-                  "message": "Messages retrieved successfully"
+                  "message": "Product updated successfully!"
                 }
               }
             }

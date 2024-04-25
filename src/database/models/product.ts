@@ -12,7 +12,7 @@ export interface ProductAttributes {
   price: number;
   expiryDate: Date;
   bonus: string;
-  status: string;
+  status: boolean;
   quantity: number;
   sellerId: string;
   createdAt: Date;
@@ -48,7 +48,7 @@ export class Product extends Model<
 
   declare bonus: string;
 
-  declare status: string;
+  declare status: boolean;
 
   declare quantity: number;
 
@@ -128,7 +128,12 @@ const ProductModel = (sequelize: Sequelize) => {
       price: DataTypes.FLOAT,
       expiryDate: DataTypes.DATE,
       bonus: DataTypes.STRING,
-      status: DataTypes.STRING,
+      status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
+
       quantity: DataTypes.FLOAT,
       sellerId: {
         type: DataTypes.UUID,

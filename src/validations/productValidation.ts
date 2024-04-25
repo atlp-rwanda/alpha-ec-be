@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Joi from 'joi';
 
 export const productValidationSchema = Joi.object({
@@ -20,4 +21,7 @@ export const productUpdateValidationSchema = Joi.object({
   bonus: Joi.number().optional(),
   status: Joi.string().optional(),
   quantity: Joi.number().min(0).max(1000).optional(),
+});
+export const statusUpdateValidationSchema = Joi.object({
+  status: Joi.boolean().required(),
 });

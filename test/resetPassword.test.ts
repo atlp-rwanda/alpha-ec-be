@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import Database from '../src/database';
 import sinon from 'sinon';
 import app from '../src/app';
-import { signToken, verifyToken } from '../src/utils';
 
 // Now you can use userStub in place of an actual Database.User instance
 
