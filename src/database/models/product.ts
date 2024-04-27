@@ -2,6 +2,7 @@ import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
 import { Category } from './category';
 import { Wishlist } from './wishlist';
+import { Cart } from './cart';
 
 export interface ProductAttributes {
   id: string;
@@ -69,6 +70,8 @@ export class Product extends Model<
     User: typeof User;
     Category: typeof Category;
     Wishlist: typeof Wishlist;
+    Product: typeof Product;
+    Cart: typeof Cart;
   }) {
     Product.belongsTo(models.User, {
       foreignKey: 'sellerId',

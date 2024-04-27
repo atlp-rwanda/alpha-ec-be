@@ -2,6 +2,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Product } from './product';
 import { Role } from './role';
 import { Chat } from './chat';
+import { Cart } from './cart';
 
 export interface UserAttributes {
   id: string;
@@ -99,10 +100,15 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
     Product: typeof Product;
     Role: typeof Role;
     Chat: typeof Chat;
+    Cart: typeof Cart;
   }) {
     User.hasMany(models.Product, {
       foreignKey: 'sellerId',
       as: 'products',
+    });
+    User.hasOne(models.Cart, {
+      foreignKey: 'userId',
+      as: 'cart',
     });
     User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' });
     User.hasMany(models.Chat, { foreignKey: 'senderId', as: 'sender' });

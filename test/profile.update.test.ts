@@ -13,7 +13,7 @@ let token: string = '';
 describe('update-profile', () => {
   before(done => {
     const currentuser = {
-      email: 'test4@example.com',
+      email: 'test3@example.com',
       password: '1111@aa',
     };
     chai

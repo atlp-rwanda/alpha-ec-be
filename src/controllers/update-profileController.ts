@@ -23,6 +23,11 @@ export const updateUser = async (req: Request, res: Response) => {
       );
     }
 
+    const user = await Database.User.findOne({ where: { id } });
+    if (!user) {
+      return sendResponse<null>(res, 404, null, 'User not found');
+    }
+
     const result = await Database.User.update(fieldsToUpdate, {
       where: { id },
     });

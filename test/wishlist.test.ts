@@ -4,7 +4,6 @@ import { describe, it } from 'mocha';
 import app from '../src/app';
 import Database from '../src/database';
 import sinon from 'sinon';
-import { getWishlist } from '../src/controllers/wishlistController';
 
 chai.use(chaiHttp);
 const { expect } = chai;

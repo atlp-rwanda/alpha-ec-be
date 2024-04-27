@@ -108,6 +108,7 @@ describe('PRODUCT API TEST', () => {
       name: 'MAZDA',
       categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
       price: 5000,
+      quantity: 20,
     };
 
     chai
@@ -117,6 +118,7 @@ describe('PRODUCT API TEST', () => {
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
+      .field('quantity', product.quantity)
       .attach('images', filePath)
       .attach('images', filePath)
       .attach('images', filePath)
@@ -136,6 +138,7 @@ describe('PRODUCT API TEST', () => {
       name: 'chevrolet1',
       categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
       price: 5000,
+      quantity: 20,
     };
 
     chai
@@ -145,6 +148,36 @@ describe('PRODUCT API TEST', () => {
       .field('name', product.name)
       .field('categoryId', product.categoryId)
       .field('price', product.price)
+      .field('quantity', product.quantity)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .attach('images', filePath)
+      .end((err, res) => {
+        expect(res.body).to.have.property('message');
+        expect(res).to.have.status(201);
+        done();
+      });
+  }).timeout(10000);
+  it('Should create a product', function (done) {
+    this.timeout(10000);
+
+    const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
+    const product = {
+      name: 'RANGE-ROVER',
+      categoryId: '2d854884-ea82-468f-9883-c86ce8d5a001',
+      price: 5000,
+      quantity: 20,
+    };
+
+    chai
+      .request(app)
+      .post('/api/products')
+      .set('Authorization', `Bearer ${token}`)
+      .field('name', product.name)
+      .field('categoryId', product.categoryId)
+      .field('price', product.price)
+      .field('quantity', product.quantity)
       .attach('images', filePath)
       .attach('images', filePath)
       .attach('images', filePath)
@@ -256,22 +289,22 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
- 
+
   it('Should get all products', function (done) {
     chai
       .request(app)
       .get('/api/products')
       .end((err, res) => {
-        id=res.body.data.products[0].id;
+        id = res.body.data.products[0].id;
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
         done();
       });
   });
-  it('Should update a product', (done) =>{
+  it('Should update a product', done => {
     chai
       .request(app)
-      .patch('/api/products/'+ id)
+      .patch('/api/products/' + id)
       .set('Authorization', `Bearer ${token}`)
       .field('name', 'chevrolet')
       .end((err, res) => {
@@ -410,8 +443,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-  it('Should get a single product', (done) => {
-
+  it('Should get a single product', done => {
     chai
       .request(app)
       .get(`/api/products/${id}`)
@@ -423,7 +455,7 @@ describe('PRODUCT API TEST', () => {
       });
   });
 
-  it('should handle server errors during user retrieval', (done) => {
+  it('should handle server errors during user retrieval', done => {
     const findOneStub = sinon
       .stub(Database.Product, 'findOne')
       .throws(new Error('Database error'));
@@ -438,7 +470,7 @@ describe('PRODUCT API TEST', () => {
       });
   });
 
-  it('Should throw an error while failed to update a product',(done) => {
+  it('Should throw an error while failed to update a product', done => {
     const updateStub = sinon
       .stub(Database.Product, 'update')
       .throws(new Error('Database error'));
@@ -455,7 +487,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-  it('Should update a product', (done) => {
+  it('Should update a product', done => {
     chai
       .request(app)
       .patch(`/api/products/${id}`)
@@ -465,7 +497,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-  it('Should throw error while failed to delete a product', (done) => {
+  it('Should throw error while failed to delete a product', done => {
     const destroyStub = sinon
       .stub(Database.Product, 'destroy')
       .throws(new Error('Database error'));
@@ -480,7 +512,7 @@ describe('PRODUCT API TEST', () => {
       });
   });
 
-  it('Should delete a product', (done) => {
+  it('Should delete a product', done => {
     chai
       .request(app)
       .delete('/api/products/' + id)
@@ -649,6 +681,4 @@ describe('PRODUCT AVAILABILITY', () => {
         done();
       });
   });
-
-
 });

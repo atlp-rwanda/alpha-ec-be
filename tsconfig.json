@@ -112,7 +112,8 @@
     "test/*/.ts",
     "swagger.json",
     "src/database/models/role.ts",
-    "src/database/models/chat.ts"
+    "src/database/models/chat.ts",
+    "src/database/models/cart.js"
   ],
   "exclude": ["node_modules", "dist"]
 }
