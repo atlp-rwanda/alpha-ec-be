@@ -2,9 +2,13 @@ import { Request, Response } from 'express';
 import { sendResponse, signToken } from '../utils';
 import { sendEmail } from '../utils/email';
 import { checkLoginCredentials } from '../middleware/loginMiddleware';
+import Database from '../database';
+import {
+  passwordExpired,
+  handlePasswordExpiration,
+} from '../middleware/passwordExpiration';
 
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -15,6 +19,11 @@ const loginController = async (req: Request, res: Response) => {
         400,
         null,
         'User not found or Invalid Credentials'
+      );
+    }
+    if (passwordExpired(user.lastTimePasswordUpdated)) {
+      return Database.User.findOne({ where: { id: user.id } }).then(() =>
+        handlePasswordExpiration(user, res)
       );
     }
 
@@ -44,10 +53,7 @@ const loginController = async (req: Request, res: Response) => {
         'Please check your email to verify your account before login.'
       );
     }
-
-    // generate token
     const token = signToken({ id: user.id });
-
     return sendResponse<string>(res, 200, token, 'Logged In Successfully');
   } catch (error) {
     const errorMessage = (error as Error).message;

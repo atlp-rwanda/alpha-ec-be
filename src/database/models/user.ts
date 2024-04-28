@@ -1,4 +1,12 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable require-jsdoc */
+import {
+  DataTypes,
+  Model,
+  Sequelize,
+  WhereAttributeHashValue,
+} from 'sequelize';
 import { Product } from './product';
 import { Role } from './role';
 import { Chat } from './chat';
@@ -25,6 +33,7 @@ export interface UserAttributes {
   roleId?: string;
   role?: Role;
   status: boolean;
+  lastTimePasswordUpdated: Date;
 }
 
 interface userCreationAttributes
@@ -37,15 +46,23 @@ interface userCreationAttributes
     | 'preferedcurrency'
     | 'createdAt'
     | 'updatedAt'
+    | 'lastTimePasswordUpdated'
   > {
   createdAt?: Date;
   updatedAt?: Date;
+  lastTimePasswordUpdated?: Date;
 }
 
 /**
  * Represents a user in the system.
  */
 export class User extends Model<UserAttributes, userCreationAttributes> {
+  static lastTimePasswordUpdated: WhereAttributeHashValue<Date>;
+
+  static forEach(arg0: (user: any) => void) {
+    throw new Error('Method not implemented.');
+  }
+
   declare id: string;
 
   declare name: string;
@@ -77,6 +94,8 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
   declare role: Role;
 
   declare status: boolean;
+
+  declare lastTimePasswordUpdated: Date;
 
   declare readonly createdAt: Date;
 
@@ -149,6 +168,7 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
       status: this.status,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      lastTimePasswordUpdated: this.lastTimePasswordUpdated,
     };
   }
 }
@@ -170,6 +190,7 @@ const UserModel = (sequelize: Sequelize) => {
       photoUrl: DataTypes.STRING,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
+      lastTimePasswordUpdated: DataTypes.DATE,
       verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

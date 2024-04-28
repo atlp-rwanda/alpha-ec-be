@@ -77,14 +77,15 @@ export const resetPassword = async (req: Request, res: Response) => {
 
     await user.update({
       password: hashedPassword,
+      lastTimePasswordUpdated: new Date(),
     });
     const data = signToken({ id: user.id }, '2h');
     res.cookie('token', data);
     res.header('Authorization', `Bearer ${data}`);
-    return sendResponse<string>(
+    return sendResponse<null>(
       res,
       200,
-      data,
+      null,
       'Password reset and Logged in successfully!'
     );
   } catch (err: unknown) {

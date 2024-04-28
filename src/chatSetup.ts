@@ -45,6 +45,7 @@ const handleSentMessage = async (
       socketId,
       messageDate,
       senderName,
+      senderId,
       content,
       readStatus,
     });

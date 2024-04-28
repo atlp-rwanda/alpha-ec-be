@@ -26,6 +26,7 @@ export const up = async queryInterface => {
         address: 'kigali, Rwanda',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
       {
         id: uuidv4(),
@@ -38,6 +39,7 @@ export const up = async queryInterface => {
         address: 'kigali, Rwanda',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
 
       {
@@ -51,6 +53,7 @@ export const up = async queryInterface => {
         address: '123 Test Street',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
       {
         id: uuidv4(),
@@ -63,6 +66,7 @@ export const up = async queryInterface => {
         address: 'kigali',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
       {
         id: uuidv4(),
@@ -75,6 +79,7 @@ export const up = async queryInterface => {
         address: 'kigali',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
       {
         id: uuidv4(),
@@ -87,6 +92,7 @@ export const up = async queryInterface => {
         address: 'kigali',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
       {
         id: uuidv4(),
@@ -99,6 +105,33 @@ export const up = async queryInterface => {
         address: 'kigali',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
+      },
+      {
+        id: 'cb93467c-d2a5-4898-ab34-74c8581f45cf',
+        name: 'The front',
+        password:
+          '$2a$10$m9zRqS.2W4XlkdIwycYQGedmMcwmgYfyf3sEpk1Tp7lAbRtUXZCri',
+        email: 'uwamarith@gmail.com',
+        phone: '0783556915',
+        roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
+        address: 'kigali, Rwanda',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date('2023-05-03'),
+      },
+      {
+        id: '67968bf4-3a28-44e0-b14d-828587d20d9a',
+        name: 'John',
+        password:
+          '$2a$10$arrFyHY3xuyKv.wxZDRLnON6o6vZDYua2BUKb96IqLw1yj5gYVTOG',
+        email: 'ruthuwamahoro250@gmail.com',
+        phone: '0785557397',
+        roleId: 'eb4914d0-ea4d-490d-929f-97ce7a05fc72',
+        address: 'kigali, Rwanda',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
       },
     ],
     {}

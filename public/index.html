@@ -275,7 +275,6 @@
               const span = document.createElement('span');
               const realTime = data[i].createdAt;
               const findTime = findRealTime(realTime);
-
               if (data[i].senderId === userId) {
                 newMessage.textContent = `Me: ` + data[i].content;
                 span.textContent = findTime;

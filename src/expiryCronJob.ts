@@ -8,12 +8,12 @@ import dotenv from 'dotenv';
 import { Product } from './database/models/product';
 import { User } from './database/models/user';
 import { notifyProductExpiry } from './utils/productExpiryNotifier';
+import checkPasswordExpiration from './controllers/passwordExpirationcron';
 
 dotenv.config();
 
+const cronTime = process.env.CRONTIME || '';
 export const scheduleProductExpiryCron = (): void => {
-  const cronTime = process.env.CRONTIME || '';
-
   cron.schedule(cronTime, async () => {
     console.log(`Running a cron job at ${cronTime}`);
 
@@ -41,3 +41,13 @@ export const scheduleProductExpiryCron = (): void => {
     }
   });
 };
+
+cron.schedule(
+  cronTime,
+  () => {
+    checkPasswordExpiration();
+  },
+  {
+    timezone: 'Africa/Kigali',
+  }
+);
