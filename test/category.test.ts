@@ -9,7 +9,6 @@ import { token } from './product.test';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-console.log(token);
 const categoryId = '2d854884-ea82-468f-9883-c86ce8d5a003';
 const invalidId = '2d854884-ea82-468f-9883-c86ce8d50000';
 describe('CATEGORIES API TEST', () => {

@@ -16,6 +16,8 @@ export interface ProductAttributes {
   status: boolean;
   quantity: number;
   sellerId: string;
+  averageRatings?: number;
+  reviewsCount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -56,6 +58,10 @@ export class Product extends Model<
   declare sellerId: string;
 
   declare seller: User;
+
+  declare averageRatings: number;
+
+  declare reviewsCount: number;
 
   declare readonly createdAt: Date;
 
@@ -104,6 +110,8 @@ export class Product extends Model<
       status: this.status,
       quantity: this.quantity,
       seller: this.seller,
+      averageRatings: this.averageRatings,
+      reviewsCount: this.reviewsCount,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
@@ -145,6 +153,14 @@ const ProductModel = (sequelize: Sequelize) => {
           model: 'users',
           key: 'id',
         },
+      },
+      averageRatings: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      reviewsCount: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,

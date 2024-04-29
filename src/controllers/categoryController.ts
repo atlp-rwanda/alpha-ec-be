@@ -113,18 +113,6 @@ export const deleteCategory = async (req: Request, res: Response) => {
       return sendResponse<null>(res, 404, null, 'category not found');
     }
 
-    const productsUsingCategory = await Database.Product.findOne({
-      where: { categoryId: id },
-    });
-
-    if (productsUsingCategory) {
-      return sendResponse<null>(
-        res,
-        400,
-        null,
-        'Cannot delete category as it is associated with one or more products.'
-      );
-    }
     await category.destroy();
     return sendResponse<null>(res, 200, null, 'Category deleted successfully!');
   } catch (err: unknown) {
