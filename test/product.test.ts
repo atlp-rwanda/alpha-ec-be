@@ -454,7 +454,6 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-
   it('should handle server errors during user retrieval', done => {
     const findOneStub = sinon
       .stub(Database.Product, 'findOne')

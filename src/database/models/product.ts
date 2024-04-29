@@ -1,9 +1,16 @@
+/* eslint-disable require-jsdoc */
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
 import { Category } from './category';
 import { Wishlist } from './wishlist';
 import { Cart } from './cart';
 
+interface sellerInterface {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
 export interface ProductAttributes {
   id: string;
   name: string;
@@ -16,13 +23,18 @@ export interface ProductAttributes {
   status: boolean;
   quantity: number;
   sellerId: string;
+  seller?: sellerInterface;
   averageRatings?: number;
   reviewsCount?: number;
   createdAt: Date;
   updatedAt: Date;
+  expired: boolean;
 }
 interface ProductCreationAttributes
-  extends Omit<ProductAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+  extends Omit<
+    ProductAttributes,
+    'id' | 'createdAt' | 'updatedAt' | 'expired'
+  > {
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -66,6 +78,8 @@ export class Product extends Model<
   declare readonly createdAt: Date;
 
   declare readonly updatedAt: Date;
+
+  declare expired: boolean;
 
   /**
    * Associations.
@@ -114,6 +128,7 @@ export class Product extends Model<
       reviewsCount: this.reviewsCount,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      expired: this.expired,
     };
   }
 }
@@ -164,6 +179,10 @@ const ProductModel = (sequelize: Sequelize) => {
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
+      expired: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

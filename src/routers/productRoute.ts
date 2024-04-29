@@ -15,6 +15,7 @@ import {
   deleteAProduct,
   getAllProducts,
   getAProduct,
+  // getRelatedProducts,
   updateAProduct,
   updateProductAvailability,
 } from '../controllers';
@@ -31,6 +32,7 @@ router.post(
 );
 router.get('/products', getAllProducts);
 router.get('/products/:id', getAProduct);
+// router.get('/products/:productId/relation', getRelatedProducts);
 router.patch(
   '/products/:id/status',
   isAuthenticated,
