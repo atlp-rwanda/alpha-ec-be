@@ -9,6 +9,8 @@ import ReviewModel from './review';
 import ReplyModel from './reply';
 import CategoryModel from './category';
 import cartModel from './cart';
+import productOrderModel from './ordersALL';
+import orderModel from './orders';
 
 const Models = (sequelize: Sequelize) => {
   const User = UserModel(sequelize);
@@ -19,6 +21,8 @@ const Models = (sequelize: Sequelize) => {
   const Review = ReviewModel(sequelize);
   const Reply = ReplyModel(sequelize);
   const Cart = cartModel(sequelize);
+  const productOrder = productOrderModel(sequelize);
+  const Order = orderModel(sequelize);
 
   const Logout = LogoutModel(sequelize);
   const Chat = initializeChatModel(sequelize);
@@ -33,6 +37,8 @@ const Models = (sequelize: Sequelize) => {
     Review,
     Reply,
     Cart,
+    productOrder,
+    Order,
   };
 };
 

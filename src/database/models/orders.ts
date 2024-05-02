@@ -1,22 +1,20 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
-import { Product } from './product';
 
-export interface cartProductInterface {
+export interface OrderInterface {
   productId: string;
-  quantity: number;
 }
-export interface cartAttributes {
+export interface ordersAttributes {
   id: string;
   userId: string;
-  products: Array<cartProductInterface>;
-  totalprice: number;
+  items: Array<OrderInterface>;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface cartCreationAttributes
-  extends Omit<cartAttributes, 'id' | 'createdAt' | 'updatedAt'> {
+export interface ordersCreationAttributes
+  extends Omit<ordersAttributes, 'id' | 'createdAt' | 'updatedAt'> {
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -24,14 +22,14 @@ export interface cartCreationAttributes
 /**
  * Represents a s in the system.
  */
-export class Cart extends Model<cartAttributes, cartCreationAttributes> {
+export class Orders extends Model<ordersAttributes, ordersCreationAttributes> {
   declare id: string;
 
   declare userId: string;
 
-  declare products: Array<cartProductInterface>;
+  declare items: Array<OrderInterface>;
 
-  declare totalprice: number;
+  declare status: string;
 
   declare readonly createdAt: Date;
 
@@ -42,19 +40,11 @@ export class Cart extends Model<cartAttributes, cartCreationAttributes> {
    * @param {IModels} models - The models object containing all initialized models.
    * @returns {Object} An object representing association.
    */
-  public static associate(models: {
-    User: typeof User;
-    Cart: typeof Cart;
-    Product: typeof Product;
-  }) {
-    Cart.belongsTo(models.User, {
+  public static associate(models: { User: typeof User }) {
+    Orders.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
-    // Cart.belongsTo(models.Product, {
-    //   foreignKey: 'productId',
-    //   as: 'product',
-    // });
   }
 
   /**
@@ -64,17 +54,17 @@ export class Cart extends Model<cartAttributes, cartCreationAttributes> {
   toJSON() {
     return {
       id: this.id,
-      userId: undefined,
-      products: this.products,
-      totalprice: this.totalprice,
+      buyerId: this.userId,
+      items: this.items,
+      status: this.status,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
   }
 }
 
-const cartModel = (sequelize: Sequelize) => {
-  Cart.init(
+const orderModel = (sequelize: Sequelize) => {
+  Orders.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -90,21 +80,21 @@ const cartModel = (sequelize: Sequelize) => {
           key: 'name',
         },
       },
-      products: { type: DataTypes.ARRAY(DataTypes.JSON) },
+      items: { type: DataTypes.ARRAY(DataTypes.JSON) },
 
-      totalprice: { type: DataTypes.FLOAT },
+      status: { type: DataTypes.STRING },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
     {
       sequelize,
-      modelName: 'Cart',
-      tableName: 'carts',
+      modelName: 'Orders',
+      tableName: 'orders',
       timestamps: true,
     }
   );
 
-  return Cart;
+  return Orders;
 };
 
-export default cartModel;
+export default orderModel;
