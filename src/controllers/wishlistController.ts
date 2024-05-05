@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { sendResponse } from '../utils/response';
 import Database from '../database/index';
+import NotificationEventEmitter, { EventName } from './EventController';
 
 interface UserInterface {
   id: string;
@@ -32,6 +33,12 @@ export const addToWishlist = async (req: Request, res: Response) => {
     if (productExit) {
       try {
         await productExit.destroy();
+        NotificationEventEmitter.emit(
+          EventName.PRODUCT_WISHLIST_UPDATE,
+          product,
+          id,
+          `A user removed the product you seller from her wishing list(${product.name})`
+        );
         return sendResponse(res, 200, null, 'Wishlist deleted successfully');
       } catch (err) {
         const errors = err as Error;
@@ -43,6 +50,12 @@ export const addToWishlist = async (req: Request, res: Response) => {
       productId,
     });
 
+    NotificationEventEmitter.emit(
+      EventName.PRODUCT_WISHLIST_UPDATE,
+      product,
+      id,
+      `A user added the product you seller from her wishing list(${product.name})`
+    );
     return sendResponse(
       res,
       201,
