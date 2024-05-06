@@ -104,7 +104,7 @@ module.exports = {
           lastTimePasswordUpdated: new Date(),
         },
         {
-          id: uuidv4(),
+          id: '47748694-036a-42b7-b20f-f9268c0c1e20',
           name: 'ndahiro james',
           password:
             '$2a$10$/2hcfbCc/PPMjavxfk6abuEpIJQ5s7epUQfUHGZ/SbmTxv1180caK',
@@ -125,6 +125,34 @@ module.exports = {
           email: 'test8@example.com',
           phone: '0783556915',
           verified: true,
+          address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
+        },
+        {
+          id: uuidv4(),
+          name: 'Random Buyer',
+          password:
+            '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
+          email: 'test11@example.com',
+          phone: '0783556915',
+          verified: true,
+          roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
+          address: 'kigali, Rwanda',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
+        },
+        {
+          id: uuidv4(),
+          name: 'Bosco',
+          password:
+            '$2b$10$sb4BI38bZVJkFBmB2ux1fuugVibzD9s0hpQ4cVZcAXPUVbjgCdC6m',
+          email: 'test12@example.com',
+          phone: '0783556915',
+          verified: true,
+          roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
           address: 'kigali, Rwanda',
           createdAt: new Date(),
           updatedAt: new Date(),

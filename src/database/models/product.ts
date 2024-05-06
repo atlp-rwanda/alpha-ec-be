@@ -4,6 +4,8 @@ import { User } from './user';
 import { Category, CategoryAttributes } from './category';
 import { Wishlist } from './wishlist';
 import { Cart } from './cart';
+import { ProductOrder } from './productOrder';
+// import { ProductOrder } from './productOrder';
 
 interface sellerInterface {
   id: string;
@@ -93,6 +95,7 @@ export class Product extends Model<
     Wishlist: typeof Wishlist;
     Product: typeof Product;
     Cart: typeof Cart;
+    ProductOrder: typeof ProductOrder;
   }) {
     Product.belongsTo(models.User, {
       foreignKey: 'sellerId',
@@ -105,6 +108,10 @@ export class Product extends Model<
     Product.hasMany(models.Wishlist, {
       foreignKey: 'productId',
       as: 'wishlist',
+    });
+    Product.hasMany(models.ProductOrder, {
+      foreignKey: 'productId',
+      as: 'orderedProduct',
     });
   }
 

@@ -11,6 +11,7 @@ const { expect } = chai;
 let token = '';
 
 let id = '';
+let id2 = '';
 
 describe('should create and assign role', () => {
   describe('should test roles', () => {
@@ -128,6 +129,7 @@ describe('should create and assign role', () => {
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           id = res.body.data[0].id;
+          id2 = res.body.data[3].id;
           expect(res.statusCode).to.equal(200);
           expect(res.body).to.have.property('message');
           expect(res.body.message).to.equal('Roles fetched successfully!');
@@ -177,7 +179,7 @@ describe('should create and assign role', () => {
     it('delete role with status code of 204 ', done => {
       chai
         .request(app)
-        .delete('/api/roles/' + id)
+        .delete('/api/roles/' + id2)
         .set('Authorization', `Bearer ${token}`)
         .end((err, res) => {
           expect(res.statusCode).to.equal(204);

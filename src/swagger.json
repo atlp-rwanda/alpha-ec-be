@@ -1237,7 +1237,7 @@
                   "categoryId": {
                     "type": "number",
                     "required": true,
-                    "description": "1: Cars, 2: Clothers, 3: Electronics"
+                    "description": "Cars: 2d854884-ea82-468f-9883-c86ce8d5a001, Shoes: 2d854884-ea82-468f-9883-c86ce8d5a002, Electronics: 2d854884-ea82-468f-9883-c86ce8d5a003"
                   },
                   "expiryDate": {
                     "type": "string",
@@ -1319,7 +1319,6 @@
               "format": "int32"
             }
           },
-
           {
             "name": "limit",
             "in": "query",
@@ -1500,7 +1499,6 @@
         }
       }
     },
-
     "/api/carts": {
       "post": {
         "tags": ["carts"],
@@ -1741,7 +1739,6 @@
             "token": []
           }
         ],
-
         "parameters": [
           {
             "name": "id",
@@ -1752,7 +1749,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Success",
@@ -1776,7 +1772,6 @@
         }
       }
     },
-
     "/api/products/{id}": {
       "get": {
         "tags": ["Products"],
@@ -2478,7 +2473,6 @@
         }
       }
     },
-
     "/api/reviews": {
       "post": {
         "tags": ["Review"],
@@ -2756,6 +2750,160 @@
                     "status": "success",
                     "data": null,
                     "message": "Reply deleted successfully!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payment": {
+      "post": {
+        "tags": ["Payments"],
+        "summary": "Pay using Stripe",
+        "description": "Pay using Stripe",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The order is created successfully , then need to use url to complete payment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": ""
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "url"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product-orders": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "List all orders",
+        "description": "Retrieve a list of all orders for a specific user.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/product-orders/{id}/status": {
+      "put": {
+        "tags": ["Order"],
+        "summary": "update order status",
+        "description": "logged in user can update his/her order status",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Add the product-order id"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "status": {
+                    "type": "DELIVERED"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "get all orders",
+        "description": "Anyone can get all the orders",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array"
+                    }
                   }
                 }
               }

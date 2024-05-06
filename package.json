@@ -139,6 +139,7 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "stream": "^0.0.2",
+    "stripe": "^15.4.0",
     "stub": "^0.3.2",
     "superagent": "^9.0.2",
     "swagger": "^0.0.1",
@@ -180,7 +181,9 @@
       "src/middleware/fileUpload.ts",
       "src/utils/cloud.ts",
       "src/utils/cartsCalculations.ts",
-      "src/controllers/adsController.ts"
+      "src/controllers/adsController.ts",
+      "src/helper/payments.ts",
+      "src/utils/tokenGenerate.ts"
     ]
   }
 }
