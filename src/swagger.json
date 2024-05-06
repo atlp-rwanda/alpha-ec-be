@@ -2280,6 +2280,85 @@
         }
       }
     },
+    "/api/stats": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Fetch product statistics",
+        "description": "Fetches various statistics about products, such as new products added, products expired, stock reduction/increment, and number of products wished. Only sellers can access this endpoint.",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "timeFrame",
+            "in": "query",
+            "description": "Specifies the time frame for the statistics. Options include 'daily', 'last7days', 'last30days'. This parameter is required for sellers.",
+            "schema": {
+              "type": "string",
+              "example": "last7days"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "newProducts": {
+                          "type": "integer",
+                          "description": "Number of new products added within the specified time frame."
+                        },
+                        "expiredProducts": {
+                          "type": "integer",
+                          "description": "Number of products that have expired within the specified time frame."
+                        },
+                        "stockIncrement": {
+                          "type": "integer",
+                          "description": "Number of stock increments within the specified time frame."
+                        },
+                        "stockReduction": {
+                          "type": "integer",
+                          "description": "Number of stock reductions within the specified time frame."
+                        },
+                        "productWished": {
+                          "type": "integer",
+                          "description": "Number of times products have been added to wishlists within the specified time frame."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Error fetching statistics"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/api/reviews": {
       "post": {
         "tags": ["Review"],
