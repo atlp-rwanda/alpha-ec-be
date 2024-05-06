@@ -22,6 +22,13 @@ export const productUpdateValidationSchema = Joi.object({
   status: Joi.string().optional(),
   quantity: Joi.number().min(0).max(1000).optional(),
 });
+
 export const statusUpdateValidationSchema = Joi.object({
   status: Joi.boolean().required(),
+});
+
+export const adsValidationSchema = Joi.object({
+  name: Joi.string().min(3).max(30).optional(),
+  page: Joi.array().items(Joi.any()).min(4).max(8).optional(),
+  categoryId: Joi.string().optional(),
 });

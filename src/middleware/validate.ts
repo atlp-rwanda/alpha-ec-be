@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { logger, sendResponse } from '../utils';
+import { sendResponse } from '../utils';
 
 // eslint-disable-next-line no-shadow
-enum requestType {
-  body = 'body',
-  params = 'params',
-  queries = 'queries',
+export enum RequestType {
+  Body = 'body',
+  Params = 'params',
+  Query = 'query',
 }
 
 interface errorInterface {
@@ -15,12 +14,20 @@ interface errorInterface {
   message: string;
 }
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export const validationMiddleware =
-  (schema: Joi.ObjectSchema, type: requestType = requestType.body) =>
+  (schema: Joi.ObjectSchema, type: RequestType = RequestType.Body) =>
   (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { error } = schema.validate(req.body, { abortEarly: false });
+      const requestDataMap = {
+        [RequestType.Body]: req.body,
+        [RequestType.Query]: req.query,
+        [RequestType.Params]: req.params,
+      };
+
+      const dataToValidate = requestDataMap[type];
+
+      const { error } = schema.validate(dataToValidate, { abortEarly: false });
+
       if (error) {
         const errors: errorInterface[] = [];
         error.details.forEach(err => {

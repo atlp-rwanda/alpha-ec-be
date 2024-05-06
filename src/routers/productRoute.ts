@@ -4,21 +4,22 @@ import {
   validationMiddleware,
   isAuthenticated,
   isSeller,
-  // isBuyer,
+  RequestType,
 } from '../middleware';
 import {
   productValidationSchema,
   productUpdateValidationSchema,
+  adsValidationSchema,
 } from '../validations';
 import {
   createAProduct,
   deleteAProduct,
   getAllProducts,
   getAProduct,
-  // getRelatedProducts,
   updateAProduct,
   updateProductAvailability,
 } from '../controllers';
+import { getAds } from '../controllers/adsController';
 
 const router = Router();
 
@@ -49,5 +50,11 @@ router.patch(
 );
 
 router.delete('/products/:id', isAuthenticated, isSeller, deleteAProduct);
+
+router.get(
+  '/ads',
+  validationMiddleware(adsValidationSchema, RequestType.Query),
+  getAds
+);
 
 export default router;
