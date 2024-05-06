@@ -219,13 +219,68 @@ export const getAProduct = async (req: Request, res: Response) => {
     if (!product) {
       return sendResponse<null>(res, 404, null, 'Product not found!');
     }
-
-    return sendResponse<ProductAttributes>(
-      res,
-      200,
-      product,
-      'Product found successfully!'
+    const relatedProductsInCategory = await excOperation<ProductAttributes[]>(
+      'Product',
+      'findAll',
+      {
+        where: {
+          categoryId: product.categoryId,
+          id: { [Op.ne]: productId },
+        },
+        include: [
+          {
+            model: Database.User,
+            as: 'seller',
+            attributes: ['id', 'name', 'phone', 'email'],
+          },
+          {
+            model: Database.Category,
+            as: 'category',
+            attributes: ['id', 'name'],
+          },
+        ],
+        limit: 4,
+      }
     );
+
+    const relatedProductsVisitedBySeller = await excOperation<
+      ProductAttributes[]
+    >('Product', 'findAll', {
+      where: {
+        sellerId: product.sellerId,
+        id: { [Op.ne]: productId },
+      },
+
+      include: [
+        {
+          model: Database.User,
+          as: 'seller',
+          attributes: ['id', 'name', 'phone', 'email'],
+        },
+        {
+          model: Database.Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+      limit: 4,
+    });
+    const relatedProducts = [
+      ...relatedProductsInCategory,
+      ...relatedProductsVisitedBySeller,
+    ];
+
+    const sellerInfo = {
+      id: product.seller?.id,
+      name: product.seller?.name,
+      email: product.seller?.email,
+      phone: product.seller?.phone,
+    };
+    const data = {
+      relatedProducts,
+      sellerInfo,
+    };
+    return sendResponse(res, 200, data, 'Product found successfully!');
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);

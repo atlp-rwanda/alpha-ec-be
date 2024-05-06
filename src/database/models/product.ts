@@ -5,6 +5,12 @@ import { Category } from './category';
 import { Wishlist } from './wishlist';
 import { Cart } from './cart';
 
+interface sellerInterface {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+}
 export interface ProductAttributes {
   id: string;
   name: string;
@@ -17,6 +23,7 @@ export interface ProductAttributes {
   status: boolean;
   quantity: number;
   sellerId: string;
+  seller?: sellerInterface;
   averageRatings?: number;
   reviewsCount?: number;
   createdAt: Date;
