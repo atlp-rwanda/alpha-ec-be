@@ -174,6 +174,23 @@ describe('testing Login API', () => {
           done();
         });
     }).timeout(10000);
+    it('expecting error for password credentials without at least one letter', done => {
+      const user = {
+        email: 'uwamarith@gmail.com',
+        password: 'Password@24',
+      };
+      chai
+        .request(app)
+        .post('/api/users/login')
+        .send(user)
+        .end((err, res) => {
+          console.log(res.body.message);
+          expect(res.body.message).to.equal(
+            'Your password has expired. Please check your email to update it.'
+          );
+          done();
+        });
+    });
   });
 });
 

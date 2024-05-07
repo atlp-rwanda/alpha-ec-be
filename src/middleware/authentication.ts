@@ -3,6 +3,10 @@ import passport from '../config/passportConfig';
 import { UserAttributes } from '../database/models/user';
 import { sendResponse } from '../utils';
 import Database from '../database';
+import {
+  handlePasswordExpiration,
+  passwordExpired,
+} from './passwordExpiration';
 
 const checkLogout = async (req: Request): Promise<boolean> => {
   const authorization = req.header('Authorization')?.split(' ')[1];
@@ -30,6 +34,9 @@ export const isAuthenticated = (
       const isLogout = await checkLogout(req);
       if (isLogout) {
         return sendResponse(res, 401, null, 'You are not authorized');
+      }
+      if (passwordExpired(user.lastTimePasswordUpdated)) {
+        return handlePasswordExpiration(user, res);
       }
 
       const currUser = {

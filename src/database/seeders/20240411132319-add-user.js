@@ -18,6 +18,7 @@ module.exports = {
           roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0851',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -31,6 +32,7 @@ module.exports = {
           roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -44,6 +46,7 @@ module.exports = {
           roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -57,6 +60,7 @@ module.exports = {
           roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0853',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -70,6 +74,7 @@ module.exports = {
           address: 'kigali, Rwanda',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -82,6 +87,7 @@ module.exports = {
           address: 'kigali, Rwanda',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -94,6 +100,7 @@ module.exports = {
           address: 'kigali, Rwanda',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: uuidv4(),
@@ -107,6 +114,7 @@ module.exports = {
           address: 'kigali',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
         {
           id: 'c19de6bc-2f6c-499e-9399-f010d656b4f9',
@@ -119,6 +127,7 @@ module.exports = {
           address: 'kigali, Rwanda',
           createdAt: new Date(),
           updatedAt: new Date(),
+          lastTimePasswordUpdated: new Date(),
         },
       ],
       {}

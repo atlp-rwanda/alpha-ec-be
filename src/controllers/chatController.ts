@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { join } from 'path';
-
 import { sendResponse } from '../utils';
 import Database from '../database';
 

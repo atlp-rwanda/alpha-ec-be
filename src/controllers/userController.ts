@@ -45,6 +45,7 @@ export const createUser = async (
       password: hashedPassword,
       verified,
       status,
+      lastTimePasswordUpdated: new Date(),
     });
 
     await user.save();

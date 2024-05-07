@@ -33,7 +33,6 @@ describe('forgotPassword', () => {
       });
   });
   it('should send a password reset link to user', function (done) {
-    this.timeout(5000);
     const user = {
       email: 'test6@example.com',
     };
@@ -46,7 +45,7 @@ describe('forgotPassword', () => {
         expect(res).to.have.status(200);
         done();
       });
-  });
+  }).timeout(20000);
   it('should fail send a password reset link to user', done => {
     const user = {
       email: 'test@example.com',

@@ -17,6 +17,7 @@ module.exports = {
         address: 'Accra, Ghana',
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastTimePasswordUpdated: new Date(),
       },
     ]);
   },
