@@ -46,12 +46,12 @@ export const buildQuery = (req: Request): FindOptions => {
       {
         model: Database.User,
         as: 'seller',
-        attributes: ['id', 'name', 'phone', 'email'],
+        attributes: ['name', 'phone', 'email'],
       },
       {
         model: Database.Category,
         as: 'category',
-        attributes: ['id', 'name', 'description'],
+        attributes: ['name', 'description'],
       },
     ],
   };

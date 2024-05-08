@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from './user';
-import { Category } from './category';
+import { Category, CategoryAttributes } from './category';
 import { Wishlist } from './wishlist';
 import { Cart } from './cart';
 
@@ -17,6 +17,7 @@ export interface ProductAttributes {
   slug: string;
   images: string[];
   categoryId: string;
+  category?: CategoryAttributes;
   price: number;
   expiryDate: Date;
   bonus: string;

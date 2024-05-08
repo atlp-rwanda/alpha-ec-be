@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - 5432:5432
+      - 5433:5432
     container_name: alpha_db
 
   web:
@@ -29,6 +29,31 @@ services:
       NODE_ENV: ${NODE_ENV}
       DATABASE_PORT: ${DATABASE_PORT}
       DIALECT: ${DIALECT}
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on:
+      - db
+    volumes:
+      - ./.env:/root/.env
+    command: ['/startup.sh']
+
+  api_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    volumes:
+      - .:/src
+    environment:
+      - AWS_SDK_LOAD_CONFIG=1
+    working_dir: /src
 
 volumes:
   postgres-data:

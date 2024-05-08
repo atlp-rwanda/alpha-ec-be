@@ -6,9 +6,10 @@ COPY package*.json ./
 
 COPY . .
 
+COPY aws-credentials /root/.aws/credentials
+
 RUN npm install
-# # Run database migrations and seeding
-# RUN npm run migrate && npm run seed
+
 # Expose port 3000
 EXPOSE 3000
 # Command to run the server

@@ -2082,6 +2082,70 @@
         }
       }
     },
+    "/api/ads": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get Product Ads",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number to retrieve.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "search by roduct name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "query",
+            "description": "search by category of the products.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": [],
+                  "message": "Ads retrieved successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/verify-email/{token}": {
       "get": {
         "tags": ["users"],
