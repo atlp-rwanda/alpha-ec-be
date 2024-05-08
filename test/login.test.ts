@@ -91,16 +91,16 @@ describe('testing Login API', () => {
 
     // user having password without one number
 
-    it('it should return status code of 400 with user having password without at least one number ', async() => {
+    it('it should return status code of 400 with user having password without at least one number ', async () => {
       const user = {
         email: 'trymeexample.com',
         password: 'Password!',
       };
       const res = await chai.request(app).post('/api/users/login').send(user);
 
-  // Asserting response properties
-  expect(res).to.have.status(400);
-  expect(res.body).to.have.property('message');
+      // Asserting response properties
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('message');
     });
 
     // test user with invalid email
@@ -123,7 +123,7 @@ describe('testing Login API', () => {
 
     //test if password has at least one letter
 
-    it('expecting error for password credentials without at least one letter', function(done)  {
+    it('expecting error for password credentials without at least one letter', function (done) {
       this.timeout(10000);
       const user = {
         email: 'tryme@example.com',

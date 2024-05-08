@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { sendResponse } from './response';
-import { UserData, sendOtp } from '../controllers/OTPcontroller';
+import { sendOtp } from '../controllers/OTPcontroller';
 import Database from '../database';
 import { Role } from '../database/models/role';
 import { signToken } from './jwtToken';
+import { UserAttributes } from '../database/models/user';
 
 const Checkrole = async (
   id: string,
@@ -11,14 +12,10 @@ const Checkrole = async (
   req: Request,
   res: Response
 ) => {
-  const user = (await Database.User.findOne({
+  const user: UserAttributes | null = await Database.User.findOne({
     where: {
       email,
     },
-  })) as unknown as UserData;
-
-  const userRole = await Database.User.findOne({
-    where: { id: user.dataValues.id },
     include: [
       {
         model: Role,
@@ -26,10 +23,13 @@ const Checkrole = async (
       },
     ],
   });
-  if (userRole?.role.name === 'seller') {
+
+  if (!user) return;
+
+  if (user.role?.name === 'seller') {
     sendOtp(req, res, email);
   } else {
-    const token = signToken({ id: user.dataValues.id });
+    const token = signToken({ id: user.id });
 
     return sendResponse<string>(res, 200, token, 'Logged In Successfully');
   }

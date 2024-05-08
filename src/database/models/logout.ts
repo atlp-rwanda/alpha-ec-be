@@ -6,7 +6,6 @@ export interface logoutAttributes {
   createdAt: Date;
   updatedAt: Date;
 }
-
 interface logoutCreationAttributes
   extends Omit<logoutAttributes, 'id' | 'createdAt' | 'updatedAt'> {
   createdAt?: Date;

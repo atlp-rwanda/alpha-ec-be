@@ -12,7 +12,7 @@ import checkPasswordExpiration from './controllers/passwordExpirationcron';
 
 dotenv.config();
 
-const cronTime = process.env.CRONTIME || '';
+const cronTime = process.env.CRONTIME || '00 07 * * *';
 export const scheduleProductExpiryCron = (): void => {
   cron.schedule(cronTime, async () => {
     console.log(`Running a cron job at ${cronTime}`);

@@ -83,19 +83,6 @@ export const up = async queryInterface => {
       },
       {
         id: uuidv4(),
-        name: 'rwema remy',
-        password:
-          '$2b$10$ghcxUhRfRVHvEOtt16Vj7OcANFjXAr2atOjaPzw1ENZFzGpCe7Xdu',
-        email: 'rwemaremy21@gmail.com',
-        phone: '0788524384',
-        roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
-        address: 'kigali',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        lastTimePasswordUpdated: new Date(),
-      },
-      {
-        id: uuidv4(),
         name: 'Eric',
         password:
           '$2b$10$SSvlerzdT.7CkJ/Xojl0Q.4ycW8Gnq4ltWPNL7DGZ9nvf8C6rRhyi',
@@ -132,7 +119,9 @@ export const up = async queryInterface => {
         address: 'kigali, Rwanda',
         createdAt: new Date(),
         updatedAt: new Date(),
-        lastTimePasswordUpdated: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+        lastTimePasswordUpdated: new Date(
+          Date.now() - 29 * 24 * 60 * 60 * 1000
+        ),
       },
     ],
     {}
