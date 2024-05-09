@@ -13,7 +13,7 @@ module.exports = {
 
     await queryInterface.addColumn('users', 'verified', {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
       defaultValue: false,
     });
   },

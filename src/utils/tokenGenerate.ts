@@ -25,3 +25,35 @@ export const findUsername = async (id: string) => {
   const result = await Database.User.findOne({ where: { id } });
   return result?.name;
 };
+
+const { secret } = config();
+
+export const verifyToken = (token: string, callback?: jwt.VerifyCallback) => {
+  return jwt.verify(token, secret, callback);
+};
+
+interface Payload {
+  id: string;
+  email: string;
+  otp: string;
+}
+
+export const signToken = (
+  payload: Payload,
+  secretKey: string
+): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
+    jwt.sign(
+      { body: payload },
+      secretKey,
+      { expiresIn: '1h' },
+      (err, token) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(token ?? '');
+        }
+      }
+    );
+  });
+};

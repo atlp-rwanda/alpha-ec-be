@@ -4,7 +4,7 @@ import Database from '../src/database';
 import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
-import { token } from './product.test';
+import { headerTokenSeller } from './2FA.tets';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -18,10 +18,11 @@ describe('CATEGORIES API TEST', () => {
       name: 'Test Category',
       description: 'Test category',
     };
+
     chai
       .request(app)
       .post('/api/categories')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         expect(res.body.message).to.equal('Category created successfully!');
@@ -36,7 +37,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .post('/api/categories')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         expect(res.body.message).to.equal(
@@ -57,7 +58,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .post('/api/categories')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         findOneStub.restore();
@@ -70,7 +71,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .get('/api/categories')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);
@@ -85,7 +86,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .get('/api/categories')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         findAllStub.restore();
         expect(res.body).to.have.property('message');
@@ -101,7 +102,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .delete(`/api/categories/${categoryId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         deleteStub.restore();
         expect(res.body).to.have.property('message');
@@ -114,7 +115,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .delete(`/api/categories/${invalidId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(404);
@@ -129,7 +130,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .put(`/api/categories/${categoryId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
@@ -145,7 +146,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .put(`/api/categories/${categoryId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
@@ -161,7 +162,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .put(`/api/categories/${invalidId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
@@ -181,7 +182,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .put(`/api/categories/${categoryId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .send(body)
       .end((err, res) => {
         updateStub.restore();
@@ -196,7 +197,7 @@ describe('CATEGORIES API TEST', () => {
     chai
       .request(app)
       .delete(`/api/categories/${categoryId}`)
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
       .end((err, res) => {
         expect(res.body).to.have.property('message');
         expect(res).to.have.status(200);

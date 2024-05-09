@@ -20,7 +20,13 @@ routercart.post(
   addItemToCart
 );
 routercart.get('/carts', isAuthenticated, getCart);
-routercart.patch('/carts/:cartId', isAuthenticated, isBuyer, updateCart);
+routercart.patch(
+  '/carts/:cartId',
+  isAuthenticated,
+  isBuyer,
+  validationMiddleware(quantitySchema),
+  updateCart
+);
 routercart.delete(
   '/carts/products/:id',
   isAuthenticated,

@@ -12,7 +12,7 @@ export const verifyToken = (
 };
 
 // Generates a token
-interface TokenPayload {
+export interface TokenPayload {
   id?: string;
   email?: string;
 }

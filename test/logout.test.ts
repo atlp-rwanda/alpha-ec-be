@@ -16,7 +16,7 @@ let token: string = '';
 describe('Logout Api Test', () => {
   before(done => {
     const user = {
-      email: 'test5@example.com',
+      email: 'test4@example.com',
       password: '1111@aa',
     };
     chai

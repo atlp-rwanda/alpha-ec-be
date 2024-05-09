@@ -77,6 +77,38 @@
         }
       }
     },
+    "/api/users/verify/{token}": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Verify OTP for the seller",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "OTP Token",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "otp": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login Successful" },
+          "401": { "description": "Wrong OTP entered" },
+          "404": { "description": "Invalid token" }
+        }
+      }
+    },
     "/api/users/logout": {
       "post": {
         "tags": ["users"],
@@ -232,7 +264,7 @@
         "summary": "get user profile",
         "security": [
           {
-            "bearerAuth": []
+            "token": []
           }
         ],
         "responses": {
