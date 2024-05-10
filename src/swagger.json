@@ -7,12 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
-      "description": "Development server"
-    },
-    {
       "url": "https://alpha-ec-be.onrender.com",
       "description": "production server server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
     }
   ],
   "components": {
@@ -1538,7 +1538,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "properties": {
+                    "productId": {
+                      "type": "string",
+                      "example": "ghd45fvg78vhgf890977"
+                    },
+                    "quantity": {
+                      "type": "string",
+                      "example": "4"
+                    }
+                  },
+                  "required": ["name"]
                 }
               }
             }
@@ -1548,7 +1558,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "Error!"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "null"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cannot read properties of null (reading 'quantity')"
+                    }
+                  },
+                  "required": ["name"]
                 }
               }
             }
@@ -2116,7 +2140,7 @@
     },
     "/api/ads": {
       "get": {
-        "tags": ["Products"],
+        "tags": ["Fake ads"],
         "summary": "Get Product Ads",
         "parameters": [
           {

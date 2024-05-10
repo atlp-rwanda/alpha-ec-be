@@ -10,7 +10,10 @@ dotenv.config();
 
 AWS.config.update({
   region: 'eu-north-1',
-  credentials: new AWS.SharedIniFileCredentials({ profile: 'default' }),
+  credentials: new AWS.Credentials(
+    process.env.AWS_ACCESS_KEY_ID || '',
+    process.env.AWS_SECRET_ACCESS_KEY || ''
+  ),
 });
 
 const lambda = new AWS.Lambda();

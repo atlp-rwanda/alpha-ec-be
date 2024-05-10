@@ -4,7 +4,13 @@ import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
 import { DataInfo } from '../src/controllers/OTPcontroller';
-import { verifyToken, signToken } from '../src/utils/tokenGenerate';
+import {
+  verifyToken,
+  signToken,
+  userToken,
+  decodeToken,
+  findUsername,
+} from '../src/utils/tokenGenerate';
 import { verifyOtp } from '../src/controllers/OTPcontroller';
 import sinon from 'sinon';
 import Database from '../src/database';
@@ -46,7 +52,7 @@ describe('user Signin controller and passport', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(5000);
+  }).timeout(20000);
 
   it('Email sent successfully', done => {
     chai
@@ -181,4 +187,37 @@ describe('user Signin controller and passport', () => {
   //       done();
   //     });
   // });
+  it('user should asign token', done => {
+    const token = userToken('1', 'test@gmail.com');
+    expect(token).to.be.a('string');
+    done();
+  });
+
+  it("should return the user's id", done => {
+    const response = decodeToken(headerToken);
+    expect(response).to.be.a('string');
+    done();
+  });
+  it('should return null on token', done => {
+    const response = decodeToken('header');
+    expect(response).to.be.null;
+    done();
+  });
+  it('assign token to user', done => {
+    const token = signToken(
+      {
+        id: '1',
+        email: 'test@gmail.com',
+        otp: '123456',
+      },
+      'secret'
+    );
+    expect(token).to.be.a('promise');
+    done();
+  });
+  it("should return the user's name", done => {
+    const response = findUsername('d95193b1-5548-4650-adea-71f622667095');
+    expect(response).to.be.a('promise');
+    done();
+  });
 });

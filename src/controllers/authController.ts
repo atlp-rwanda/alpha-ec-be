@@ -28,6 +28,7 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
           'Failed to authenticate with Google'
         );
       }
+
       if (!user) {
         return sendResponse(
           res,
