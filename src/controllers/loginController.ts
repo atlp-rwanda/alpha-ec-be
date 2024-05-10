@@ -39,7 +39,7 @@ const loginController = async (req: Request, res: Response) => {
 
       const mailOptions = {
         to: email,
-        subject: 'Your Email Verification',
+        subject: 'Verify Your Email',
         template: 'verifyAccount',
         context: {
           name,

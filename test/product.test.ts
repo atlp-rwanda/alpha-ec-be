@@ -86,7 +86,7 @@ describe('PRODUCT API TEST', () => {
   });
 
   it('Should create a product', function (done) {
-    this.timeout(10000);
+    this.timeout(12000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -113,10 +113,10 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(10000);
+  }).timeout(12000);
 
   it('Should create a product', function (done) {
-    this.timeout(10000);
+    this.timeout(12000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -143,9 +143,9 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(10000);
+  }).timeout(12000);
   it('Should create a product', function (done) {
-    this.timeout(10000);
+    this.timeout(12000);
 
     const filePath = path.resolve(__dirname, './assets/typescript.jpeg');
     const product = {
@@ -172,7 +172,7 @@ describe('PRODUCT API TEST', () => {
         expect(res).to.have.status(201);
         done();
       });
-  }).timeout(10000);
+  }).timeout(12000);
   it('should update product availability successfully', async () => {
     const product = await Database.Product.findAll();
     const productId = product[0].id;

@@ -15,10 +15,6 @@ module.exports = {
           key: 'id',
         },
       },
-      // productOrderIds: {
-      //   type: Sequelize.ARRAY(Sequelize.JSON),
-      //   allowNull: true,
-      // },
       status: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -13,6 +13,7 @@ import { Chat } from './chat';
 import { Reply } from './reply';
 import { Review } from './review';
 import { Cart } from './cart';
+import { ProductOrder } from './productOrder';
 
 export interface UserAttributes {
   id: string;
@@ -124,6 +125,7 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
     Review: typeof Review;
     Reply: typeof Reply;
     Cart: typeof Cart;
+    ProductOrder: typeof ProductOrder;
   }) {
     User.hasMany(models.Product, {
       foreignKey: 'sellerId',
@@ -143,6 +145,10 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
     });
     User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' });
     User.hasMany(models.Chat, { foreignKey: 'senderId', as: 'sender' });
+    User.hasMany(models.ProductOrder, {
+      foreignKey: 'userId',
+      as: 'productOrderUser',
+    });
   }
 
   /**

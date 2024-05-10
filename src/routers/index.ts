@@ -8,6 +8,7 @@ import wishlistRouter from './wishlistRoute';
 import reviewRouter from './reviewRoute';
 import routercart from './cartRoutes';
 import statsRoute from './statsRoute';
+import orderRouter from './orderRouter';
 
 const router = Router();
 const routers: Router[] = [
@@ -20,6 +21,7 @@ const routers: Router[] = [
   rolerouter,
   routercart,
   statsRoute,
+  orderRouter,
 ];
 
 router.use('/api', routers);
