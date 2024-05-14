@@ -2477,12 +2477,25 @@
         ],
         "parameters": [
           {
-            "name": "timeFrame",
+            "name": "startDate",
             "in": "query",
-            "description": "Specifies the time frame for the statistics. Options include 'daily', 'last7days', 'last30days'. This parameter is required for sellers.",
+            "description": "Start date",
+            "required": true,
             "schema": {
               "type": "string",
-              "example": "last7days"
+              "format": "date",
+              "example": "2024-05-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "End date ",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2024-05-14"
             }
           }
         ],
@@ -2524,6 +2537,22 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Start date and end date are required."
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2543,6 +2572,7 @@
         }
       }
     },
+
     "/api/reviews": {
       "post": {
         "tags": ["Review"],
