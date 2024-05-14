@@ -37,6 +37,7 @@ const handleSentMessage = async (
       socketId,
       senderId,
       content,
+      privacy: 'public',
       readStatus,
     });
 
@@ -45,7 +46,6 @@ const handleSentMessage = async (
       socketId,
       messageDate,
       senderName,
-      senderId,
       content,
       readStatus,
     });
@@ -59,6 +59,10 @@ const handleTyping = async (socket: CustomSocket, isTyping: string) => {
 const handleDisconnect = () => {
   logger.info('user disconnected');
 };
+const handlePrivateChat = (socket: CustomSocket) => {
+  console.log('socket', socket.id);
+};
+
 export const socketSetUp = (server: HttpServer) => {
   const io = new Server(server);
   io.use(async (socket: CustomSocket, next) => {
@@ -72,5 +76,6 @@ export const socketSetUp = (server: HttpServer) => {
     socket.on('sentMessage', data => handleSentMessage(socket, data, io));
     socket.on('typing', isTyping => handleTyping(socket, isTyping));
     socket.on('disconnect', () => handleDisconnect);
+    socket.on('privateChat', () => handlePrivateChat(socket));
   });
 };

@@ -4,7 +4,9 @@ import { User } from './user';
 interface ChatAttributes {
   id: string;
   socketId: string;
-  senderId: string | null; // Updated data type to match Sequelize.UUID in the migration
+  senderId: string | null;
+  receiverId: string | null;
+  privacy: string;
   content: string;
   readStatus: boolean;
   createdAt?: Date;
@@ -21,7 +23,11 @@ export class Chat
 {
   public id!: string;
 
-  public senderId!: string | null; // Updated data type to match Sequelize.UUID in the migration
+  public senderId!: string | null;
+
+  public receiverId!: string | null;
+
+  public privacy!: string;
 
   public socketId!: string;
 
@@ -68,7 +74,7 @@ export default function initializeChatModel(sequelize: Sequelize): typeof Chat {
         allowNull: false,
       },
       senderId: {
-        type: DataTypes.UUID, // Ensure this matches the data type in the migration
+        type: DataTypes.UUID,
         references: {
           model: 'users',
           key: 'id',
@@ -76,7 +82,12 @@ export default function initializeChatModel(sequelize: Sequelize): typeof Chat {
       },
       content: {
         type: DataTypes.STRING,
-        allowNull: false,
+      },
+      receiverId: {
+        type: DataTypes.UUID,
+      },
+      privacy: {
+        type: DataTypes.STRING,
       },
       readStatus: {
         type: DataTypes.BOOLEAN,
