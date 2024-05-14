@@ -4,6 +4,9 @@ import { passwordExpirationNotification } from '../utils/passwordExpirationCheck
 
 const checkPasswordExpiration = async () => {
   const getAllUsers = await Database.User.findAll({
+    where: {
+      status: true,
+    },
     include: [
       {
         model: Database.Role,
