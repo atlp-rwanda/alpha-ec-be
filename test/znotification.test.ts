@@ -5,7 +5,6 @@ import app from '../src/app';
 import { sendNotification } from '../src/utils/notification';
 import { headerTokenSeller } from './2FA.tets';
 
-
 chai.use(chaiHttp);
 const { expect } = chai;
 // export let token: string = '';
