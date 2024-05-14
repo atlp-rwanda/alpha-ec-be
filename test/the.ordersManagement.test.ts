@@ -82,4 +82,22 @@ describe('ORDER MANAGMENT TEST', () => {
         done();
       });
   });
+  it('Should return product order not found', function () {
+    const status = {
+      status: 'accepted',
+    };
+    const findByPkStub = sinon
+      .stub(Database.ProductOrder, 'findByPk')
+      .resolves(null);
+
+    chai
+      .request(app)
+      .put(`/api/product-orders/${id}/status`)
+      .set('Authorization', ` Bearer ${headerTokenSeller}`)
+      .send(status)
+      .end((err, res) => {
+        findByPkStub.restore();
+        expect(res.body.message).to.equal('Product order not found');
+      });
+  });
 });
