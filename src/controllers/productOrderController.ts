@@ -3,6 +3,7 @@ import Database from '../database';
 import { sendResponse } from '../utils/response';
 import { updateOrderStatus } from '../helper';
 import { UserInterface } from './productController';
+import NotificationEventEmitter, { EventName } from './EventController';
 
 //---------------------------------------------------------------------------------------------------------------------------
 export const getproductorder = async (req: Request, res: Response) => {
@@ -45,6 +46,12 @@ export const updateproductorder = async (req: Request, res: Response) => {
     await productOrder.save();
     await updateOrderStatus(productOrder.orderId as string);
 
+    NotificationEventEmitter.emit(
+      EventName.ORDER_STATUS,
+      productOrder,
+      productOrder.userId,
+      ` your product order has been ${productOrder.status}!!`
+    );
     return sendResponse(res, 200, productOrder, 'Order status updated');
   } catch (err: unknown) {
     const errors = err as Error;

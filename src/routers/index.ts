@@ -8,6 +8,7 @@ import wishlistRouter from './wishlistRoute';
 import reviewRouter from './reviewRoute';
 import routercart from './cartRoutes';
 import statsRoute from './statsRoute';
+import routerNotification from './notification';
 import orderRouter from './orderRouter';
 
 const router = Router();
@@ -21,6 +22,7 @@ const routers: Router[] = [
   rolerouter,
   routercart,
   statsRoute,
+  routerNotification,
   orderRouter,
 ];
 

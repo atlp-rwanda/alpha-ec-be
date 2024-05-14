@@ -29,7 +29,7 @@
     "ignore": [
       "src/**/*.spec.ts"
     ],
-    "exec": "npm run lint:fix && npm run prettier:fix && cross-env NODE_ENV=development tsc && node --max-old-space-size=4096 ./dist/server.js"
+    "exec": "npm run lint:fix && npm run prettier:fix &&  cross-env NODE_ENV=development tsc && node --max-old-space-size=4096 ./dist/server.js"
   },
   "author": "alpha atlp team",
   "license": "ISC",
@@ -183,7 +183,9 @@
       "src/utils/cartsCalculations.ts",
       "src/controllers/adsController.ts",
       "src/helper/payments.ts",
-      "src/utils/tokenGenerate.ts"
+      "src/utils/tokenGenerate.ts",
+      "src/utils/notification.ts",
+      "src/controllers/EventController.ts"
     ]
   }
 }
