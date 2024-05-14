@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      ul,
+      li {
+        display: grid;
+        gap: 1rem;
+        align-items: center;
+      }
+      li {
+        background-color: burlywood;
+        padding: 1rem;
+        border-radius: 0.4rem;
+
+        align-items: center;
+      }
+      li div {
+        position: relative;
+      }
+      input {
+        padding: 1rem;
+        display: block;
+        width: 60%;
+        margin-left: 3rem;
+        font: inherit;
+      }
+      li div p {
+        margin-left: 5rem;
+      }
+      span {
+        width: 4rem;
+        height: 4rem;
+        position: absolute;
+        background-color: aliceblue;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" placeholder="user id" />
+    <ul></ul>
+    <script type="module">
+      const list = document.querySelector('ul');
+      import { io } from 'https://cdn.socket.io/4.7.5/socket.io.esm.min.js';
+      const socket = io();
+      socket.on('connect', () => {
+        console.log(socket.connected); // true
+      });
+      document.querySelector('input').addEventListener('change', e => {
+        socket.on(e.target.value, arg => {
+          list.innerHTML += `<li><div><span></span><p>${arg.user.name}</p></div> <p>${arg.message}</p></li>`;
+        });
+      });
+    </script>
+  </body>
+</html>

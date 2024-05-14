@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { Stripe } from 'stripe';
 import { logger, sendResponse } from '../utils';
 import Database from '../database';
+import NotificationEventEmitter, { EventName } from './EventController';
 
 dotenv.config();
 
@@ -160,6 +161,11 @@ export const webhookProcess = async (req: Request, res: Response) => {
     await Database.Cart.destroy({ where: { userId: userId2 } });
   }
 
+  NotificationEventEmitter.emit(
+    EventName.PAYMENT_COMPLETED,
+    userId2,
+    `Payment Completed Successfully!!`
+  );
   return sendResponse(res, 200, null, 'Payment Completed Successfully!!');
 };
 
