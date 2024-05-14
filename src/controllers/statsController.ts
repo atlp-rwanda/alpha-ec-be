@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import database from '../database';
@@ -8,11 +9,13 @@ import { CheckUserCredential } from '../middleware/statuscheck';
 export const getProductStats = async (req: Request, res: Response) => {
   try {
     const user = await CheckUserCredential(req);
-    const { startDate, endDate } = req.query;
+    let { startDate, endDate } = req.query;
 
-    if (!startDate || !endDate) {
-      throw new Error('Start date and end date are required.');
+    if (!startDate) {
+      throw new Error('Start date is required.');
     }
+
+    startDate = new Date(startDate as string).toISOString().split('T')[0];
 
     let sellerCondition = {};
 
@@ -27,6 +30,13 @@ export const getProductStats = async (req: Request, res: Response) => {
       },
       ...sellerCondition,
     };
+
+    if (endDate) {
+      endDate = new Date(endDate as string).toISOString().split('T')[0];
+      dataRange.createdAt[Op.lte] = new Date(endDate);
+    } else {
+      dataRange.createdAt[Op.lte] = new Date();
+    }
 
     const newProducts = await database.Product.count({
       where: dataRange,

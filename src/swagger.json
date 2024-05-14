@@ -2491,7 +2491,7 @@
             "name": "endDate",
             "in": "query",
             "description": "End date ",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string",
               "format": "date",
@@ -2507,64 +2507,29 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": {
                     "stats": {
-                      "type": "object",
-                      "properties": {
-                        "newProducts": {
-                          "type": "integer",
-                          "description": "Number of new products added within the specified time frame."
-                        },
-                        "expiredProducts": {
-                          "type": "integer",
-                          "description": "Number of products that have expired within the specified time frame."
-                        },
-                        "stockIncrement": {
-                          "type": "integer",
-                          "description": "Number of stock increments within the specified time frame."
-                        },
-                        "stockReduction": {
-                          "type": "integer",
-                          "description": "Number of stock reductions within the specified time frame."
-                        },
-                        "productWished": {
-                          "type": "integer",
-                          "description": "Number of times products have been added to wishlists within the specified time frame."
-                        }
-                      }
+                      "newProducts": 0,
+                      "expiredProducts": 0,
+                      "stockIncrement": 0,
+                      "stockReduction": 0,
+                      "productWished": 0
                     }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Start date and end date are required."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Error fetching statistics"
-                    }
-                  }
+                  },
+                  "message": "Statistics are fetched successfully"
                 }
               }
             }
@@ -2572,7 +2537,6 @@
         }
       }
     },
-
     "/api/reviews": {
       "post": {
         "tags": ["Review"],
