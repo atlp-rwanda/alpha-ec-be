@@ -41,7 +41,7 @@ describe('ORDER MANAGMENT TEST', () => {
 
   it('should update with error 500', async () => {
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)
@@ -54,7 +54,7 @@ describe('ORDER MANAGMENT TEST', () => {
   });
   it('should update with 200', async () => {
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)
@@ -69,7 +69,7 @@ describe('ORDER MANAGMENT TEST', () => {
   it('error in update a product-order ', done => {
     const fakeID = '';
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)
@@ -79,6 +79,24 @@ describe('ORDER MANAGMENT TEST', () => {
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
+      });
+  });
+  it('Should return product order not found', function () {
+    const status = {
+      status: 'accepted',
+    };
+    const findByPkStub = sinon
+      .stub(Database.ProductOrder, 'findByPk')
+      .resolves(null);
+
+    chai
+      .request(app)
+      .put(`/api/product-orders/${id}/status`)
+      .set('Authorization', ` Bearer ${headerTokenSeller}`)
+      .send(status)
+      .end((err, res) => {
+        findByPkStub.restore();
+        expect(res.body.message).to.equal('Product order not found');
       });
   });
 });
