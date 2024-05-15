@@ -130,8 +130,14 @@ const ProductOrderModel = (sequelize: Sequelize) => {
       },
       status: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('pending', 'rejected', 'accepted'),
         defaultValue: 'pending',
+        validate: {
+          isIn: {
+            args: [['pending', 'rejected', 'accepted']],
+            msg: "Status must be either 'pending', 'rejected', or 'accepted'in lowerCase",
+          },
+        },
       },
     },
     {

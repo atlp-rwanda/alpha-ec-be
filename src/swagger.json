@@ -1632,7 +1632,17 @@
             "in": "path",
             "description": "id of the cart",
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "example": "e933f4c2-b10b-494a-8b57-7185e928b8a6"
+                },
+                "quantity": {
+                  "type": "string",
+                  "example": "4"
+                }
+              }
             }
           }
         ],
@@ -2853,7 +2863,8 @@
               "schema": {
                 "properties": {
                   "status": {
-                    "type": "DELIVERED"
+                    "type": "string",
+                    "example": "accepted"
                   }
                 }
               }
