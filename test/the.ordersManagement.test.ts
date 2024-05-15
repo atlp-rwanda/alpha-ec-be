@@ -41,7 +41,7 @@ describe('ORDER MANAGMENT TEST', () => {
 
   it('should update with error 500', async () => {
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)
@@ -52,9 +52,9 @@ describe('ORDER MANAGMENT TEST', () => {
         expect(res).to.have.status(500);
       });
   });
-  it('should update with 200', async () => {
+  it('should update with 200', done => {
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)
@@ -63,13 +63,14 @@ describe('ORDER MANAGMENT TEST', () => {
       .send(status)
       .end((err, res) => {
         expect(res).to.have.status(200);
+        done();
       });
   });
 
   it('error in update a product-order ', done => {
     const fakeID = '';
     const status = {
-      status: 'DELIVERED',
+      status: 'accepted',
     };
     chai
       .request(app)

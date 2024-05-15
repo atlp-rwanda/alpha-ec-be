@@ -74,7 +74,6 @@ export const getCart = async (req: Request, res: Response) => {
       produtcs: await formatCartItems(cartFound.products),
       totalprice: cartFound.totalprice,
     };
-
     return sendResponse(res, 200, cart, 'Cart retrieved ');
   } catch (err: unknown) {
     const errors = err as Error;

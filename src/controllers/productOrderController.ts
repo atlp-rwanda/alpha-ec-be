@@ -41,7 +41,6 @@ export const updateproductorder = async (req: Request, res: Response) => {
     if (!productOrder) {
       return sendResponse<null>(res, 404, null, 'Product order not found');
     }
-
     productOrder.status = status;
     await productOrder.save();
     await updateOrderStatus(productOrder.orderId as string);
