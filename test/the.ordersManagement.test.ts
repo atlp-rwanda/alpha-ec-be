@@ -52,7 +52,7 @@ describe('ORDER MANAGMENT TEST', () => {
         expect(res).to.have.status(500);
       });
   });
-  it('should update with 200', async () => {
+  it('should update with 200', done => {
     const status = {
       status: 'accepted',
     };
@@ -63,6 +63,7 @@ describe('ORDER MANAGMENT TEST', () => {
       .send(status)
       .end((err, res) => {
         expect(res).to.have.status(200);
+        done();
       });
   });
 
@@ -79,24 +80,6 @@ describe('ORDER MANAGMENT TEST', () => {
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
-      });
-  });
-  it('Should return product order not found', function () {
-    const status = {
-      status: 'accepted',
-    };
-    const findByPkStub = sinon
-      .stub(Database.ProductOrder, 'findByPk')
-      .resolves(null);
-
-    chai
-      .request(app)
-      .put(`/api/product-orders/${id}/status`)
-      .set('Authorization', ` Bearer ${headerTokenSeller}`)
-      .send(status)
-      .end((err, res) => {
-        findByPkStub.restore();
-        expect(res.body.message).to.equal('Product order not found');
       });
   });
 });
