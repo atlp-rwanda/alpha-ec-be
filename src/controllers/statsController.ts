@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
 import database from '../database';
@@ -8,45 +9,34 @@ import { CheckUserCredential } from '../middleware/statuscheck';
 export const getProductStats = async (req: Request, res: Response) => {
   try {
     const user = await CheckUserCredential(req);
-    const timeFrame = req.query.timeFrame as string;
+    let { startDate, endDate } = req.query;
 
-    let startDate, endDate;
+    if (!startDate) {
+      throw new Error('Start date is required.');
+    }
+
+    startDate = new Date(startDate as string).toISOString().split('T')[0];
+
     let sellerCondition = {};
 
-    if (timeFrame) {
-      if (user && user.role === 'seller') {
-        sellerCondition = { sellerId: user.id };
-      }
-
-      switch (timeFrame) {
-        case 'daily':
-          startDate = new Date();
-          endDate = new Date();
-          break;
-        case 'last7days':
-          startDate = new Date();
-          startDate.setDate(startDate.getDate() - 7);
-          endDate = new Date();
-          break;
-        case 'last30days':
-          startDate = new Date();
-          startDate.setDate(startDate.getDate() - 30);
-          endDate = new Date();
-          break;
-        default:
-          throw new Error('Invalid time frame');
-      }
+    if (user && user.role === 'seller') {
+      sellerCondition = { sellerId: user.id };
     }
 
     const dataRange = {
-      ...(timeFrame && {
-        createdAt: {
-          [Op.gte]: startDate,
-          [Op.lte]: endDate,
-        },
-      }),
+      createdAt: {
+        [Op.gte]: new Date(startDate as string),
+        [Op.lte]: new Date(endDate as string),
+      },
       ...sellerCondition,
     };
+
+    if (endDate) {
+      endDate = new Date(endDate as string).toISOString().split('T')[0];
+      dataRange.createdAt[Op.lte] = new Date(endDate);
+    } else {
+      dataRange.createdAt[Op.lte] = new Date();
+    }
 
     const newProducts = await database.Product.count({
       where: dataRange,
@@ -94,7 +84,7 @@ export const getProductStats = async (req: Request, res: Response) => {
       productWished,
     };
 
-    sendResponse(res, 200, { stats }, 'Statistics are Fetched successfully');
+    sendResponse(res, 200, { stats }, 'Statistics are fetched successfully');
   } catch (err: unknown) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);

@@ -2477,12 +2477,25 @@
         ],
         "parameters": [
           {
-            "name": "timeFrame",
+            "name": "startDate",
             "in": "query",
-            "description": "Specifies the time frame for the statistics. Options include 'daily', 'last7days', 'last30days'. This parameter is required for sellers.",
+            "description": "Start date",
+            "required": true,
             "schema": {
               "type": "string",
-              "example": "last7days"
+              "format": "date",
+              "example": "2024-05-01"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "End date ",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2024-05-14"
             }
           }
         ],
@@ -2494,48 +2507,29 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "stats": {
-                      "type": "object",
-                      "properties": {
-                        "newProducts": {
-                          "type": "integer",
-                          "description": "Number of new products added within the specified time frame."
-                        },
-                        "expiredProducts": {
-                          "type": "integer",
-                          "description": "Number of products that have expired within the specified time frame."
-                        },
-                        "stockIncrement": {
-                          "type": "integer",
-                          "description": "Number of stock increments within the specified time frame."
-                        },
-                        "stockReduction": {
-                          "type": "integer",
-                          "description": "Number of stock reductions within the specified time frame."
-                        },
-                        "productWished": {
-                          "type": "integer",
-                          "description": "Number of times products have been added to wishlists within the specified time frame."
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object"
+                    },
                     "message": {
-                      "type": "string",
-                      "example": "Error fetching statistics"
+                      "type": "string"
                     }
                   }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": {
+                    "stats": {
+                      "newProducts": 0,
+                      "expiredProducts": 0,
+                      "stockIncrement": 0,
+                      "stockReduction": 0,
+                      "productWished": 0
+                    }
+                  },
+                  "message": "Statistics are fetched successfully"
                 }
               }
             }
