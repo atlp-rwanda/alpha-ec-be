@@ -1,8 +1,8 @@
-import { Server, Socket } from 'socket.io';
+import { Namespace, Socket } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { IncomingMessage, ServerResponse } from 'http';
 import { sendEmail } from './email';
 import Database from '../database';
+import { logger } from './logger';
 
 let socket:
   | Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, unknown>
@@ -10,18 +10,14 @@ let socket:
 
 /**
  *
- * @param {any} httpServer
+ * @param {any} notification
+ * @param {any} param
  * @returns {void}
  */
 export function setUpIo(
-  httpServer: Server<typeof IncomingMessage, typeof ServerResponse>
+  notification: Namespace<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>
 ) {
-  // @ts-expect-error no error no error
-  const io = new Server(httpServer, {
-    /* options */
-  });
-
-  io.on('connection', sock => {
+  notification.on('connection', (sock: Socket) => {
     socket = sock;
   });
 }
@@ -54,6 +50,7 @@ export async function sendNotification<T extends { message: string }>(
       user,
     },
   };
+  logger.info("this notification",sendNotification)
   await sendEmail(mailOptions);
   return true;
 }

@@ -3,11 +3,13 @@ import { Server as HttpServer } from 'http';
 import Database from './database';
 import { decodeToken, findUsername } from './utils/tokenGenerate';
 import { logger } from './utils';
+import { setUpIo } from './utils/notification';
 
 interface CustomSocket extends Socket {
   userId?: string;
 }
-
+let chat: any;
+let notification:any;
 export const findId = (socket: CustomSocket) => {
   const { token } = socket.handshake.auth;
   const id = decodeToken(token);
@@ -61,16 +63,27 @@ const handleDisconnect = () => {
 };
 export const socketSetUp = (server: HttpServer) => {
   const io = new Server(server);
-  io.use(async (socket: CustomSocket, next) => {
+  notification = io.of('/notification');
+  setUpIo(notification);
+  chat = io.of('/chats');
+  chat.use(async (socket: CustomSocket, next: () => void) => {
     const id = findId(socket);
     socket.userId = id;
+    logger.info('user connected successul', socket.userId);
     next();
   });
 
-  io.on('connection', async (socket: CustomSocket) => {
-    io.emit('welcome', 'welcome to our chat application');
-    socket.on('sentMessage', data => handleSentMessage(socket, data, io));
+  chat.on('connection', async (socket: CustomSocket) => {
+    chat.emit('welcome', 'welcome to our chat application');
+    socket.on('sentMessage', data => handleSentMessage(socket, data, chat));
     socket.on('typing', isTyping => handleTyping(socket, isTyping));
     socket.on('disconnect', () => handleDisconnect);
-  });
-};
+    
+    // io.on('connection', sock => {
+    //   if (socket.id === sock.id) {
+    //     socket = sock;
+    //   }
+    // });
+});
+
+}

@@ -3,60 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      ul,
-      li {
-        display: grid;
-        gap: 1rem;
-        align-items: center;
-      }
-      li {
-        background-color: burlywood;
-        padding: 1rem;
-        border-radius: 0.4rem;
-
-        align-items: center;
-      }
-      li div {
-        position: relative;
-      }
-      input {
-        padding: 1rem;
-        display: block;
-        width: 60%;
-        margin-left: 3rem;
-        font: inherit;
-      }
-      li div p {
-        margin-left: 5rem;
-      }
-      span {
-        width: 4rem;
-        height: 4rem;
-        position: absolute;
-        background-color: aliceblue;
-        top: 50%;
-        transform: translateY(-50%);
-        border-radius: 50%;
-      }
-    </style>
+    <title>Login Form</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <input type="text" placeholder="user id" />
-    <ul></ul>
-    <script type="module">
-      const list = document.querySelector('ul');
-      import { io } from 'https://cdn.socket.io/4.7.5/socket.io.esm.min.js';
-      const socket = io();
-      socket.on('connect', () => {
-        console.log(socket.connected); // true
-      });
-      document.querySelector('input').addEventListener('change', e => {
-        socket.on(e.target.value, arg => {
-          list.innerHTML += `<li><div><span></span><p>${arg.user.name}</p></div> <p>${arg.message}</p></li>`;
-        });
-      });
-    </script>
+    <form id="loginForm">
+      <h2>Login</h2>
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        name="Email"
+        placeholder="Enter your Email"
+        required
+      />
+
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        minlength="6"
+        placeholder="Enter your Password"
+        required
+      />
+
+      <button type="submit">
+        <span class="loader"></span>
+        Login
+      </button>
+    </form>
+
+    <form id="verifyForm">
+      <h2>Verify OTP</h2>
+
+      <label for="password">OTP:</label>
+      <input
+        type="text"
+        id="otp"
+        name="otp"
+        minlength="4"
+        placeholder="Verify OTP"
+        required
+      />
+
+      <button type="submit">
+        <span class="loader"></span>
+        Verify
+      </button>
+    </form>
+
+    <section id="homePage">
+      <h1>WELCOME</h1>
+      <section id="notificationsSection">
+        <h3>Notifications</h3>
+        <ul id="notify"></ul>
+      </section>
+    </section>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script type="module" src="./script.js"></script>
   </body>
 </html>

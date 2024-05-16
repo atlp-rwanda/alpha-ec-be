@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  input[type='email'],
+  input[type='text'],
+  input[type='password'] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  #loginForm {
+    display: block;
+  }
+  
+  #verifyForm {
+    display: none;
+  }
+  
+  .loader {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #fff;
+    border-bottom-color: transparent;
+    margin-right: 6px;
+    border-radius: 50%;
+    display: none;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  .loader.show {
+    display: inline-block;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  #homePage {
+    display: none;
+    width: 90vw;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: start;
+  }
+  
+  #notificationsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+    min-height: 80vh;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
