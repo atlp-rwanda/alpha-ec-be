@@ -199,6 +199,16 @@
                     "required": false,
                     "default": ""
                   },
+                  "email": {
+                    "type": "string",
+                    "required": false,
+                    "default": ""
+                  },
+                  "phone": {
+                    "type": "string",
+                    "required": false,
+                    "default": ""
+                  },
                   "image": {
                     "type": "string",
                     "format": "binary",
