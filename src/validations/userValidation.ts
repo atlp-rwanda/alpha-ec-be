@@ -61,4 +61,5 @@ export const personalValidationalSchema = Joi.object({
     .regex(/^(078|079|072|073)\d{7}$/)
     .message('Please provide a valid phone number start with 078/079/072/073'),
   address: Joi.string().optional(),
+  email: Joi.string().email().optional(),
 });
