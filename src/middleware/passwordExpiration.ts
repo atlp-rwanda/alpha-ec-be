@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { UserAttributes } from '../database/models/user';
 import { sendResponse, signToken } from '../utils';
+import Database from '../database';
 
 export const passwordExpired = (lastUpdated: Date) => {
   const expirationPeriod = Number(process.env.PASSWORD_EXPIRATION_DAYS) || 30;
@@ -22,6 +23,13 @@ export const handlePasswordExpiration = async (
       'Your password has expired. Please check your email to update it.'
     );
   }
-  const token = signToken({ id: user.id });
+
+  let token = '';
+  if (user.roleId) {
+    const role = await Database.Role.findByPk(user.roleId);
+    token = signToken({ id: user.id, role: role?.name });
+  } else {
+    token = signToken({ id: user.id });
+  }
   return sendResponse<string>(res, 200, token, 'Logged In Successfully');
 };

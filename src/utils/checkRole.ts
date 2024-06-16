@@ -29,7 +29,13 @@ const Checkrole = async (
   if (user.role?.name === 'seller') {
     sendOtp(req, res, email);
   } else {
-    const token = signToken({ id: user.id });
+    let token = '';
+    if (user.roleId) {
+      const role = await Database.Role.findByPk(user.roleId);
+      token = signToken({ id: user.id, role: role?.name });
+    } else {
+      token = signToken({ id: user.id });
+    }
 
     return sendResponse<string>(res, 200, token, 'Logged In Successfully');
   }

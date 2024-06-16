@@ -22,8 +22,16 @@ export const createAProduct = async (
   res: Response
 ) => {
   try {
-    const { name, price, categoryId, expiryDate, bonus, status, quantity } =
-      req.body;
+    const {
+      name,
+      price,
+      categoryId,
+      expiryDate,
+      bonus,
+      status,
+      quantity,
+      description,
+    } = req.body;
 
     const user = req.user as UserInterface;
     const sellerId = user.id;
@@ -72,6 +80,7 @@ export const createAProduct = async (
       bonus,
       status: status || false,
       quantity: quantity || 0,
+      description: description || '',
       sellerId,
     });
 

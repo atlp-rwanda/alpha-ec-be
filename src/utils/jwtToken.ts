@@ -15,6 +15,7 @@ export const verifyToken = (
 export interface TokenPayload {
   id?: string;
   email?: string;
+  role?: string | null;
 }
 
 export const signToken = (
