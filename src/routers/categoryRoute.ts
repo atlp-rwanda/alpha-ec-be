@@ -18,7 +18,7 @@ router.post(
   createCategory
 );
 
-router.get('/categories', isAuthenticated, isSeller, getCategories);
+router.get('/categories', getCategories);
 
 router.delete('/categories/:id', isAuthenticated, isSeller, deleteCategory);
 

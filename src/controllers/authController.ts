@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { UserAttributes } from '../database/models/user';
 import { sendResponse, signToken } from '../utils';
+import Database from '../database';
 
 export const initiateGoogleLogin = (
   req: Request,
@@ -28,7 +29,6 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
           'Failed to authenticate with Google'
         );
       }
-
       if (!user) {
         return sendResponse(
           res,
@@ -39,12 +39,21 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
       }
 
       try {
-        const token = signToken({ id: user.id });
-        const frontendurl = `${process.env.FRONTEND_DOMAIN}`;
-        res.redirect(`${frontendurl}?token=${token}`);
-      } catch (err: unknown) {
-        const errors = err as Error;
-        return sendResponse<null>(res, 500, null, errors.message);
+        let token = '';
+        if (user.roleId) {
+          const role = await Database.Role.findByPk(user.roleId);
+          token = signToken({ id: user.id, role: role?.name });
+        } else {
+          token = signToken({ id: user.id });
+        }
+        sendResponse(res, 200, { token }, 'User authenticated successfully');
+      } catch (error) {
+        return sendResponse(
+          res,
+          500,
+          { error: 'Failed to generate token' },
+          'Failed to generate token'
+        );
       }
     }
   )(req, res);

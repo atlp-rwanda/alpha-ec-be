@@ -10,6 +10,7 @@ export const productValidationSchema = Joi.object({
   bonus: Joi.number(),
   status: Joi.string(),
   quantity: Joi.number().min(0).max(1000),
+  description: Joi.string().min(5).max(1000).optional(),
 });
 
 export const productUpdateValidationSchema = Joi.object({
@@ -21,6 +22,7 @@ export const productUpdateValidationSchema = Joi.object({
   bonus: Joi.number().optional(),
   status: Joi.string().optional(),
   quantity: Joi.number().min(0).max(1000).optional(),
+  description: Joi.string().min(5).max(1000).optional(),
 });
 
 export const statusUpdateValidationSchema = Joi.object({

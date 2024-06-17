@@ -79,13 +79,18 @@ export const resetPassword = async (req: Request, res: Response) => {
       password: hashedPassword,
       lastTimePasswordUpdated: new Date(),
     });
-    const data = signToken({ id: user.id }, '2h');
-    res.cookie('token', data);
-    res.header('Authorization', `Bearer ${data}`);
-    return sendResponse<null>(
+
+    let newToken = '';
+    if (user.roleId) {
+      const role = await Database.Role.findByPk(user.roleId);
+      newToken = signToken({ id: user.id, role: role?.name });
+    } else {
+      newToken = signToken({ id: user.id });
+    }
+    return sendResponse<string>(
       res,
       200,
-      null,
+      newToken,
       'Password reset and Logged in successfully!'
     );
   } catch (err: unknown) {

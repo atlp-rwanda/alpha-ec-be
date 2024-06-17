@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.FLOAT,
         defaultValue: 0,
       },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       sellerId: {
         type: Sequelize.UUID,
         allowNull: false,

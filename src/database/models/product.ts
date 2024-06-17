@@ -5,7 +5,6 @@ import { Category, CategoryAttributes } from './category';
 import { Wishlist } from './wishlist';
 import { Cart } from './cart';
 import { ProductOrder } from './productOrder';
-// import { ProductOrder } from './productOrder';
 
 interface sellerInterface {
   id: string;
@@ -25,6 +24,7 @@ export interface ProductAttributes {
   bonus: string;
   status: boolean;
   quantity: number;
+  description?: string;
   sellerId: string;
   seller?: sellerInterface;
   averageRatings?: number;
@@ -69,6 +69,8 @@ export class Product extends Model<
   declare status: boolean;
 
   declare quantity: number;
+
+  declare description: string;
 
   declare sellerId: string;
 
@@ -131,6 +133,7 @@ export class Product extends Model<
       bonus: this.bonus,
       status: this.status,
       quantity: this.quantity,
+      description: this.description,
       seller: this.seller,
       averageRatings: this.averageRatings,
       reviewsCount: this.reviewsCount,
@@ -169,6 +172,7 @@ const ProductModel = (sequelize: Sequelize) => {
       },
 
       quantity: DataTypes.FLOAT,
+      description: DataTypes.STRING,
       sellerId: {
         type: DataTypes.UUID,
         allowNull: false,

@@ -47,7 +47,13 @@ const sendOtp = async (req: Request, res: Response, isEmail: string) => {
 const sellerOtp = async (req: Request, res: Response) => {
   const info = req.user as DataInfo;
 
-  const tokenSeller = signToken({ id: info.body.id, email: info.body.email });
+  const tokenSeller = signToken({
+    id: info.body.id,
+    email: info.body.email,
+    role: 'seller',
+  });
+
+  console.log('token', tokenSeller);
 
   return sendResponse<string>(res, 200, tokenSeller, 'Seller login successful');
 };
