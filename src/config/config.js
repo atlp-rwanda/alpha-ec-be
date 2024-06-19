@@ -25,7 +25,6 @@ const getDatabaseConfig = () => {
     dialect: process.env.DIALECT || 'postgres',
     secret: process.env.JWT_SECRET || 'secret',
   };
-
   if (prefix === 'PROD_DATABASE') {
     config.dialectOptions = {
       ssl: {
