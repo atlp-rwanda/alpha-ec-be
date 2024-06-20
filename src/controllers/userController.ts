@@ -80,3 +80,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
   const users = await User.findAll();
   res.status(200).json({ message: 'List of all users', data: users });
 };
+export const getAllSellers = async (req: Request, res: Response) => {
+  const users = await User.findAll({
+    where: { roleId: 'd290f1ee-6c54-4b01-90e6-d701748f0851' },
+    attributes: ['id', 'name', 'email', 'phone', 'address'],
+  });
+  res.status(200).json({ message: 'List of all users', data: users });
+};
