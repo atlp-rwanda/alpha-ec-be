@@ -2,7 +2,11 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import { getUser, updateUser } from '../controllers/update-profileController';
-import { createUser, getAllUsers } from '../controllers/userController';
+import {
+  createUser,
+  getAllSellers,
+  getAllUsers,
+} from '../controllers/userController';
 import { isAdmin, isAuthenticated, validationMiddleware } from '../middleware';
 import { chatApplication, MessageSent } from '../controllers/chatController';
 import {
@@ -73,4 +77,5 @@ router.patch(
   validationMiddleware(resetPasswordSchema),
   resetPassword
 );
+router.get('/users/sellers', getAllSellers);
 export default router;

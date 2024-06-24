@@ -53,8 +53,6 @@ const sellerOtp = async (req: Request, res: Response) => {
     role: 'seller',
   });
 
-  console.log('token', tokenSeller);
-
   return sendResponse<string>(res, 200, tokenSeller, 'Seller login successful');
 };
 

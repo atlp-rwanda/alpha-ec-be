@@ -2,7 +2,7 @@
 import Joi from 'joi';
 
 export const productValidationSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required(),
+  name: Joi.string().min(3).max(100).required(),
   images: Joi.array().items(Joi.any()).min(4).max(8).required(),
   categoryId: Joi.string().required(),
   price: Joi.number().required(),
