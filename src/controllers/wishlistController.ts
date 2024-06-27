@@ -39,7 +39,12 @@ export const addToWishlist = async (req: Request, res: Response) => {
           id,
           `A user removed the product you seller from her wishing list(${product.name})`
         );
-        return sendResponse(res, 200, null, 'Wishlist deleted successfully');
+        return sendResponse(
+          res,
+          200,
+          { product },
+          'Wishlist deleted successfully'
+        );
       } catch (err) {
         const errors = err as Error;
         return sendResponse<null>(res, 500, null, errors.message);
@@ -74,24 +79,15 @@ export const getWishlist = async (req: Request, res: Response) => {
   try {
     let wishlist;
     if (role === 'seller') {
-      wishlist = await Database.Wishlist.findAll({
-        attributes: [
-          'productId',
-          [
-            Database.sequelize.fn('count', Database.sequelize.col('productId')),
-            'NumberOfWishes',
-          ],
-        ],
+      wishlist = await Database.Wishlist.findAndCountAll({
         include: [
           {
             model: Database.Product,
-            where: { sellerId: id },
             as: 'product',
+            where: { sellerId: id },
           },
         ],
-        group: ['productId', 'product.id'],
       });
-      sendResponse(res, 200, { wishlist }, 'Wishlist fetched successfully');
     } else if (role === 'buyer') {
       const productWishlist = await Database.Wishlist.findAll({
         where: { userId: id },
