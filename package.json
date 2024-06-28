@@ -9,7 +9,7 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "cross-env NODE_ENV=production tsc && npm run migrate && npm run seed",
     "start": "cross-env NODE_ENV=production node ./dist/server.js",
-    "migrate": "sequelize db:migrate ",
+    "migrate": "cross-env NODE_ENV=production sequelize db:migrate ",
     "demigrate": "sequelize db:migrate:undo:all",
     "seed": "sequelize db:seed:all",
     "coverage": "nyc --reporter=text npm run test --coverage",

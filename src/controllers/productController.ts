@@ -317,6 +317,12 @@ export const updateAProduct = async (req: Request, res: Response) => {
     }
 
     const fieldsToUpdate = req.body;
+    if (fieldsToUpdate?.images) {
+      const images = await uploadImages();
+      fieldsToUpdate.images = images;
+    }
+    console.log(fieldsToUpdate);
+
     if (Object.keys(fieldsToUpdate).length === 0) {
       return sendResponse<null>(
         res,
