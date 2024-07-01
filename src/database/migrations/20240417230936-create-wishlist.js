@@ -29,6 +29,10 @@ module.exports = {
           key: 'id',
         },
       },
+      sellerId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

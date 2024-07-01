@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://alpha-ec-be.onrender.com",
+      "url": "https://alpha-ec-be-1-h8kj.onrender.com",
       "description": "production server server"
     },
     {
@@ -454,10 +454,12 @@
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/notifications/markall": {
+      "patch": {
         "tags": ["notifications"],
-        "summary": " read notifications",
+        "summary": "Mark all Notifications as read",
         "security": [
           {
             "token": []
@@ -465,24 +467,95 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "ok"
                     },
                     "data": {
-                      "type": "array",
-                      "items": {}
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "All notifications marked as read."
                     }
                   }
                 },
                 "example": {
-                  "status": "success",
-                  "data": []
+                  "status": "Success!",
+                  "data": [
+                    {
+                      "id": "7668a20f-6661-460c-b7ab-3c2a3fd2e297",
+                      "message": "John, your product order has been rejected!!",
+                      "isRead": true,
+                      "event": "ORDER_STATUS",
+                      "createdAt": "2024-07-07T22:18:54.877Z"
+                    },
+                    {
+                      "id": "77bf27f7-5908-4ebf-ad6c-c8fe8e92cce9",
+                      "message": "John added the product to their wishlist(shoes)",
+                      "isRead": true,
+                      "event": "PRODUCT_WISHLIST_UPDATE",
+                      "createdAt": "2024-07-07T00:20:57.291Z"
+                    }
+                  ],
+                  "message": "Notification marked as read."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{id}": {
+      "patch": {
+        "tags": ["notifications"],
+        "summary": "update read status of notification",
+        "security": [
+          {
+            "token": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the notification",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Notification marked as read."
+                    }
+                  }
+                },
+                "example": {
+                  "status": "Success!",
+                  "data": null,
+                  "message": "Notification marked as read."
                 }
               }
             }

@@ -60,6 +60,8 @@ interface userCreationAttributes
 export class User extends Model<UserAttributes, userCreationAttributes> {
   static lastTimePasswordUpdated: WhereAttributeHashValue<Date>;
 
+  sellerId: any;
+
   static forEach(arg0: (user: any) => void) {
     throw new Error('Method not implemented.');
   }

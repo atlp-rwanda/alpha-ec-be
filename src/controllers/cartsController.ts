@@ -3,6 +3,7 @@ import Database from '../database/index';
 import { sendResponse } from '../utils';
 import { cartProductInterface } from '../database/models/cart';
 import { calculateTotal, formatCartItems } from '../utils/cartsCalculations';
+import NotificationEventEmitter, { EventName } from './EventController';
 
 interface UserInterface {
   id: string;
@@ -19,11 +20,22 @@ export const addItemToCart = async (req: Request, res: Response) => {
     const validProduct = await Database.Product.findOne({
       where: { id: product.productId },
     });
+
     if (!validProduct) {
       return sendResponse<null>(res, 404, null, 'Product not found');
     }
     if (validProduct.quantity < product.quantity) {
-      return sendResponse<null>(res, 406, null, 'Quantity Exceeds Stock');
+      NotificationEventEmitter.emit(
+        EventName.STOCK_LEVEL_REACH_ZERO,
+        validProduct,
+        id
+      );
+      return sendResponse<null>(
+        res,
+        406,
+        null,
+        'Quantity exceeds available stock'
+      );
     }
     const cartExist = await Database.Cart.findOne({
       where: { userId: id },
@@ -37,7 +49,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
       await cart.save();
       const returnCart = {
         id: cart.id,
-        produtcs: await formatCartItems([product]),
+        products: await formatCartItems([product]),
         totalprice: cart.totalprice,
       };
       return sendResponse(res, 201, returnCart, 'Product added to cart');
@@ -63,7 +75,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
 
     const returnCart2 = {
       id: cartExist.id,
-      produtcs: await formatCartItems(updatedProducts),
+      products: await formatCartItems(updatedProducts),
       totalprice: updatedTotalPrice,
     };
     return sendResponse(res, 201, returnCart2, 'Product is added to cart ');
@@ -72,6 +84,7 @@ export const addItemToCart = async (req: Request, res: Response) => {
     return sendResponse<null>(res, 500, null, errors.message);
   }
 };
+
 //= ==========================================================================================================================
 export const getCart = async (req: Request, res: Response) => {
   const { id } = req.user as UserInterface;

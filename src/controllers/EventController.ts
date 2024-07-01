@@ -11,59 +11,100 @@ export const EventName = {
   PAYMENT_COMPLETED: 'PAYMENT_COMPLETED',
   ORDER_STATUS: 'ORDER_STATUS',
 } as const;
+
 NotificationEventEmitter.on(
   EventName.STOCK_LEVEL_REACH_ZERO,
-  async (product: Product) => {
+  async (product: Product, userId: string) => {
     if (product.quantity !== 0) return;
-    const notification = {
-      message: `A user updated the product on wishing list(${product.name})`,
-      userId: product.sellerId,
-    };
-    await sendNotification(product.sellerId, { ...notification, ...product });
-  }
-);
-NotificationEventEmitter.on(
-  EventName.PRODUCT_WISHLIST_UPDATE,
-  async (product: Product, userId: string, message: string) => {
-    const notification = {
-      message,
-      userId,
-      isRead: false,
-    };
-    await Database.Notification.create(notification);
-    await sendNotification(product.sellerId, { ...notification, ...product });
-  }
-);
 
-/**
- * Queued due to features not implemented
- */
-NotificationEventEmitter.on(
-  EventName.PAYMENT_COMPLETED,
-  async (userId: string, message: string) => {
+    const user = await Database.User.findOne({
+      where: { id: userId },
+      attributes: ['name'],
+    });
+
+    if (!user) {
+      return;
+    }
+    const notificationMessage = `Dear ${user.name}, the stock for ${product.name} has reached zero.`;
+
     const notification = {
-      message,
+      message: notificationMessage,
       userId,
+      sellerId: product.sellerId,
       isRead: false,
+      event: EventName.STOCK_LEVEL_REACH_ZERO,
     };
     await Database.Notification.create(notification);
     await sendNotification(userId, {
+      message: notification.message,
+      event: notification.event,
+      createdAt: new Date(),
+    });
+  }
+);
+
+NotificationEventEmitter.on(
+  EventName.PRODUCT_WISHLIST_UPDATE,
+  async (
+    product: Product,
+    userId: string,
+    message: string,
+    sellerId: string
+  ) => {
+    const notification = {
+      message,
+      userId,
+      sellerId,
+      isRead: false,
+      event: EventName.PRODUCT_WISHLIST_UPDATE,
+    };
+    await Database.Notification.create(notification);
+    await sendNotification(product.sellerId, {
       ...notification,
+      event: notification.event,
+      createdAt: new Date(),
     });
   }
 );
 NotificationEventEmitter.on(
-  EventName.ORDER_STATUS,
-  async (product: ProductOrder, userId: string, message: string) => {
+  EventName.PAYMENT_COMPLETED,
+  async (userId: string, message: string, sellerId: string) => {
     const notification = {
       message,
       userId,
+      sellerId,
       isRead: false,
+      event: EventName.PAYMENT_COMPLETED,
+    };
+    await Database.Notification.create(notification);
+    await sendNotification(userId, {
+      ...notification,
+      event: notification.event,
+      createdAt: new Date(),
+    });
+  }
+);
+
+NotificationEventEmitter.on(
+  EventName.ORDER_STATUS,
+  async (
+    product: ProductOrder,
+    userId: string,
+    message: string,
+    sellerId: string
+  ) => {
+    const notification = {
+      message,
+      userId,
+      sellerId,
+      isRead: false,
+      event: EventName.ORDER_STATUS,
     };
     await Database.Notification.create(notification);
     await sendNotification(product.userId, {
       ...notification,
-      ...product,
+      event: notification.event,
+      createdAt: new Date(),
     });
   }
 );

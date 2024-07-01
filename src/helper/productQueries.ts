@@ -78,13 +78,10 @@ export const buildQuery = (req: Request): FindOptions => {
         [Op.and]: [query.where, ...conditions],
       };
     }
-
-    if (typeof req.query.sort === 'string') {
-      const [sortField, sortDirection = 'asc'] = req.query.sort.split(':');
-      query.order = [
-        [sortField, sortDirection.toUpperCase() as 'ASC' | 'DESC'],
-      ];
-    }
+  }
+  if (typeof req.query.sort === 'string') {
+    const [sortField, sortDirection = 'asc'] = req.query.sort.split(':');
+    query.order = [[sortField, sortDirection.toUpperCase() as 'ASC' | 'DESC']];
   }
 
   return query;
