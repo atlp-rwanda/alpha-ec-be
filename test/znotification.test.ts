@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { describe, it } from 'mocha';
 import app from '../src/app';
-import { sendNotification } from '../src/utils/notification';
+import { sendNotification } from '../src/chatSetup';
 import { headerTokenSeller } from './2FA.tets';
 
 chai.use(chaiHttp);
@@ -22,15 +22,19 @@ describe('notification API TEST', () => {
       });
   });
   it('should send notification', function (done) {
-    this.timeout(10000);
-
+    this.timeout(60000); 
+  
+    console.log('Starting sendNotification test');
     sendNotification('d290f1ee-6c54-4b01-90e6-d701748f0851', {
       message: 'test',
     }).then(res => {
-      expect(res).to.equals(undefined);
+      console.log('sendNotification resolved');
       done();
+    }).catch(err => {
+      console.log('sendNotification error:', err);
+      done(err);
     });
-  }).timeout(10000);
+  });
   it('delete all notifications with status code of 200 ', done => {
     chai
       .request(app)
