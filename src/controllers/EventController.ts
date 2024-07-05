@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import Database from '../database';
 import { Product } from '../database/models/product';
 import { ProductOrder } from '../database/models/productOrder';
-import { sendNotification } from '../utils/notification';
+import { sendNotification } from '../chatSetup';
 
 const NotificationEventEmitter = new EventEmitter();
 export const EventName = {

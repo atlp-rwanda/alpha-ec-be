@@ -186,7 +186,7 @@
       "src/helper/payments.ts",
       "src/utils/tokenGenerate.ts",
       "src/utils/notification.ts",
-      "src/controllers/EventController.ts"
+      "src/chatSetup.ts"
     ]
   }
 }
