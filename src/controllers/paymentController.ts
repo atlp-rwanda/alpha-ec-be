@@ -166,7 +166,7 @@ export const webhookProcess = async (req: Request, res: Response) => {
     userId2,
     `Payment Completed Successfully!!`
   );
-  return sendResponse(res, 200, null, 'Payment Completed Successfully!!');
+  return res.redirect(`${process.env.FRONTEND_DOMAIN}/dashboard/orders`);
 };
 
 export const getorder = async (req: Request, res: Response) => {
