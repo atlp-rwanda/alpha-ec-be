@@ -149,4 +149,5 @@ const ProductOrderModel = (sequelize: Sequelize) => {
   );
   return ProductOrder;
 };
+
 export default ProductOrderModel;
