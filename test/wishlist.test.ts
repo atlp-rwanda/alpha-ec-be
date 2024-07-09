@@ -89,6 +89,7 @@ describe('buyer should login', () => {
         done();
       });
   });
+  
   it('get all wishes with 500 ', done => {
     const { Wishlist } = Database;
 

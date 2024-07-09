@@ -103,8 +103,8 @@ export const paymentController = async (req: Request, res: Response) => {
 
 export const webhookProcess = async (req: Request, res: Response) => {
   const { paymentId } = req.query;
-
   const userId2 = req.query.user as string;
+
   const cart = await Database.Cart.findOne({ where: { userId: userId2 } });
 
   if (!cart) {
@@ -113,11 +113,18 @@ export const webhookProcess = async (req: Request, res: Response) => {
 
   const session = await stripe.checkout.sessions.retrieve(paymentId as string);
   if (session.payment_status === 'paid') {
+    const user = await Database.User.findOne({
+      where: { id: userId2 },
+      attributes: ['name'],
+    });
+
     const order = Database.Order.build({
       userId: userId2,
       status: 'pending',
     });
     await order.save();
+
+    const sellerIds = new Set<string>();
 
     await Promise.all(
       cart.products.map(async item => {
@@ -125,7 +132,6 @@ export const webhookProcess = async (req: Request, res: Response) => {
           where: { id: item.productId },
           attributes: ['id', 'sellerId'],
         });
-
         if (!product) {
           return sendResponse<null>(res, 404, null, 'Product not found');
         }
@@ -139,8 +145,7 @@ export const webhookProcess = async (req: Request, res: Response) => {
           status: 'pending',
         };
         await Database.ProductOrder.create(productOrder);
-
-        // STOCK UPDATES
+        sellerIds.add(product.sellerId);
         const prodInStock = await Database.Product.findByPk(
           productOrder.productId
         );
@@ -156,17 +161,19 @@ export const webhookProcess = async (req: Request, res: Response) => {
         await prodInStock.save();
       })
     );
-
-    // cart delete
     await Database.Cart.destroy({ where: { userId: userId2 } });
+    sellerIds.forEach(sellerId => {
+      NotificationEventEmitter.emit(
+        EventName.PAYMENT_COMPLETED,
+        userId2,
+        `Payment Completed Successfully by ${user?.name}!!`,
+        sellerId
+      );
+    });
+    return res.redirect(`${process.env.FRONTEND_DOMAIN}/dashboard/orders`);
+    // return sendResponse(res, 200, null, 'Payment Completed Successfully!!');
   }
-
-  NotificationEventEmitter.emit(
-    EventName.PAYMENT_COMPLETED,
-    userId2,
-    `Payment Completed Successfully!!`
-  );
-  return res.redirect(`${process.env.FRONTEND_DOMAIN}/dashboard/orders`);
+  return sendResponse(res, 400, null, 'Payment not completed');
 };
 
 export const getorder = async (req: Request, res: Response) => {

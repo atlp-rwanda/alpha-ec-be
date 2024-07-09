@@ -12,9 +12,11 @@ dotenv.config();
 interface CustomSocket extends Socket {
   userId?: string;
 }
+
 let notificationSocket:
   | Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, unknown>
   | undefined;
+
 const findId = (socket: CustomSocket) => {
   const { token } = socket.handshake.auth;
   const id = decodeToken(token);
@@ -22,12 +24,14 @@ const findId = (socket: CustomSocket) => {
   socket.userId = id;
   return id;
 };
+
 interface ChatMessage {
   socketId: string;
   content: string;
   messageDate: string;
   name: string | null;
 }
+
 const handleSentMessage = async (
   socket: CustomSocket,
   data: ChatMessage,
@@ -49,6 +53,7 @@ const handleSentMessage = async (
     });
   }
 };
+
 const handleTyping = (
   socket: CustomSocket,
   isTyping: string,
@@ -56,14 +61,17 @@ const handleTyping = (
 ) => {
   socket.broadcast.emit('typing', isTyping, name);
 };
+
 const handleDisconnect = () => {
   logger.info('user disconnected');
 };
+
 const handleNotificationConnection = (
   sock: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, unknown>
 ) => {
   notificationSocket = sock;
 };
+
 export const initializeSocketIo = (httpServer: HttpServer) => {
   const io = new Server(httpServer, {
     cors: {
@@ -86,20 +94,31 @@ export const initializeSocketIo = (httpServer: HttpServer) => {
     handleNotificationConnection(socket);
   });
 };
-export const sendNotification = async <T extends { message: string }>(
-  id: string,
-  { message }: T
-): Promise<boolean> => {
-  if (!notificationSocket) return false;
-  const user = await Database.User.findOne({ where: { id } });
+
+// eslint-disable-next-line require-jsdoc
+export async function sendNotification<
+  T extends { message: string; event: string; createdAt: Date },
+>(id: string, { message, event, createdAt }: T): Promise<boolean> {
+  const user = await Database.User.findOne({
+    where: {
+      id,
+    },
+  });
   if (!user) return false;
-  notificationSocket.emit(id, { message, user });
   const mailOptions = {
     to: user.email,
     subject: message,
     template: 'NotificationEvent',
-    context: { message, user },
+    context: {
+      message,
+      user,
+    },
   };
+
+  if (notificationSocket) {
+    notificationSocket.emit(id, { message, event, createdAt });
+  }
+
   await sendEmail(mailOptions);
   return true;
-};
+}

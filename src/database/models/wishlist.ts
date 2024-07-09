@@ -7,6 +7,7 @@ export interface WishlistAttributes {
   id: string;
   userId: string;
   productId: string;
+  sellerId: string;
 }
 export interface WishlistCreationAttributes
   extends Omit<WishlistAttributes, 'id'> {
@@ -25,6 +26,8 @@ export class Wishlist
   declare userId: string;
 
   declare productId: string;
+
+  declare sellerId: string;
 
   declare product: Product;
 
@@ -60,6 +63,7 @@ const WishlistModel = (sequelize: Sequelize) => {
       },
       userId: DataTypes.UUID,
       productId: DataTypes.UUID,
+      sellerId: DataTypes.UUID,
     },
     {
       sequelize,

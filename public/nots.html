@@ -50,7 +50,7 @@
       import { io } from 'https://cdn.socket.io/4.7.5/socket.io.esm.min.js';
       const socket = io();
       socket.on('connect', () => {
-        console.log(socket.connected); // true
+        console.log(socket.connected);
       });
       document.querySelector('input').addEventListener('change', e => {
         socket.on(e.target.value, arg => {

@@ -7,7 +7,11 @@ export interface NotificationAttributes {
   id: string;
   message: string;
   userId: string;
+  sellerId: string;
   isRead: boolean;
+  event: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface NotificationCreationAttributes
@@ -25,31 +29,43 @@ export class Notification
 
   declare userId: string;
 
+  declare sellerId: string;
+
   declare isRead: boolean;
+
+  declare event: string;
+
+  declare createdAt?: Date;
+
+  declare updatedAt?: Date;
 
   /**
    * Associations.
-   * @param {IModels} models - The models object containing all initialized models.
+   * @param {IModels} models
    * @returns {Object} An object representing association.
    */
   static associate(models: { User: typeof User }) {
     Notification.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'reviewedBy',
+      as: 'user',
     });
   }
 
   /**
    * Associations.
-   * @param {models} models - The models object containing all initialized models.
+   * @param {models} models
    * @returns {Object} An object representing association.
    */
   toJSON() {
     return {
       id: this.id,
       message: this.message,
-      userId: undefined,
+      userId: this.userId,
+      sellerId: this.sellerId,
       isRead: this.isRead,
+      event: this.event,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     };
   }
 }
@@ -71,11 +87,27 @@ export default (sequelize: Sequelize) => {
           key: 'id',
         },
       },
+      sellerId: DataTypes.UUID,
+      event: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     },
     {
       sequelize,
       modelName: 'notification',
       freezeTableName: true,
+      timestamps: true,
     }
   );
 

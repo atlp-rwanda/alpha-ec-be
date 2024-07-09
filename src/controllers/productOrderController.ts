@@ -45,12 +45,19 @@ export const updateproductorder = async (req: Request, res: Response) => {
     await productOrder.save();
     await updateOrderStatus(productOrder.orderId as string);
 
+    const buyer = await Database.User.findOne({
+      where: { id: productOrder.userId },
+      attributes: ['name'],
+    });
+
     NotificationEventEmitter.emit(
       EventName.ORDER_STATUS,
       productOrder,
       productOrder.userId,
-      ` your product order has been ${productOrder.status}!!`
+      `${buyer?.name}, your product order has been ${productOrder.status}!!`,
+      productOrder.sellerId
     );
+
     return sendResponse(res, 200, productOrder, 'Order status updated');
   } catch (err: unknown) {
     const errors = err as Error;

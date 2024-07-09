@@ -8,9 +8,12 @@ import { initializeSocketIo } from './chatSetup';
 dotenv.config();
 
 const Port = process.env.PORT || 3000;
+
 export const httpServer = createServer(app);
+
 httpServer.listen(Port, () => {
   logger.info(`Server Started on port ${Port}...`);
 });
 initializeSocketIo(httpServer);
+
 scheduleProductExpiryCron();

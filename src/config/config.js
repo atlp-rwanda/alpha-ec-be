@@ -35,5 +35,4 @@ const getDatabaseConfig = () => {
   }
   return config;
 };
-
 module.exports = getDatabaseConfig;
