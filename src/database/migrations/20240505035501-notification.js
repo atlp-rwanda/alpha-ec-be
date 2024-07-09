@@ -18,7 +18,14 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      sellerId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+      },
       message: {
+        type: Sequelize.STRING,
+      },
+      event: {
         type: Sequelize.STRING,
       },
       isRead: {

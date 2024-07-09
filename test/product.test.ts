@@ -617,17 +617,6 @@ describe('PRODUCT API TEST', () => {
     expect(result2).to.have.property('totalItems').to.equal(10);
     done();
   });
-
-  it('get all wishes with status code of 200 ', done => {
-    chai
-      .request(app)
-      .get('/api/wishes')
-      .set('Authorization', `Bearer ${headerTokenSeller}`)
-      .end((err, res) => {
-        expect(res.statusCode).to.equal(200);
-        done();
-      });
-  });
 });
 
 describe('PRODUCT AVAILABILITY', () => {

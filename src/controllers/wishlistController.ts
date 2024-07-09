@@ -12,14 +12,19 @@ interface UserInterface {
 
 export const addToWishlist = async (req: Request, res: Response) => {
   const { productId } = req.body;
-  const { id } = req.user as UserInterface;
+  const { id, name } = req.user as UserInterface;
   try {
     const product = await Database.Product.findOne({
       where: { id: productId },
+      attributes: ['sellerId', 'name'],
     });
     if (!product) {
       return sendResponse<null>(res, 404, null, 'Product not found');
     }
+    if (!product.sellerId) {
+      return sendResponse<null>(res, 400, null, 'Product sellerId is missing');
+    }
+
     const productExit = await Database.Wishlist.findOne({
       where: { userId: id, productId },
       include: [
@@ -37,13 +42,14 @@ export const addToWishlist = async (req: Request, res: Response) => {
           EventName.PRODUCT_WISHLIST_UPDATE,
           product,
           id,
-          `A user removed the product you seller from her wishing list(${product.name})`
+          `${name} removed the product from their wishlist(${product.name})`,
+          product.sellerId
         );
         return sendResponse(
           res,
           200,
-          { product },
-          'Wishlist deleted successfully'
+          null,
+          'Wishlist item deleted successfully'
         );
       } catch (err) {
         const errors = err as Error;
@@ -53,13 +59,15 @@ export const addToWishlist = async (req: Request, res: Response) => {
     const wishlist = await Database.Wishlist.create({
       userId: id,
       productId,
+      sellerId: product.sellerId,
     });
 
     NotificationEventEmitter.emit(
       EventName.PRODUCT_WISHLIST_UPDATE,
       product,
       id,
-      `A user added the product you seller from her wishing list(${product.name})`
+      `${name} added the product to their wishlist(${product.name})`,
+      product.sellerId
     );
     return sendResponse(
       res,
@@ -96,15 +104,15 @@ export const getWishlist = async (req: Request, res: Response) => {
       wishlist = await Database.Product.findAndCountAll({
         where: { id: productIds },
       });
+      return sendResponse(
+        res,
+        200,
+        { wishlist },
+        'Wishlist fetched successfully'
+      );
     } else {
       return sendResponse<null>(res, 403, null, 'Not authorized!');
     }
-    return sendResponse(
-      res,
-      200,
-      { wishlist },
-      'Wishlist fetched successfully'
-    );
   } catch (err) {
     const errors = err as Error;
     return sendResponse<null>(res, 500, null, errors.message);

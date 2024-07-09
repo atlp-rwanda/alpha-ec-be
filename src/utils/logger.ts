@@ -7,7 +7,6 @@ const logDirectory = 'logs';
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
 }
-
 export const logger = createLogger({
   level: 'info',
   format: format.combine(
