@@ -97,7 +97,7 @@ export const getCart = async (req: Request, res: Response) => {
     }
     const cart = {
       id: cartFound.id,
-      produtcs: await formatCartItems(cartFound.products),
+      products: await formatCartItems(cartFound.products),
       totalprice: cartFound.totalprice,
     };
     return sendResponse(res, 200, cart, 'Cart retrieved ');
@@ -142,7 +142,7 @@ export const updateCart = async (req: Request, res: Response) => {
     );
     const returnCart2 = {
       id: cartFound.id,
-      produtcs: await formatCartItems(updatedProducts),
+      products: await formatCartItems(updatedProducts),
       totalprice: updatedTotalPrice,
     };
     return sendResponse(res, 201, returnCart2, 'Cart updated');
@@ -195,7 +195,7 @@ export const deleteProductFromCart = async (req: Request, res: Response) => {
     );
     const returnCart2 = {
       id: cartFound.id,
-      produtcs: await formatCartItems(updatedProducts),
+      products: await formatCartItems(updatedProducts),
       totalprice: updatedTotalPrice,
     };
 

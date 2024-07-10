@@ -195,7 +195,7 @@
     </section>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const URL = 'https://alpha-ec-be-1-h8kj.onrender.com'
+      const URL = 'https://alpha-ec-be-1-h8kj.onrender.com';
       const loginToAccount = () => {
         document.addEventListener('DOMContentLoaded', e => {
           e.preventDefault;
@@ -208,17 +208,14 @@
           loginButton.addEventListener('click', async e => {
             e.preventDefault();
 
-            const response = await fetch(
-              `${URL}/api/users/login`,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  email: email.value,
-                  password: password.value,
-                }),
-              }
-            );
+            const response = await fetch(`${URL}/api/users/login`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: email.value,
+                password: password.value,
+              }),
+            });
             const result = await response.json();
             if (result.data) {
               const storeToken = localStorage.setItem('Token', result.data);
