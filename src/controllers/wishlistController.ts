@@ -16,7 +16,6 @@ export const addToWishlist = async (req: Request, res: Response) => {
   try {
     const product = await Database.Product.findOne({
       where: { id: productId },
-      attributes: ['sellerId', 'name'],
     });
     if (!product) {
       return sendResponse<null>(res, 404, null, 'Product not found');
@@ -48,7 +47,7 @@ export const addToWishlist = async (req: Request, res: Response) => {
         return sendResponse(
           res,
           200,
-          null,
+          { product },
           'Wishlist item deleted successfully'
         );
       } catch (err) {
