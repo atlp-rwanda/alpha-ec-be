@@ -177,6 +177,7 @@ export class User extends Model<UserAttributes, userCreationAttributes> {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       lastTimePasswordUpdated: this.lastTimePasswordUpdated,
+      roleId: this.roleId,
     };
   }
 }
