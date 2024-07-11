@@ -18,12 +18,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
 
     user.verified = true;
     await user.save();
-
-    return sendResponse<string>(
-      res,
-      200,
-      '',
-      'Email verified successfully! Login to continue...'
+    return res.redirect(
+      `${process.env.FRONTEND_DOMAIN}/verifyaccount?verified=true`
     );
   } catch (err) {
     const errors = err as Error;
