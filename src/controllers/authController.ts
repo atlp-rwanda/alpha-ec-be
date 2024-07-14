@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { UserAttributes } from '../database/models/user';
 import { sendResponse, signToken } from '../utils';
+import Database from '../database';
 
 export const initiateGoogleLogin = (
   req: Request,
@@ -38,12 +39,12 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
       }
 
       try {
-        const token = signToken({ id: user.id });
+        const role = await Database.Role.findByPk(user.roleId);
+        const token = signToken({ id: user.id, role: role?.name });
         const frontendurl = `${process.env.FRONTEND_DOMAIN}`;
         res.redirect(`${frontendurl}?token=${token}`);
       } catch (err: unknown) {
-        const errors = err as Error;
-        return sendResponse<null>(res, 500, null, errors.message);
+        res.redirect(`${process.env.FRONTEND_DOMAIN}/login`);
       }
     }
   )(req, res);

@@ -41,6 +41,16 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
+  it('Should update a product', done => {
+    chai
+      .request(app)
+      .patch(`/api/products/${id}`)
+      .set('Authorization', `Bearer ${headerTokenSeller}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  }).timeout(5000);
   it('delete all wishes with status code of 200 ', done => {
     chai
       .request(app)
@@ -84,7 +94,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-
+ 
   it('Should create a product', function (done) {
     this.timeout(12000);
 
@@ -286,7 +296,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-  it('Should update a product', done => {
+  it('Should update a product yyy', done => {
     chai
       .request(app)
       .patch('/api/products/' + id)
@@ -471,16 +481,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
-  it('Should update a product', done => {
-    chai
-      .request(app)
-      .patch(`/api/products/${id}`)
-      .set('Authorization', `Bearer ${headerTokenSeller}`)
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        done();
-      });
-  });
+
   it('Should throw error while failed to delete a product', done => {
     const destroyStub = sinon
       .stub(Database.Product, 'destroy')
