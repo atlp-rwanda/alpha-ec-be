@@ -38,15 +38,10 @@ passport.use(
           googleId: profile.id,
           photoUrl: profile.photos?.[0]?.value || '',
           email,
-          // phone: '',
-          // address: 'default address',
-          // password: 'default password',
           verified: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-
-        // console.log('New User Attributes:', newUserAttributes);
 
         const newUser = await Database.User.create(
           newUserAttributes as UserAttributes

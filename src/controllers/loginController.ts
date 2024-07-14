@@ -31,12 +31,9 @@ const loginController = async (req: Request, res: Response) => {
     if (user.status !== true) {
       return sendResponse<null>(res, 403, null, 'This account is SUSPENDED!!');
     }
-
     if (!user.verified) {
       const verificationToken = signToken({ email: user.email }, '15m');
-
       const { name } = user;
-
       const mailOptions = {
         to: email,
         subject: 'Verify Your Email',
