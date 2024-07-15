@@ -40,7 +40,7 @@ export const getAds = async (req: Request, res: Response) => {
     const neededPage = page || '1';
 
     const params = {
-      FunctionName: 'GetAliExpressAds',
+      FunctionName: 'AdsManagement',
       InvocationType: 'RequestResponse',
       Payload: JSON.stringify({ keyWord, neededPage }),
     };
