@@ -7,12 +7,15 @@ export const calculateTotal = async (
   const prices: Promise<number>[] = products.map(async product => {
     const data = await Database.Product.findOne({
       where: { id: product.productId },
-      attributes: ['price'],
+      attributes: ['price', 'bonus'],
     });
 
     if (!data) return 0;
-
-    return data.price * product.quantity;
+    const unitPrice =
+      data.bonus === null
+        ? data.price
+        : data.price - (data.price * Number(data.bonus)) / 100;
+    return unitPrice * product.quantity;
   });
   const total = (await Promise.all(prices)).reduce(
     (acc, price) => acc + price,
@@ -26,7 +29,7 @@ export const formatCartItems = async (products: cartProductInterface[]) => {
     products.map(async product => {
       const data = await Database.Product.findOne({
         where: { id: product.productId },
-        attributes: ['id', 'name', 'price', 'images'],
+        attributes: ['id', 'name', 'price', 'images', 'bonus'],
       });
 
       if (!data) return null;
