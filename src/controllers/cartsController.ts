@@ -41,10 +41,15 @@ export const addItemToCart = async (req: Request, res: Response) => {
       where: { userId: id },
     });
     if (!cartExist) {
+      const unitPrice =
+        validProduct.bonus === null
+          ? validProduct.price
+          : validProduct.price -
+            (validProduct.price * Number(validProduct.bonus)) / 100;
       const cart = Database.Cart.build({
         userId: id,
         products: [product],
-        totalprice: validProduct.price * product.quantity,
+        totalprice: unitPrice * product.quantity,
       });
       await cart.save();
       const returnCart = {
