@@ -50,7 +50,6 @@ passport.use(
 
         return done(null, newUser);
       } catch (error) {
-        console.error('Error in Google strategy callback:', error);
         done(error as Error, undefined);
       }
     }
