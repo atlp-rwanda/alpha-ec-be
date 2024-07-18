@@ -13,6 +13,7 @@ const googleStrategyOptions: StrategyOptionsWithRequest = {
   callbackURL: process.env.GOOGLE_CALLBACK_URL as string,
   passReqToCallback: true,
 };
+
 passport.use(
   new GoogleStrategy(
     googleStrategyOptions,
@@ -49,6 +50,7 @@ passport.use(
 
         return done(null, newUser);
       } catch (error) {
+        console.error('Error in Google strategy callback:', error);
         done(error as Error, undefined);
       }
     }
@@ -62,8 +64,8 @@ passport.serializeUser((user: unknown, done) => {
 
 passport.deserializeUser(async (id: string, done) => {
   try {
-    const user = await User.findByPk(id);
-    done(null, user);
+    const user = await Database.User.findByOne(id);
+    done(user);
   } catch (error) {
     done(error, null);
   }

@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       phone: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       roleId: {
@@ -27,11 +27,11 @@ module.exports = {
       },
 
       address: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       password: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       createdAt: {
