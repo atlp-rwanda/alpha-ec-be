@@ -70,7 +70,6 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-
         try {
           const newUser = await Database.User.create(
             newUserAttributes as UserAttributes

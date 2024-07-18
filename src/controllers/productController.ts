@@ -317,14 +317,12 @@ export const updateAProduct = async (req: Request, res: Response) => {
     }
 
     const fieldsToUpdate = req.body;
-    if (Object.keys(fieldsToUpdate).length === 0) {
-      return sendResponse<null>(
-        res,
-        400,
-        null,
-        'No fields provided to update!'
-      );
+
+    if (fieldsToUpdate?.images) {
+      const images = await uploadImages();
+      fieldsToUpdate.images = images;
     }
+    console.log(fieldsToUpdate);
 
     const { name } = req.body;
     if (name) {
