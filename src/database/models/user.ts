@@ -58,6 +58,10 @@ interface userCreationAttributes
  * Represents a user in the system.
  */
 export class User extends Model<UserAttributes, userCreationAttributes> {
+  static findByOne(id: string) {
+    throw new Error('Method not implemented.');
+  }
+
   static lastTimePasswordUpdated: WhereAttributeHashValue<Date>;
 
   sellerId: any;
@@ -211,7 +215,7 @@ const UserModel = (sequelize: Sequelize) => {
       roleId: {
         type: DataTypes.UUID,
         allowNull: true,
-        defaultValue: DataTypes.UUIDV4,
+        defaultValue: 'd290f1ee-6c54-4b01-90e6-d701748f0852',
         references: {
           model: 'Roles',
           key: 'id',

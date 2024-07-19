@@ -4,6 +4,9 @@ import { sendResponse, signToken } from '../utils';
 import Database from '../database';
 
 export const passwordExpired = (lastUpdated: Date) => {
+  if (!lastUpdated) {
+    return false;
+  }
   const expirationPeriod = Number(process.env.PASSWORD_EXPIRATION_DAYS) || 30;
   const expirationDate = new Date(
     lastUpdated.getTime() + expirationPeriod * 24 * 60 * 60 * 1000
