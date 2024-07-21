@@ -28,7 +28,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
     }
     const resetToken = await signToken({ id: user.id }, '15m');
 
-    const link = `${process.env.ROOT_URL}/api/users/reset-password/${resetToken}`;
+    const link = `${process.env.ROOT_URL}`;
     const mailOptions = {
       to: email,
       subject: 'Reset Password',
