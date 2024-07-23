@@ -6,8 +6,6 @@ COPY package*.json ./
 
 COPY . .
 
-COPY aws-credentials /root/.aws/credentials
-
 RUN npm install
 
 # Expose port 3000

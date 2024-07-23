@@ -94,7 +94,7 @@ describe('PRODUCT API TEST', () => {
         done();
       });
   });
- 
+
   it('Should create a product', function (done) {
     this.timeout(12000);
 

@@ -33,6 +33,8 @@ const getDatabaseConfig = () => {
       },
     };
   }
+
+  console.log('configuration', config);
   return config;
 };
 module.exports = getDatabaseConfig;
